@@ -1,0 +1,36 @@
+{% extends "adoption/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+    <h3 class="text-center">meet our friends:</h3>
+{% endblock page_header %}
+
+{% block content %}
+    <div class="row">
+        {% for pet in pets %}
+            <div class="col-md-4">  <!-- Adjust the column size -->
+                <div class="card mb-3 mx-auto" style="max-width: 300px;">
+                    <div class="ro g-0">
+                        <div class="col-md-12 d-flex justify-content-center"> <!-- Change this to col-md-12 -->
+                            {% if pet.photo %}
+                                <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="img-fluid rounded-top shadow">
+                            {% else %}
+                                <img src="https://placehold.co/800?text=Picture+Unavailable&font=roboto" alt="{{ pet.name }}" class="img-fluid rounded-top shadow">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-12"> <!-- Change this to col-md-12 -->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ pet.name }}</h5>
+                                <p class="card-text">{{ pet.description|truncatechars:40 }}</p> <!-- Combine description and card-text -->
+                                <p class="text-body-secondary">{{ pet.date_submitted }}</p>
+                                <small>
+                                    <a href="{% url "adoption:pet_details" pet_id=pet.id %}" class="btn btn-primary">View Details</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>    
+{% endblock content %}
