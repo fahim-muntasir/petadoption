@@ -8,3 +8,15 @@ def login(request):
 
 def registration(request):
   return render(request, 'petapp/registration.html')
+
+def about(request):
+  return render(request, 'petapp/about.html')
+
+def items(request):
+  return render(request, 'petapp/items.html')
+
+def item(request):
+  return render(request, 'petapp/item.html')
+
+def createPet(request):
+  return render(request, 'petapp/createPet.html')

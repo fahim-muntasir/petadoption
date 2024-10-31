@@ -1,0 +1,75 @@
+<header>
+  <nav class="bg-[#fff6e5] py-">
+    <div
+      class="container mx-auto flex items-center justify-between py-3 px-4"
+    >
+      <!-- Logo -->
+      <div class="flex items-center space-x-2">
+        <img src="/media/image/logo.png" alt="Logo" class="w-28" />
+      </div>
+
+      <div class="md:hidden">
+        <button
+          @click="open = !open"
+          class="text-gray-800 focus:outline-none"
+        >
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <div
+        :class="{'block': open, 'hidden': !open}"
+        class="hidden md:flex items-center space-x-8"
+      >
+        <ul
+          class="flex flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 text-center mr-64"
+        >
+          <li>
+            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
+              >Top Contributors</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'items'%}" class="hover:text-[#d04f3d] text-xl font-bold"
+              >Pets</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'about'%}" class="hover:text-[#d04f3d] text-xl font-bold"
+              >About Us</a
+            >
+          </li>
+          <li>
+            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
+              >Contact</a
+            >
+          </li>
+        </ul>
+
+        <a
+          href="{% url 'createPet'%}"
+          class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] text-center ma"
+          >Donate</a
+        >
+      </div>
+    </div>
+  </nav>
+</header>
