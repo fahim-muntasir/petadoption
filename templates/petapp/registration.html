@@ -10,28 +10,31 @@
                 <img src="/media/image/logo.png" alt="PetAdopt Logo" class="w-32 h-24">
             </div>
     
-            <form class="space-y-4">
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" placeholder="First Name" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]">
-                    <input type="text" placeholder="Last Name" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                    <input type="text" placeholder="First Name" name="firsName" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]">
+                    <input type="text" placeholder="Last Name" name="lastName" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
                 </div>
-    
-                <input type="email" placeholder="Email Address" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-    
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="tel" placeholder="Phone Number" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                    <input type="tel" placeholder="Phone Number (Optional)" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                </div>
-    
-                <input type="text" placeholder="Social Media link (Facebook, Instagram)" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                
+                <input type="text" placeholder="Username" name="username" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+
+                <input type="email" placeholder="Email Address" name="emailAddress" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
     
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" placeholder="Address" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                    <input type="text" placeholder="State" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                    <input type="tel" placeholder="Phone Number" name="phone1" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                    <input type="tel" placeholder="Phone Number (Optional)" name="phone2" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
                 </div>
     
-                <input type="password" placeholder="Password" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                <input type="password" placeholder="Confirm Password" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                <input type="text" placeholder="Social Media link (Facebook, Instagram)" name="socialLink" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+    
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" placeholder="Address" name="address" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                    <input type="text" placeholder="State" name="state" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                </div>
+    
+                <input type="password" placeholder="Password" name="password1" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
+                <input type="password" placeholder="Confirm Password" name="password2" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
     
                 <p class="text-start text-sm lg:text-lg font-bold text-gray-300 mt-4">
                     Already have an account? <a href="{% url 'login' %}" class="text-[#e95b47] hover:underline">Login Now</a>
