@@ -4,9 +4,9 @@
       class="container mx-auto flex items-center justify-between py-3 px-4"
     >
       <!-- Logo -->
-      <div class="flex items-center space-x-2">
+      <a class="flex items-center space-x-2" href="{% url 'home' %}">
         <img src="/media/image/logo.png" alt="Logo" class="w-28" />
-      </div>
+      </a>
 
       <div class="md:hidden">
         <button
@@ -38,7 +38,7 @@
           class="flex flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 text-center mr-64"
         >
           <li>
-            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
+            <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold"
               >Home</a
             >
           </li>
