@@ -1,14 +1,35 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.hashers import make_password
+from .models import UserProfile # added
 
 User = get_user_model()
 
 def home(request):
   return render(request, 'petapp/index.html')
 
-def login(request):
+def user_login(request):
+  if request.method == 'POST':
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+
+    # Find the user by email
+    try:
+        user = UserProfile.objects.get(email=email)
+    except UserProfile.DoesNotExist:
+        messages.error(request, "Invalid email or password.")
+        return render(request, 'users/login.html')
+
+    # Authenticate user
+    user = authenticate(request, username=user.username, password=password)
+    if user is not None:
+        login(request, user)
+        return render(request, 'petapp/index.html')  # Redirect to the home page or any other page after login
+    else:
+        messages.error(request, "Invalid email or password.")
+        return render(request, 'petapp/login.html')
+
   return render(request, 'petapp/login.html')
 
 def registration(request):
@@ -57,3 +78,7 @@ def item(request):
 
 def createPet(request):
   return render(request, 'petapp/createPet.html')
+
+def user_logout(request):
+  logout(request)
+  return redirect('login')
