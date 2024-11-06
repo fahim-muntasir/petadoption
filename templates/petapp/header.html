@@ -63,12 +63,27 @@
             >
           </li>
         </ul>
-
-        <a
-          href="{% url 'createPet'%}"
+  
+        {% if request.user.is_authenticated  %}
+          <div>
+            <a
+            href="{% url 'logout' %}?next={{ request.path }}"
+            class="mt-4 md:mt-0 text-[#E95B47] font-semibold hover:text-[#d04f3d] mr-8"
+            >Logout
+            </a>
+            <a
+            href="{% url 'createPet'%}"
+            class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] text-center ma"
+            >Donate 
+            </a>
+          </div>
+        {% else %}
+          <a
+          href="{% url 'login'%}"
           class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] text-center ma"
-          >Donate</a
-        >
+          >Login 
+          </a>
+        {% endif %}
       </div>
     </div>
   </nav>
