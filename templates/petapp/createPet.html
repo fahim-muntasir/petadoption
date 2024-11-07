@@ -20,33 +20,39 @@
           />
         </div>
 
-        <form class="space-y-4">
+        <form method="POST" class="space-y-4" enctype="multipart/form-data">
+          {% csrf_token %}
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Name"
+              name="title"
               class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
+              required
             />
             <input
               type="text"
               placeholder="Type"
+              name="pet_type"
               class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+              required
             />
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="tel"
-              placeholder="Gender"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-            />
+            <select name="gender" id="" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" required >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
             <input
               type="tel"
               placeholder="Location"
+              name="location"
               class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+              required
             />
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="tel"
               placeholder="Phone Number"
@@ -57,15 +63,17 @@
               placeholder="Phone Number (Optional)"
               class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
             />
-          </div>
+          </div> -->
           <!-- <textarea placeholder="Description"
                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-32 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none">
                 </textarea> -->
           <textarea
             placeholder="Description"
+            name="description"
             name=""
             id=""
             class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold w-full placeholder:text-[#413d3d] h-12 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none"
+            required
           ></textarea>
 
           <div class="relative">
@@ -74,7 +82,7 @@
             >
               <i class="fa-solid fa-file-arrow-up text-black text-xl mr-2"></i>
               <span class="text-[#413d3d] font-semibold">Upload Photo</span>
-              <input type="file" class="hidden" />
+              <input type="file" class="hidden" name="image" required />
             </label>
           </div>
 
