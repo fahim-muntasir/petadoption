@@ -48,132 +48,29 @@
         <h2 class="text-5xl font-bold text-gray-800 my-20">Meet Our Friends</h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+          {% for post in posts %}
           <div
             class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
           >
             <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
+              src="/media/{{ post.image }}"
               alt="Cat"
               class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
             />
             <div class="mt-4 sm:mt-0 flex flex-col justify-center">
               <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
+                {{ post.title }}
               </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
+              <p class="text-[#115470] text-lg text-justify mt-2 font-semibold">
+                {{ post.description|truncatewords:30 }}
               </p>
+              <p class="font-semibold text-lg text-start mt-2">Posted by: {{ post.user.username }}</p>
               <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
+                Published At: {{post.created_at}}
               </p>
             </div>
           </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
-          </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
-          </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
-          </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
-          </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
-          </div>
+          {% endfor %}
         </div>
 
         <!-- View More Button -->

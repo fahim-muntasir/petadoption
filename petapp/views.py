@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from .models import UserProfile # added
+from .models import UserProfile, PetPost # added
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
 def home(request):
-  return render(request, 'petapp/index.html')
+  posts = PetPost.objects.all().order_by('-created_at')[:6]
+
+  return render(request, 'petapp/index.html', {'posts': posts})
 
 def user_login(request):
   if request.method == 'POST':
@@ -76,7 +79,30 @@ def items(request):
 def item(request):
   return render(request, 'petapp/item.html')
 
+@login_required
 def createPet(request):
+  if request.method == 'POST':
+      title = request.POST.get('title')
+      image = request.FILES.get('image')
+      pet_type = request.POST.get('pet_type')
+      gender = request.POST.get('gender')
+      description = request.POST.get('description')
+      location = request.POST.get('location')
+
+      pet_post = PetPost(
+          user=request.user,
+          title=title,
+          image=image,
+          pet_type=pet_type,
+          gender=gender,
+          description=description,
+          location=location,
+      )
+
+      pet_post.save()
+
+      return redirect('home')
+
   return render(request, 'petapp/createPet.html')
 
 def user_logout(request):
