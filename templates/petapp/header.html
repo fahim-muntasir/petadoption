@@ -30,40 +30,30 @@
         </button>
       </div>
 
+      <ul
+      class="flex justify-center flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 mr-64"
+      >
+        <li>
+          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold"
+            >Home</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'items'%}" class="hover:text-[#d04f3d] text-xl font-bold"
+            >Pets</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'about'%}" class="hover:text-[#d04f3d] text-xl font-bold"
+            >About Us</a
+          >
+        </li>
+      </ul>
+
       <div
         :class="{'block': open, 'hidden': !open}"
         class="hidden md:flex items-center space-x-8"
       >
-        <ul
-          class="flex flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 text-center mr-64"
-        >
-          <li>
-            <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
-              >Top Contributors</a
-            >
-          </li>
-          <li>
-            <a href="{% url 'items'%}" class="hover:text-[#d04f3d] text-xl font-bold"
-              >Pets</a
-            >
-          </li>
-          <li>
-            <a href="{% url 'about'%}" class="hover:text-[#d04f3d] text-xl font-bold"
-              >About Us</a
-            >
-          </li>
-          <li>
-            <a href="#" class="hover:text-[#d04f3d] text-xl font-bold"
-              >Contact</a
-            >
-          </li>
-        </ul>
-  
         {% if request.user.is_authenticated  %}
           <div>
             <a
