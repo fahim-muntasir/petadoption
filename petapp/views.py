@@ -79,6 +79,9 @@ def items(request):
 def item(request):
   return render(request, 'petapp/item.html')
 
+def modal(request):
+  return render(request, 'petapp/modal.html')
+
 @login_required
 def createPet(request):
   if request.method == 'POST':
