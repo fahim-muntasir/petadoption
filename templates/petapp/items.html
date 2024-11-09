@@ -40,46 +40,68 @@
                     <h2 class="text-2xl font-bold mb-4 text-[#e95b47]">Total Items</h2>
                     <div class="space-y-6">
                         <!-- Single Pet Card -->
-                        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
-                            <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat"
+                        {% for post in page_obj %}
+                        <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
+                            <img src="/media/{{ post.image }}" alt="Cat"
                                 class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4">
                             <div class="flex flex-col">
-                                <h3 class="text-xl font-bold text-gray-800">Cat name</h3>
-                                <p class="text-[#115470] text-base mt-2 font-semibold">Lorem ipsum dolor sit amet
-                                    consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
-                                <p class="font-semibold text-lg mt-2">Published At: 10/21/2024</p>
+                                <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+                                <p class="text-[#115470] text-base mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
+                                <p class="font-semibold text-lg mt-2">Published At: {{post.created_at}}</p>
                             </div>
-                        </div>
-
-                        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
-                            <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat"
-                                class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-xl font-bold text-gray-800">Cat name</h3>
-                                <p class="text-[#115470] text-base mt-2 font-semibold">Lorem ipsum dolor sit amet
-                                    consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
-                                <p class="font-semibold text-lg mt-2">Published At: 10/21/2024</p>
-                            </div>
-                        </div>
-                        
-                        <div
-                            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
-                            <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat"
-                                class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-xl font-bold text-gray-800">Cat name</h3>
-                                <p class="text-[#115470] text-base mt-2 font-semibold">Lorem ipsum dolor sit amet
-                                    consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
-                                <p class="font-semibold text-lg mt-2">Published At: 10/21/2024</p>
-                            </div>
-                        </div>
+                        </a>
+                        {% endfor %}
                     </div>
 
                     <!-- Pagination -->
                     <div class="flex justify-end mt-6">
                         <nav class="inline-flex rounded-md shadow">
-                            <a href="#"
+                          <!-- Previous Page Link -->
+                          {% if page_obj.has_previous %}
+                              <a href="?page={{ page_obj.previous_page_number }}"
                                 class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
+                          {% endif %}
+                      
+                          <!-- First Page Link -->
+                          {% if page_obj.number > 2 %}
+                              <a href="?page=1" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
+                              {% if page_obj.number > 3 %}
+                                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                              {% endif %}
+                          {% endif %}
+                      
+                          <!-- Middle Page Links (Dynamic Range) -->
+                          {% for num in page_obj.paginator.page_range %}
+                              {% if num >= page_obj.number|add:"-1" and num <= page_obj.number|add:"1" %}
+                                  <a href="?page={{ num }}"
+                                    class="px-3 py-2 {% if page_obj.number == num %}text-white bg-[#e95b47]{% else %}text-[#062d3e] bg-white{% endif %} border-t border-b border-[#e95b47] hover:bg-gray-100">
+                                      {{ num }}
+                                  </a>
+                              {% endif %}
+                          {% endfor %}
+                      
+                          <!-- Last Page Link -->
+                          {% if page_obj.number < page_obj.paginator.num_pages|add:"-1" %}
+                              {% if page_obj.number < page_obj.paginator.num_pages|add:"-2" %}
+                                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                              {% endif %}
+                              <a href="?page={{ page_obj.paginator.num_pages }}"
+                                class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">
+                                  {{ page_obj.paginator.num_pages }}
+                              </a>
+                          {% endif %}
+                      
+                          <!-- Next Page Link -->
+                          {% if page_obj.has_next %}
+                              <a href="?page={{ page_obj.next_page_number }}"
+                                class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
+                          {% endif %}
+                        </nav>
+                        <!-- <nav class="inline-flex rounded-md shadow">
+                          {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}"
+                                class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
+                          {% endif %}
                             <a href="#"
                                 class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
                             <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
@@ -87,9 +109,12 @@
                                 class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">4</a>
                             <a href="#"
                                 class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">5</a>
-                            <a href="#"
+                            
+                            {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}"
                                 class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
-                        </nav>
+                            {% endif %}
+                        </nav> -->
                     </div>
                 </div>
             </div>

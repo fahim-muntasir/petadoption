@@ -49,7 +49,8 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
           {% for post in posts %}
-          <div
+          <a
+            href="{% url 'item' id=post.id %}"
             class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
           >
             <img
@@ -69,17 +70,19 @@
                 Published At: {{post.created_at}}
               </p>
             </div>
-          </div>
+          </a>
           {% endfor %}
         </div>
 
         <!-- View More Button -->
         <div class="mt-8">
-          <button
+          <a href="{% url 'items'%}">
+            <button
             class="bg-[#E95B47] text-white font-semibold px-9 mt-10 py-4 rounded-md hover:bg-[#d04f3d]"
           >
             View more
           </button>
+          </a>
         </div>
       </div>
     </section>
