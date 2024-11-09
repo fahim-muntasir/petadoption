@@ -97,6 +97,9 @@ def item(request, id):
   pet = get_object_or_404(PetPost, id=id)
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
 
+def modal(request):
+  return render(request, 'petapp/modal.html')
+
 @login_required
 def createPet(request):
   if request.method == 'POST':
