@@ -55,7 +55,8 @@
                               {{ post.description|truncatewords:30 }}
                             </p>
                             <p class="font-semibold text-lg text-start mt-2">
-                                Published At: {{post.created_at}}
+                              {% load tz %}
+                              Published At: {% localtime on %}{{ post.created_at }}{% endlocaltime %}
                             </p>
                         </div>
                     </div>
