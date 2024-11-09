@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -7,8 +8,13 @@ from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
+def fetchPost(total):
+  posts = PetPost.objects.all().order_by('-created_at')[:total]
+  
+  return posts
+
 def home(request):
-  posts = PetPost.objects.all().order_by('-created_at')[:6]
+  posts = fetchPost(6)
 
   return render(request, 'petapp/index.html', {'posts': posts})
 
@@ -74,10 +80,22 @@ def about(request):
   return render(request, 'petapp/about.html')
 
 def items(request):
-  return render(request, 'petapp/items.html')
+  posts = fetchPost(10)
+  
+  # pagination 
+  posts_list = PetPost.objects.all().order_by('-created_at')  # Retrieve all posts, ordered by creation date (most recent first)
+  paginator = Paginator(posts_list, 10)  # Show 6 posts per page
+  
+  page_number = request.GET.get('page')  # Get the page number from the URL query string
+  page_obj = paginator.get_page(page_number)
+    
+  return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj})
 
-def item(request):
-  return render(request, 'petapp/item.html')
+def item(request, id):
+  posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
+  
+  pet = get_object_or_404(PetPost, id=id)
+  return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
 
 @login_required
 def createPet(request):
