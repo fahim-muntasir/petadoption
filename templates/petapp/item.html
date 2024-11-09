@@ -9,18 +9,18 @@
             <!-- Pet Details Section -->
             <div class="flex flex-col md:flex-row gap-16">
                 <div class="md:w-2/4">
-                    <img src="/media/image/pexels-helen1-16395147.jpg" alt="Pet Image"
+                    <img src="/media/{{ pet.image }}" alt="Pet Image"
                         class="w-full h-auto rounded-md">
                 </div>
                 <div class="md:w-1/2 flex flex-col gap-2">
-                    <h2 class="text-5xl font-semibold text-gray-800">Pet Name</h2>
+                    <h2 class="text-5xl font-semibold text-gray-800">{{ pet.title }}</h2>
                     <hr class="border-t-2 border-black my-5">
-                    <p class="text-xl"><strong>Type:</strong> Cat</p>
-                    <p class="text-xl"><strong>Gender:</strong> Male</p>
+                    <p class="text-xl"><strong>Type:</strong> {{ pet.pet_type }}</p>
+                    <p class="text-xl"><strong>Gender:</strong> {{ pet.gender }}</p>
                     <p class="text-xl"><strong>Age:</strong> 2 years</p>
-                    <p class="text-xl"><strong>Location:</strong> Dhaka</p>
-                    <p class="text-xl"><strong>Phone:</strong> 12345678910</p>
-                    <p class="text-xl"><strong>Published By:</strong> Jony Sing</p>
+                    <p class="text-xl"><strong>Location:</strong> {{ pet.location }}</p>
+                    <p class="text-xl"><strong>Phone:</strong> {{ pet.user.phone_number }}</p>
+                    <p class="text-xl"><strong>Published By:</strong> {{ pet.user.first_name }} {{ pet.user.last_name }}</p>
                     <div>
                         <button class="mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
                             Send Message
@@ -32,17 +32,9 @@
 
             <!-- Description Section -->
             <div class="mt-6 text-gray-700">
-                <p class=" font-bold text-lg">Published At: 10/10/2024</p>
+                <p class=" font-bold text-lg">Published At: {{ pet.created_at }}</p>
                 <p class="mt-4 font-bold text-lg">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint
-                    commodi
-                    repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat
-                    iusto fuga
-                    praesentium optio, porro. Sit laborum ab, eius fugit doloribus tenetur fugiat, temporibus enim
-                    commodi iusto libero
-                    magni deleniti quod quam consequuntur! Commodi minima excepturi repudiandae velit hic maxime
-                    doloremque.
-                    Quaerat provident commodi consectetur veniam similique ad earum.
+                  {{ pet.description }}
                 </p>
             </div>
 
@@ -50,40 +42,24 @@
             <div class="mt-11">
                 <h3 class="text-2xl font-bold text-gray-700 mb-4">Recent Post</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+                  {% for post in posts %}
                     <div
                         class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
-                        <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat"
+                        <img src="/media/{{ post.image }}" alt="{{ post.title }}"
                             class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
                         <div class="mt-4 sm:mt-0 flex flex-col justify-center">
                             <h3 class="text-2xl text-start font-bold text-gray-800">
-                                Cat name
+                              {{ post.title }}
                             </h3>
                             <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                                mollitia, molestias quas vel sint commodi...
+                              {{ post.description|truncatewords:30 }}
                             </p>
                             <p class="font-semibold text-lg text-start mt-2">
-                                Published At: 10/21/2024
+                                Published At: {{post.created_at}}
                             </p>
                         </div>
                     </div>
-                    <div
-                        class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
-                        <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat"
-                            class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
-                        <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-                            <h3 class="text-2xl text-start font-bold text-gray-800">
-                                Cat name
-                            </h3>
-                            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                                mollitia, molestias quas vel sint commodi...
-                            </p>
-                            <p class="font-semibold text-lg text-start mt-2">
-                                Published At: 10/21/2024
-                            </p>
-                        </div>
-                    </div>
+                  {% endfor %}
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ urlpatterns = [
   path('registration/', views.registration, name='registration'),
   path('about/', views.about, name='about'),
   path('items/', views.items, name='items'),
-  path('item/', views.item, name='item'),
+  path('item/<int:id>/', views.item, name='item'),
   path('createPet/', views.createPet, name='createPet'),
   path('modal/', views.modal, name='modal'),
 ]
