@@ -83,10 +83,10 @@ def items(request):
   posts = fetchPost(10)
   
   # pagination 
-  posts_list = PetPost.objects.all().order_by('-created_at')  # Retrieve all posts, ordered by creation date (most recent first)
-  paginator = Paginator(posts_list, 10)  # Show 6 posts per page
+  posts_list = PetPost.objects.all().order_by('-created_at')
+  paginator = Paginator(posts_list, 10)
   
-  page_number = request.GET.get('page')  # Get the page number from the URL query string
+  page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
     
   return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj})
@@ -97,23 +97,20 @@ def item(request, id):
 
   # started
   if request.method == 'POST':
-      # Get the content from the message form
-      content = request.POST.get('content')
-      
-      if content:
-          Message.objects.create(
-              sender=request.user,
-              receiver=pet.user,  # The user who created the pet post
-              pet_post=pet,
-              content=content
-          )
-          # Notify the user that the message was sent successfully
-          messages.success(request, "Your message has been sent to the pet post publisher.")
-          return redirect('item', id=id)  # Redirect to the same page to avoid form resubmission
-
-      else:
-          # Notify the user if the content is empty
-          messages.error(request, "Message content cannot be empty.")
+    # Get the message content from the form
+    message_content = request.POST.get('message')
+    print(request.user)
+    if message_content:
+      Message.objects.create(
+        sender=request.user,
+        receiver=pet.user,
+        pet_post=pet,
+        message=message_content
+      )
+      messages.success(request, "Your message has been sent to the pet post publisher.")
+      return redirect('item', id=id)  # Redirect to avoid resubmission on refresh
+    else:
+        messages.error(request, "Message content cannot be empty.")
 
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
 
