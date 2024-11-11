@@ -1,18 +1,13 @@
 <header>
-  <nav class="bg-[#fff6e5] py-">
-    <div
-      class="container mx-auto flex items-center justify-between py-3 px-4"
-    >
+  <nav class="bg-[#fff6e5] py-3">
+    <div class="container mx-auto flex items-center justify-between px-4">
       <!-- Logo -->
       <a class="flex items-center space-x-2" href="{% url 'home' %}">
         <img src="/media/image/logo.png" alt="Logo" class="w-28" />
       </a>
 
       <div class="md:hidden">
-        <button
-          @click="open = !open"
-          class="text-gray-800 focus:outline-none"
-        >
+        <button @click="open = !open" class="text-gray-800 focus:outline-none">
           <svg
             class="w-8 h-8"
             fill="none"
@@ -30,49 +25,27 @@
         </button>
       </div>
 
-      <ul
-      class="flex justify-center flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 mr-64"
-      >
+      <!-- Navigation Links -->
+      <ul class="flex justify-center flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 flex-1">
         <li>
-          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold"
-            >Home</a
-          >
+          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
         </li>
         <li>
-          <a href="{% url 'items'%}" class="hover:text-[#d04f3d] text-xl font-bold"
-            >Pets</a
-          >
+          <a href="{% url 'items' %}" class="hover:text-[#d04f3d] text-xl font-bold">Pets</a>
         </li>
         <li>
-          <a href="{% url 'about'%}" class="hover:text-[#d04f3d] text-xl font-bold"
-            >About Us</a
-          >
+          <a href="{% url 'about' %}" class="hover:text-[#d04f3d] text-xl font-bold">About Us</a>
         </li>
       </ul>
 
-      <div
-        :class="{'block': open, 'hidden': !open}"
-        class="hidden md:flex items-center space-x-8"
-      >
-        {% if request.user.is_authenticated  %}
+      <div :class="{'block': open, 'hidden': !open}" class="hidden md:flex items-center space-x-8">
+        {% if request.user.is_authenticated %}
           <div>
-            <a
-            href="{% url 'logout' %}?next={{ request.path }}"
-            class="mt-4 md:mt-0 text-[#E95B47] font-semibold hover:text-[#d04f3d] mr-8"
-            >Logout
-            </a>
-            <a
-            href="{% url 'createPet'%}"
-            class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] text-center ma"
-            >Donate 
-            </a>
+            <a href="{% url 'logout' %}?next={{ request.path }}" class="mt-4 md:mt-0 text-[#E95B47] font-semibold hover:text-[#d04f3d] mr-8">Logout</a>
+            <a href="{% url 'createPet' %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Donate</a>
           </div>
         {% else %}
-          <a
-          href="{% url 'login'%}"
-          class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] text-center ma"
-          >Login 
-          </a>
+          <a href="{% url 'login' %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Login</a>
         {% endif %}
       </div>
     </div>
