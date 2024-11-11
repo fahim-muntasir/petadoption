@@ -34,7 +34,7 @@ def user_login(request):
     user = authenticate(request, username=user.username, password=password)
     if user is not None:
         login(request, user)
-        return render(request, 'petapp/index.html')  # Redirect to the home page or any other page after login
+        return redirect('home')  # Redirect to the home page or any other page after login
     else:
         messages.error(request, "Invalid email or password.")
         return render(request, 'petapp/login.html')
@@ -93,9 +93,32 @@ def items(request):
 
 def item(request, id):
   posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
-  
   pet = get_object_or_404(PetPost, id=id)
+
+  # started
+  if request.method == 'POST':
+      # Get the content from the message form
+      content = request.POST.get('content')
+      
+      if content:
+          Message.objects.create(
+              sender=request.user,
+              receiver=pet.user,  # The user who created the pet post
+              pet_post=pet,
+              content=content
+          )
+          # Notify the user that the message was sent successfully
+          messages.success(request, "Your message has been sent to the pet post publisher.")
+          return redirect('item', id=id)  # Redirect to the same page to avoid form resubmission
+
+      else:
+          # Notify the user if the content is empty
+          messages.error(request, "Message content cannot be empty.")
+
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
+
+# def modal(request):
+#   return render(request, 'petapp/modal.html')
 
 @login_required
 def createPet(request):

@@ -5,6 +5,46 @@
 {% block content %}
 
     <div>
+
+      <!-- modal example  -->
+      <div id="modalBox" class="hidden">
+        <div
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+        >
+          <!-- Modal Container (Increased Width and Height) -->
+          <div
+            class="bg-[#fff6e5] p-6 rounded-lg shadow-lg w-full max-w-xl min-h-[400px] mx-4 sm:mx-6 md:mx-8 lg:mx-10"
+          >
+            <div class=" flex justify-end ">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" id="modalCloseBtn" class="size-8 cursor-pointer text-gray-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>              
+            </div>
+            <!-- Modal Title -->
+            <h2 class="text-center text-3xl font-bold text-gray-700 mb-4 py-6">
+              Send Message
+            </h2>
+            
+            <!-- Message Input with Increased Height -->
+            <textarea
+              class="w-full resize-none h-48 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300"
+              placeholder="Type your message..."
+            ></textarea>
+
+            <!-- Send Button -->
+            <div class="py-4">
+              <button
+                class="w-full mt-4 bg-[#E95B47] text-white font-semibold py-4 rounded-md hover:bg-[#d35544] transition duration-300"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </div> 
+      </div>
+
+    <!-- modal example  -->
+
         <div class="container mx-auto bg-white py-12 px-4">
             <!-- Pet Details Section -->
             <div class="flex flex-col md:flex-row gap-16">
@@ -22,9 +62,19 @@
                     <p class="text-xl"><strong>Phone:</strong> {{ pet.user.phone_number }}</p>
                     <p class="text-xl"><strong>Published By:</strong> {{ pet.user.first_name }} {{ pet.user.last_name }}</p>
                     <div>
-                        <button class="mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
+                      {% if request.user.is_authenticated  %}
+                        <button class="requestBtn mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
                             Send Message
                         </button>
+                      {% else %}
+                        <a
+                        href="{% url 'login'%}"
+                        >
+                        <button class=" mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
+                          Send Message
+                        </button>
+                        </a>
+                      {% endif %}
                     </div>
                 </div>
 
