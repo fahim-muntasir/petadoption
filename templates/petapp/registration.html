@@ -11,44 +11,78 @@
             </div>
     
             <form method="POST" class="space-y-4">
-                {% csrf_token %}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" placeholder="First Name" name="firsName" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]">
-                    <input type="text" placeholder="Last Name" name="lastName" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                </div>
-                
-                <input type="text" placeholder="Username" name="username" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-
-                <input type="email" placeholder="Email Address" name="emailAddress" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-    
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="tel" placeholder="Phone Number" name="phone1" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                    <input type="tel" placeholder="Phone Number (Optional)" name="phone2" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                </div>
-    
-                <input type="text" placeholder="Social Media link (Facebook, Instagram)" name="socialLink" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-    
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" placeholder="Address" name="address" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                    <input type="text" placeholder="State" name="state" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                </div>
-    
-                <input type="password" placeholder="Password" name="password1" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-                <input type="password" placeholder="Confirm Password" name="password2" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47]  placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3  rounded-lg border bg-[#fff6e5] border-gray-300">
-    
-                <p class="text-start text-sm lg:text-lg font-bold text-gray-300 mt-4">
-                    Already have an account? <a href="{% url 'login' %}" class="text-[#e95b47] hover:underline">Login Now</a>
-                </p>
-    
-                <div class="text-center mt-6">
-                    <button type="submit" class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg">Register</button>
-                </div>
+              {% csrf_token %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input type="text" placeholder="First Name" name="firstName" 
+                         value="{{ form_data.first_name|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]">
+                  <input type="text" placeholder="Last Name" name="lastName" 
+                         value="{{ form_data.last_name|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+              </div>
+              
+              <input type="text" placeholder="Username" name="username" 
+                     value="{{ form_data.username|default:'' }}" 
+                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+          
+              <input type="email" placeholder="Email Address" name="emailAddress" 
+                     value="{{ form_data.email|default:'' }}" 
+                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+          
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input type="tel" placeholder="Phone Number" name="phone1" 
+                         value="{{ form_data.phone1|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+                  <input type="tel" placeholder="Phone Number (Optional)" name="phone2" 
+                         value="{{ form_data.phone2|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+              </div>
+          
+              <input type="text" placeholder="Social Media link (Facebook, Instagram)" name="socialLink" 
+                     value="{{ form_data.socialLink|default:'' }}" 
+                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+          
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input type="text" placeholder="Address" name="address" 
+                         value="{{ form_data.address|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+                  <input type="text" placeholder="State" name="state" 
+                         value="{{ form_data.state|default:'' }}" 
+                         class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+              </div>
+          
+              <input type="password" placeholder="Password" name="password1" 
+                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+              <input type="password" placeholder="Confirm Password" name="password2" 
+                     class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300">
+              {% if messages %}
+                {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                  <div class="bg-green-300 p-4 rounded-lg border border-green-400 text-green-900 font-medium mt-2">
+                    <p>{{ message }}</p>
+                  </div>
+                  {% endif %}
+                  {% if message.tags == 'error' %}
+                  <div class="bg-red-300 p-4 rounded-lg border border-red-400 text-red-900 font-medium mt-2">
+                    <p>{{ message }}</p>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              <p class="text-start text-sm lg:text-lg font-bold text-gray-300 mt-4">
+                  Already have an account? <a href="{% url 'login' %}" class="text-[#e95b47] hover:underline">Login Now</a>
+              </p>
+          
+              <div class="text-center mt-6">
+                  <button type="submit" class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg">Register</button>
+              </div>
             </form>
     
-            <div class="bg-[#ffeb3b] text-black text-start py-3 rounded-lg mt-8 flex items-center justify-center font-extrabold text-sm lg:text-lg ">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9v2.25m0 2.25h.008v.008H11.25v-.008zm-5.992 7.522A9 9 0 1112 21a8.958 8.958 0 01-6.742-3.25m13.484-11.5l-.938 9.372m-5.6 0l-.938-9.372" />
+            <div class="bg-yellow-300 text-yellow-900 border border-yellow-400 text-start p-3 rounded-lg mt-8 flex items-center justify-center font-extrabold text-sm lg:text-lg gap-3 ">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
                 </svg>
+              
                 <span class="text-md font-medium">Please make sure you update the status of your post after the pet is adopted successfully.</span>
             </div>
         </div>
