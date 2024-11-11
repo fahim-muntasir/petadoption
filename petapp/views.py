@@ -151,3 +151,6 @@ def user_logout(request):
 
 def Dashboard(request):
   return render(request, 'Dashboard/Dashboard.html')
+
+def TotalRequest(request):
+  return render(request, 'Dashboard/TotalRequest.html')
