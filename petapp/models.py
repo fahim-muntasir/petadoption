@@ -34,3 +34,14 @@ class PetPost(models.Model):
 
   def __str__(self):
       return self.title
+
+class Message(models.Model):
+    sender = models.ForeignKey('UserProfile', related_name="sent_messages", on_delete=models.CASCADE)
+    receiver = models.ForeignKey('UserProfile', related_name="received_messages", on_delete=models.CASCADE)
+    pet_post = models.ForeignKey(PetPost, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.sender.username} to {self.receiver.username}"
+

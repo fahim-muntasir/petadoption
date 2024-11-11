@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from .models import UserProfile, PetPost # added
+from .models import UserProfile, PetPost, Message # added
 from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
@@ -34,7 +34,7 @@ def user_login(request):
     user = authenticate(request, username=user.username, password=password)
     if user is not None:
         login(request, user)
-        return render(request, 'petapp/index.html')  # Redirect to the home page or any other page after login
+        return redirect('home')  # Redirect to the home page or any other page after login
     else:
         messages.error(request, "Invalid email or password.")
         return render(request, 'petapp/login.html')
@@ -83,22 +83,39 @@ def items(request):
   posts = fetchPost(10)
   
   # pagination 
-  posts_list = PetPost.objects.all().order_by('-created_at')  # Retrieve all posts, ordered by creation date (most recent first)
-  paginator = Paginator(posts_list, 10)  # Show 6 posts per page
+  posts_list = PetPost.objects.all().order_by('-created_at')
+  paginator = Paginator(posts_list, 10)
   
-  page_number = request.GET.get('page')  # Get the page number from the URL query string
+  page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
     
   return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj})
 
 def item(request, id):
   posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
-  
   pet = get_object_or_404(PetPost, id=id)
+
+  # started
+  if request.method == 'POST':
+    # Get the message content from the form
+    message_content = request.POST.get('message')
+    print(request.user)
+    if message_content:
+      Message.objects.create(
+        sender=request.user,
+        receiver=pet.user,
+        pet_post=pet,
+        message=message_content
+      )
+      messages.success(request, "Your message has been sent to the pet post publisher.")
+      return redirect('item', id=id)  # Redirect to avoid resubmission on refresh
+    else:
+        messages.error(request, "Message content cannot be empty.")
+
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
 
-def modal(request):
-  return render(request, 'petapp/modal.html')
+# def modal(request):
+#   return render(request, 'petapp/modal.html')
 
 @login_required
 def createPet(request):
