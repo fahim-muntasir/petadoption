@@ -10,5 +10,6 @@ urlpatterns = [
   path('items/', views.items, name='items'),
   path('item/<int:id>/', views.item, name='item'),
   path('createPet/', views.createPet, name='createPet'),
-  path('modal/', views.modal, name='modal'),
+  # path('modal/', views.modal, name='modal'),
+  path('dashboard/',views.Dashboard, name='Dashboard')
 ]
