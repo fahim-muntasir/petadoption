@@ -16,6 +16,11 @@ def fetchPost(total):
   
   return posts
 
+def fetchMessage(total):
+  message = Message.objects.all().order_by('-created_at')[:total]
+  
+  return message
+
 def home(request):
   posts = fetchPost(6)
 
@@ -200,5 +205,12 @@ def user_logout(request):
 
 # Dashboard
 
+@login_required
 def Dashboard(request):
   return render(request, 'Dashboard/Dashboard.html')
+
+@login_required
+def TotalRequest(request):
+  messages = Message.objects.filter(receiver=request.user).order_by('-created_at')[:10]
+  
+  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages})

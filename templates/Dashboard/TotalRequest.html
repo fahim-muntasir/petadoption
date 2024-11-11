@@ -1,0 +1,85 @@
+{% extends 'petapp/base.html' %}
+
+{% block title %}
+  Login - petadopt
+{% endblock %}
+
+{% block content %}
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-1/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 md:w-1/5 lg:w-1/6">
+      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
+      <p class="text-lg font-bold">User Name</p>
+      <nav class="w-full pl-2">
+        <ul class="space-y-4 text-base">
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gauge"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-message"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-paw"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gear"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    
+
+    <div class="flex-1 p-6 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-y-0">
+      <div class="relative flex flex-col w-full h-full overflow-hidden text-gray-700 bg-white rounded-sm bg-clip-border">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left table-auto min-w-max table-responsive">
+            <thead class="bg-[#fff6e5]">
+              <tr>
+                <th class="p-4 border-b border-blue-gray-100">
+                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Sender</p>
+                </th>
+                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Message</p>
+                </th>
+                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Date</p>
+                </th>
+                <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                  <p class="block font-sans text-xl antialiased font-bold text-end leading-none text-[#062d3e]">Action</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-[#f1f1f2]">
+              {% for post in posts %}
+              <tr class="border-b-2 border-black">
+                <td class="p-4 whitespace-normal break-words">
+                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{post.sender}}</p>
+                </td>
+                <td class="p-4 whitespace-normal break-words max-w-xs">
+                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> {{post.message}}
+                  </p>
+                </td>
+                <td class="p-4 whitespace-normal break-words">
+                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
+                </td>
+                <td class="p-4 whitespace-normal break-words">
+                  <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+  </div>
+{% endblock %}

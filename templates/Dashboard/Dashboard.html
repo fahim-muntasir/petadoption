@@ -1,10 +1,11 @@
-{% extends "petapp/base.html" %}
+{% extends 'petapp/base.html' %}
 
-{% block title %} Login - petadopt {% endblock %}
+{% block title %}
+  Login - petadopt
+{% endblock %}
 
 {% block content %}
-<div class="flex min-h-screen">
-
+  <div class="flex min-h-screen">
     <!-- Sidebar -->
     <div class="w-1/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 md:w-1/5 lg:w-1/6">
       <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
@@ -31,10 +32,7 @@
       </nav>
     </div>
 
-    
     <div class="flex-1 p-6 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0">
-      
-      
       <div class="bg-red-500 rounded-lg shadow-lg w-3/4 max-w-sm h-32 p-4 flex items-center justify-center text-white md:w-1/3 md:h-36">
         <i class="fa-solid fa-paw text-5xl mr-3"></i>
         <span class="text-5xl font-bold">40</span>
@@ -44,12 +42,6 @@
         <i class="fa-solid fa-message text-5xl mr-3"></i>
         <span class="text-5xl font-bold">40</span>
       </div>
-
-      
-      
-      
-      
     </div>
-
   </div>
 {% endblock %}
