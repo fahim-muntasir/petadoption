@@ -15,5 +15,6 @@ urlpatterns = [
   path('totalRequest/',views.totalRequest, name='totalRequest'),
   path('updateInfo/',views.updateInfo, name='updateInfo'),
   path('totalPets/',views.totalPets, name='totalPets'),
-  path('delete_message/<int:message_id>/', views.delete_message, name='delete_message')
+  path('delete_message/<int:message_id>/', views.delete_message, name='delete_message'),
+  path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet')
 ]

@@ -14,7 +14,7 @@
         <ul class="space-y-4 text-base">
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-gauge"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-message"></i>
@@ -22,11 +22,11 @@
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-paw"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-gear"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
           </li>
         </ul>
       </nav>

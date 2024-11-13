@@ -9,7 +9,7 @@
     <!-- Sidebar -->
     <div class="w-1/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 md:w-1/5 lg:w-1/6">
       <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
-      <p class="text-lg font-bold">User Name</p>
+      <p class="text-lg font-bold">{{fullname}}</p>
       <nav class="w-full pl-2">
         <ul class="space-y-4 text-base">
           <li class="flex items-center space-x-2">
@@ -18,15 +18,15 @@
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-message"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-paw"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-gear"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
           </li>
         </ul>
       </nav>

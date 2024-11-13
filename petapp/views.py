@@ -226,13 +226,16 @@ def dashboard(request):
 def totalRequest(request):
   messages = Message.objects.filter(receiver=request.user).order_by('-created_at')[:10]
   
-  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages})
+  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, "fullname": request.user.first_name + " " + request.user.last_name})
 
 def updateInfo(request):
   return render(request, 'Dashboard/UpdateInfo.html')
 
+@login_required
 def totalPets(request):
-  return render(request, 'Dashboard/TotalPets.html')
+  pets = PetPost.objects.filter(user=request.user).order_by('-created_at')[:10]
+  
+  return render(request, 'Dashboard/TotalPets.html', {'posts': pets, "fullname": request.user.first_name + " " + request.user.last_name})
 
 
 def delete_message(request, message_id):
@@ -245,3 +248,14 @@ def delete_message(request, message_id):
   else:
     messages.error(request, "You don't have permission to delete this message.")
   return redirect('totalRequest')
+
+def delete_pet(request, pet_id):
+
+  pet = get_object_or_404(PetPost, id=pet_id)
+ 
+  if request.user == pet.user:
+    pet.delete()
+    messages.success(request, "Pet deleted successfully.")
+  else:
+    messages.error(request, "You don't have permission to delete this pet.")
+  return redirect('totalPets')
