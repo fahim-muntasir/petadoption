@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.hashers import make_password, check_password
 from .models import UserProfile, PetPost, Message # added
 from django.contrib.auth.decorators import login_required
 
@@ -46,7 +46,7 @@ def user_login(request):
         user = UserProfile.objects.get(email=email)
     except UserProfile.DoesNotExist:
         messages.error(request, "Invalid email or password.")
-        return render(request, 'users/login.html')
+        return render(request, 'petapp/login.html')
 
     # Authenticate user
     user = authenticate(request, username=user.username, password=password)
@@ -228,8 +228,74 @@ def totalRequest(request):
   
   return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, "fullname": request.user.first_name + " " + request.user.last_name})
 
+@login_required
 def updateInfo(request):
-  return render(request, 'Dashboard/UpdateInfo.html')
+    # Load the current user profile
+    user = request.user
+
+    if request.method == 'POST':
+      # Get form data from POST request
+      username = request.POST.get('username', user.username)
+      first_name = request.POST.get('first_name', user.first_name)
+      last_name = request.POST.get('last_name', user.last_name)
+      email = request.POST.get('email', user.email)
+      phone1 = request.POST.get('phone1', user.phone_number) 
+      phone2 = request.POST.get('phone2', user.additional_number)
+      address = request.POST.get('address', user.address)
+      state = request.POST.get('state', user.state)
+      social_link = request.POST.get('social_link', user.social_media_link)
+
+      # Password change logic
+      current_password = request.POST.get('current_password')
+      new_password = request.POST.get('new_password')
+      confirm_password = request.POST.get('confirm_password')
+
+      # Update basic info
+      user.username = username
+      user.first_name = first_name
+      user.last_name = last_name
+      user.email = email
+      user.phone_number = phone1
+      user.additional_number = phone2
+      user.address = address
+      user.state = state
+      user.social_media_link = social_link
+
+      # Check if password fields are provided for a password update
+      if current_password and new_password and confirm_password:
+        # Verify current password
+        if check_password(current_password, user.password):
+            # Ensure new password matches confirmation
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                update_session_auth_hash(request, user)  # Keeps the user logged in after password change
+                messages.success(request, 'Password updated successfully.')
+            else:
+                messages.error(request, 'New password and confirmation do not match.')
+        else:
+            messages.error(request, 'Current password is incorrect.')
+
+      # Save the user and profile info
+      user.save()
+      # user.profile.save()
+
+      # Success message and redirect
+      messages.success(request, 'Information updated successfully.')
+      return redirect('updateInfo')
+
+    # If GET request, pre-fill the form with current information
+    context = {
+      'username': user.username,
+      'first_name': user.first_name,
+      'last_name': user.last_name,
+      'email': user.email,
+      'phone1': user.phone_number,
+      'phone2': user.additional_number,
+      'address': user.address,
+      'state': user.state,
+      'social_link': user.social_media_link,
+    }
+    return render(request, 'Dashboard/UpdateInfo.html', {"user": context})
 
 @login_required
 def totalPets(request):
