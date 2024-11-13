@@ -3,30 +3,18 @@
     <div class="container mx-auto flex items-center justify-between px-4">
       <!-- Logo -->
       <a class="flex items-center space-x-2" href="{% url 'home' %}">
-        <img src="/media/image/logo.png" alt="Logo" class="w-28" />
+        <img src="/media/image/logo.png" alt="Logo" class="lg:w-28 " />
       </a>
 
+      <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button @click="open = !open" class="text-gray-800 focus:outline-none">
-          <svg
-            class="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            ></path>
-          </svg>
+        <button id="menu-button" class="text-gray-800 focus:outline-none">
+          <i class="fa-solid fa-bars"></i>
         </button>
       </div>
 
-      <!-- Navigation Links -->
-      <ul class="flex justify-center flex-col md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 flex-1">
+      <!-- Large Screen Navigation Links (Centering added here) -->
+      <ul class="hidden md:flex md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 md:flex-1 justify-center">
         <li>
           <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
         </li>
@@ -38,7 +26,8 @@
         </li>
       </ul>
 
-      <div :class="{'block': open, 'hidden': !open}" class="hidden md:flex items-center space-x-8">
+      <!-- Auth and Donate Buttons for Large Screens -->
+      <div class="md:flex hidden items-center space-x-8">
         {% if request.user.is_authenticated %}
           <div>
             <a href="{% url 'logout' %}?next={{ request.path }}" class="mt-4 md:mt-0 text-[#E95B47] font-semibold hover:text-[#d04f3d] mr-8">Logout</a>
@@ -49,5 +38,45 @@
         {% endif %}
       </div>
     </div>
+
+    <!-- Mobile Navigation Menu (hidden by default, visible on button click) -->
+    <div id="mobile-menu" class="md:hidden hidden p-4">
+      <ul class="flex flex-col space-y-4 text-right">
+        <li>
+          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'items' %}" class="hover:text-[#d04f3d] text-xl font-bold">Pets</a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="hover:text-[#d04f3d] text-xl font-bold">About Us</a>
+        </li>
+      </ul>
+
+      <!-- Auth and Donate Buttons for Mobile -->
+      <div class="space-y-4 mt-4">
+        {% if request.user.is_authenticated %}
+          <div class="text-center">
+            <a href="{% url 'logout' %}?next={{ request.path }}" class="text-[#E95B47] font-semibold hover:text-[#d04f3d]">Logout</a>
+            <a href="{% url 'createPet' %}" class="bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Donate</a>
+          </div>
+        {% else %}
+          <a href="{% url 'login' %}" class="bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] block text-center">Login</a>
+        {% endif %}
+      </div>
+    </div>
   </nav>
 </header>
+
+<!-- JavaScript to handle menu toggle -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    // Toggle the mobile menu visibility when the menu button is clicked
+    menuButton.addEventListener("click", function() {
+      mobileMenu.classList.toggle("hidden");
+    });
+  });
+</script>

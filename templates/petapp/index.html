@@ -1,186 +1,93 @@
-{% extends "petapp/base.html" %}
+{% extends 'petapp/base.html' %}
 
-{% block title %} Home - petadopt {% endblock %}
+{% block title %}
+  Home - petadopt
+{% endblock %}
 
 {% block content %}
-    <!-- Banner -->
-    <section
-      class="relative bg-cover bg-center h-[750px] flex items-center justify-center"
-      style="background-image: url('/media/image/pexels-helen1-16395147.jpg')"
-    >
-      <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
+  <!-- Banner -->
+  <section class="relative bg-cover bg-center h-[750px] flex items-center justify-center" style="background-image: url('/media/image/pexels-helen1-16395147.jpg')">
+    <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
 
-      <div class="text-center relative z-10 text-white px-4 w-full">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">
-          Adopt Happiness,
-        </h1>
-        <h2
-          class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mt-2 sm:mt-5 font-bold text-[#E95B47]"
-        >
-          Save a Life!
-        </h2>
-        <div
-          class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center"
-        >
-          <input
-            type="text"
-            placeholder="Search Pet..."
-            class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg"
-          />
-          <input
-            type="text"
-            placeholder="Enter City, State, Or Zip"
-            class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg"
-          />
-          <button
-            class="bg-[#E95B47] text-white font-semibold w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#d04f3d] text-base sm:text-lg"
-          >
-            Search
-          </button>
-        </div>
+    <div class="text-center relative z-10 text-white px-4 w-full">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">Adopt Happiness,</h1>
+      <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mt-2 sm:mt-5 font-bold text-[#E95B47]">Save a Life!</h2>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center">
+        <input type="text" placeholder="Search Pet..." class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
+        <input type="text" placeholder="Enter City, State, Or Zip" class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
+        <button class="bg-[#E95B47] text-white font-semibold w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#d04f3d] text-base sm:text-lg">Search</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Friend Card -->
+  <!-- Friend Card -->
 
-    <section class="py-12 px-4">
-      <div class="container mx-auto text-center">
-        <h2 class="text-5xl font-bold text-gray-800 my-20">Meet Our Friends</h2>
+  <section class="py-12 px-4">
+    <div class="container mx-auto text-center">
+      <h2 class="text-5xl font-bold text-gray-800 my-20">Meet Our Friends</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
-          {% for post in posts %}
-          <a
-            href="{% url 'item' id=post.id %}"
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/{{ post.image }}"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
+      <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+        {% for post in posts %}
+          <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
+            <img src="/media/{{ post.image }}" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
             <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                {{ post.title }}
-              </h3>
-              <p class="text-[#115470] text-lg text-justify mt-2 font-semibold">
-                {{ post.description|truncatewords:30 }}
-              </p>
+              <h3 class="text-2xl text-start font-bold text-gray-800">{{ post.title }}</h3>
+              <p class="text-[#115470] text-lg text-justify mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
               <p class="font-semibold text-lg text-start mt-2">Posted by: {{ post.user.username }}</p>
               <p class="font-semibold text-lg text-start mt-2">
-                {% load tz %}
-                Published At: {% localtime on %}{{ post.created_at }}{% endlocaltime %}
+                {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
               </p>
             </div>
           </a>
-          {% endfor %}
-        </div>
-
-        <!-- View More Button -->
-        <div class="mt-8">
-          <a href="{% url 'items'%}">
-            <button
-            class="bg-[#E95B47] text-white font-semibold px-9 mt-10 py-4 rounded-md hover:bg-[#d04f3d]"
-          >
-            View more
-          </button>
-          </a>
-        </div>
+        {% endfor %}
       </div>
-    </section>
 
-    <!-- Adopted card -->
-    <section class="py-12 px-4">
-      <div class="container mx-auto text-center">
-        <h2 class="text-5xl font-bold text-gray-800 mb-20 mt-7">
-          Recently Adopted
-        </h2>
+      <!-- View More Button -->
+      <div class="mt-8">
+        <a href="{% url 'items' %}"><button class="bg-[#E95B47] text-white font-semibold px-9 mt-10 py-4 rounded-md hover:bg-[#d04f3d]">View more</button></a>
+      </div>
+    </div>
+  </section>
 
-        <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
+  <!-- Adopted card -->
+  <section class="py-12 px-4">
+    <div class="container mx-auto text-center">
+      <h2 class="text-5xl font-bold text-gray-800 mb-20 mt-7">Recently Adopted</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
+          <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
+          <div class="mt-4 sm:mt-0 flex flex-col justify-center">
+            <h3 class="text-2xl text-start font-bold text-gray-800">Cat name</h3>
+            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
+            <p class="font-semibold text-lg text-start mt-2">Published At: 10/21/2024</p>
           </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
+        </div>
+        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
+          <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
+          <div class="mt-4 sm:mt-0 flex flex-col justify-center">
+            <h3 class="text-2xl text-start font-bold text-gray-800">Cat name</h3>
+            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
+            <p class="font-semibold text-lg text-start mt-2">Published At: 10/21/2024</p>
           </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
+        </div>
+        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
+          <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
+          <div class="mt-4 sm:mt-0 flex flex-col justify-center">
+            <h3 class="text-2xl text-start font-bold text-gray-800">Cat name</h3>
+            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
+            <p class="font-semibold text-lg text-start mt-2">Published At: 10/21/2024</p>
           </div>
-          <div
-            class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start"
-          >
-            <img
-              src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg"
-              alt="Cat"
-              class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md"
-            />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">
-                Cat name
-              </h3>
-              <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime
-                mollitia, molestias quas vel sint commodi...
-              </p>
-              <p class="font-semibold text-lg text-start mt-2">
-                Published At: 10/21/2024
-              </p>
-            </div>
+        </div>
+        <div class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
+          <img src="/media/image/mikhail-vasilyev-NodtnCsLdTE-unsplash.jpg" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
+          <div class="mt-4 sm:mt-0 flex flex-col justify-center">
+            <h3 class="text-2xl text-start font-bold text-gray-800">Cat name</h3>
+            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">Lorem ipsum dolor sit amet consectetur adipiscing elit. Maxime mollitia, molestias quas vel sint commodi...</p>
+            <p class="font-semibold text-lg text-start mt-2">Published At: 10/21/2024</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 {% endblock %}

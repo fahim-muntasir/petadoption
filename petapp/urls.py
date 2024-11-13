@@ -15,4 +15,5 @@ urlpatterns = [
   path('TotalRequest/',views.TotalRequest, name='TotalRequest'),
   path('UpdateInfo/',views.UpdateInfo, name='UpdateInfo'),
   path('TotalPets/',views.TotalPets, name='TotalPets'),
+  path('userprofile/',views.userprofile, name='userprofile'),
 ]

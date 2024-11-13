@@ -220,3 +220,6 @@ def UpdateInfo(request):
 
 def TotalPets(request):
   return render(request, 'Dashboard/TotalPets.html')
+
+def userprofile(request):
+  return render(request, 'petapp/userprofile.html') 
