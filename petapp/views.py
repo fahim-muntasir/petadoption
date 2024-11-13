@@ -154,3 +154,9 @@ def Dashboard(request):
 
 def TotalRequest(request):
   return render(request, 'Dashboard/TotalRequest.html')
+
+def UpdateInfo(request):
+  return render(request, 'Dashboard/UpdateInfo.html')
+
+def TotalPets(request):
+  return render(request, 'Dashboard/TotalPets.html')

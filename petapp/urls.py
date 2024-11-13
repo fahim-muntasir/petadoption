@@ -13,4 +13,6 @@ urlpatterns = [
   # path('modal/', views.modal, name='modal'),
   path('dashboard/',views.Dashboard, name='Dashboard'),
   path('TotalRequest/',views.TotalRequest, name='TotalRequest'),
+  path('UpdateInfo/',views.UpdateInfo, name='UpdateInfo'),
+  path('TotalPets/',views.TotalPets, name='TotalPets'),
 ]

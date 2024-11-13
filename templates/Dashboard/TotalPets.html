@@ -1,0 +1,110 @@
+{% extends 'petapp/base.html' %}
+
+{% block title %}
+  Total Pet - petadopt
+{% endblock %}
+
+{% block content %}
+  <div class="flex min-h-screen relative">
+    <!-- Drawer toggle button (only visible on mobile) -->
+    <button class="fixed top-28 left-1 z-30 px-3 py-1 text-white bg-[#062d3e] rounded md:hidden" onclick="toggleDrawer()"><i class="fa-solid fa-arrow-left"></i></button>
+
+    <!-- Sidebar (drawer for mobile) -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-20 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
+      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
+      <p class="text-lg font-bold">User Name</p>
+      <nav class="w-full pl-2">
+        <ul class="space-y-4 text-base">
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gauge"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-message"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-paw"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gear"></i>
+            <a href="#" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for drawer (only visible on mobile when sidebar is open) -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
+
+    <!-- Main content -->
+    <div class="container mx-auto pt-3 p-2">
+        <div class="flex-1 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-y-0">
+          <div class="relative flex flex-col w-full h-full overflow-hidden text-gray-700 bg-white rounded-sm bg-clip-border">
+            <!-- Wrapper for horizontal scroll -->
+            <div class="overflow-x-auto w-full">
+              <table class="min-w-full text-left table-auto">
+                <thead class="bg-[#fff6e5]">
+                  <tr>
+                    <th class="p-4 border-b border-blue-gray-100">
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Name</p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Type</p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Gender</p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Published At</p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans text-xl antialiased font-bold text-end leading-none text-[#062d3e]">Action</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-[#f1f1f2]">
+                  <tr class="border-b-2 border-black">
+                    <td class="p-4 whitespace-normal break-words">
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">John Michael</p>
+                    </td>
+                    <td class="p-4 whitespace-normal break-words max-w-xs">
+                      <p class="block font-bold font-sans text-justify text-lg antialiased leading-normal text-[#062d3e]">cat </p>
+                    </td>
+                    <td class="p-4 whitespace-normal break-words">
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">Male</p>
+                    </td>
+                    <td class="p-4 whitespace-normal break-words">
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">23/04/18</p>
+                    </td>
+                    <td class="p-4 whitespace-normal break-words">
+                      <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+
+  <script>
+    function toggleDrawer() {
+      const sidebar = document.getElementById('sidebar')
+      const overlay = document.getElementById('drawerOverlay')
+    
+      // Toggle sidebar visibility
+      sidebar.classList.toggle('-translate-x-full')
+    
+      // Toggle overlay visibility
+      if (sidebar.classList.contains('-translate-x-full')) {
+        overlay.classList.add('hidden')
+      } else {
+        overlay.classList.remove('hidden')
+      }
+    }
+  </script>
+{% endblock %}
