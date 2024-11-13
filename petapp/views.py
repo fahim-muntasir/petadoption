@@ -11,13 +11,23 @@ from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
-def fetchPost(total):
-  posts = PetPost.objects.all().order_by('-created_at')[:total]
+def fetchPost(total=False):
+  posts = []
+  
+  if total:
+    posts = PetPost.objects.all().order_by('-created_at')[:total]
+  else:
+    posts = PetPost.objects.all().order_by('-created_at')
   
   return posts
 
-def fetchMessage(total):
-  message = Message.objects.all().order_by('-created_at')[:total]
+def fetchMessage(total=False):
+  message = []
+  
+  if total:
+    message = Message.objects.all().order_by('-created_at')[:total]
+  else:
+    message = Message.objects.all().order_by('-created_at')
   
   return message
 
@@ -206,17 +216,20 @@ def user_logout(request):
 # Dashboard
 
 @login_required
-def Dashboard(request):
-  return render(request, 'Dashboard/Dashboard.html')
+def dashboard(request):
+  totalPost = len(fetchPost())
+  totalMessage = len(fetchMessage())
+  
+  return render(request, 'Dashboard/Dashboard.html', {"totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
 
 @login_required
-def TotalRequest(request):
+def totalRequest(request):
   return render(request, 'Dashboard/TotalRequest.html')
 
 
 
-def UpdateInfo(request):
+def updateInfo(request):
   return render(request, 'Dashboard/UpdateInfo.html')
 
-def TotalPets(request):
+def totalPets(request):
   return render(request, 'Dashboard/TotalPets.html')

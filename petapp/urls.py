@@ -11,8 +11,8 @@ urlpatterns = [
   path('item/<int:id>/', views.item, name='item'),
   path('createPet/', views.createPet, name='createPet'),
   # path('modal/', views.modal, name='modal'),
-  path('dashboard/',views.Dashboard, name='Dashboard'),
-  path('TotalRequest/',views.TotalRequest, name='TotalRequest'),
-  path('UpdateInfo/',views.UpdateInfo, name='UpdateInfo'),
-  path('TotalPets/',views.TotalPets, name='TotalPets'),
+  path('dashboard/',views.dashboard, name='dashboard'),
+  path('totalRequest/',views.totalRequest, name='totalRequest'),
+  path('updateInfo/',views.updateInfo, name='updateInfo'),
+  path('totalPets/',views.totalPets, name='totalPets'),
 ]
