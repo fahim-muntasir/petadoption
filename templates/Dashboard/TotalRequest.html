@@ -55,51 +55,23 @@
               </tr>
             </thead>
             <tbody class="bg-[#f1f1f2]">
+              {% for post in posts %}
               <tr class="border-b-2 border-black">
                 <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">John Michael</p>
+                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{post.sender}}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words max-w-xs">
-                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum, ipsum.
+                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> {{post.message}}
                   </p>
                 </td>
                 <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">23/04/18</p>
+                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words">
                   <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
                 </td>
               </tr>
-              <tr class="border-b-2 border-black">
-                <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">John Michael</p>
-                </td>
-                <td class="p-4 whitespace-normal break-words max-w-xs">
-                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum, ipsum.
-                  </p>
-                </td>
-                <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">23/04/18</p>
-                </td>
-                <td class="p-4 whitespace-normal break-words">
-                  <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
-                </td>
-              </tr>
-              <tr class="border-b-2 border-black">
-                <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">John Michael</p>
-                </td>
-                <td class="p-4 whitespace-normal break-words max-w-xs">
-                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum, ipsum. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis, numquam!
-                  </p>
-                </td>
-                <td class="p-4 whitespace-normal break-words">
-                  <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">23/04/18</p>
-                </td>
-                <td class="p-4 whitespace-normal break-words">
-                  <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
-                </td>
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
