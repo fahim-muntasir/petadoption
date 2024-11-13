@@ -1,0 +1,118 @@
+{% extends 'petapp/base.html' %}
+
+{% block title %}
+  Login - petadopt
+{% endblock %}
+
+{% block content %}
+  <div class="flex min-h-screen relative">
+    <!-- Drawer toggle button (only visible on mobile) -->
+    <button class="fixed top-28 left-1 z-30 px-3 py-1 text-white bg-[#062d3e] rounded md:hidden" onclick="toggleDrawer()"><i class="fa-solid fa-arrow-left"></i></button>
+
+    <!-- Sidebar (drawer for mobile) -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-20 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
+      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
+      <p class="text-lg font-bold">{{user.first_name}} {{user.last_name}}</p>
+      <nav class="w-full pl-2">
+        <ul class="space-y-4 text-base">
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gauge"></i>
+            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-message"></i>
+            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-paw"></i>
+            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gear"></i>
+            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for drawer (only visible on mobile when sidebar is open) -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 p-1 md:p-2 lg:p-6 py-7 md:py-0 lg:py-2 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0">
+      <div class="flex-1 p-0 md:p-6  flex justify-center items-center">
+        <div class="relative bg-[#062d3e] bg-opacity-80 rounded-2xl p-6 md:p-10 shadow-lg max-w-2xl w-full mx-4">
+          <div class="flex justify-center mb-8 md:mb-12">
+            <img src="/media/image/logo.png" alt="PetAdopt Logo" class="w-24 h-20 md:w-32 md:h-24" />
+          </div>
+
+          <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" placeholder="First Name" name="first_name" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.first_name}}" />
+              <input type="text" placeholder="Last Name" name="last_name" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.last_name}}" />
+            </div>
+
+            <input type="text" placeholder="Username" name="username" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.username}}" />
+
+            <input type="email" placeholder="Email Address" name="email" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.email}}" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="tel" placeholder="Phone Number" name="phone1" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.phone1}}" />
+              <input type="tel" placeholder="Phone Number (Optional)" name="phone2" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.phone2}}" />
+            </div>
+
+            <input type="text" placeholder="Social Media link (Facebook, Instagram)" name="social_link" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.social_link}}" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input type="text" placeholder="Address" name="address" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.address}}" />
+              <input type="text" placeholder="State" name="state" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.state}}" />
+            </div>
+
+            <input type="password" placeholder="Current Password" name="current_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+
+            <input type="password" placeholder="New Password" name="new_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+
+            <input type="password" placeholder="Confirm Password" name="confirm_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+
+            {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="bg-green-300 p-4 rounded-lg border border-green-400 text-green-900 font-medium mt-2">
+                  <p>{{ message }}</p>
+                </div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="bg-red-300 p-4 rounded-lg border border-red-400 text-red-900 font-medium mt-2">
+                  <p>{{ message }}</p>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div class="text-center mt-6">
+              <button type="submit" class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDrawer() {
+      const sidebar = document.getElementById('sidebar')
+      const overlay = document.getElementById('drawerOverlay')
+    
+      // Toggle sidebar visibility
+      sidebar.classList.toggle('-translate-x-full')
+    
+      // Toggle overlay visibility
+      if (sidebar.classList.contains('-translate-x-full')) {
+        overlay.classList.add('hidden')
+      } else {
+        overlay.classList.remove('hidden')
+      }
+    }
+  </script>
+{% endblock %}

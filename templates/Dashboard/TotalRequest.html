@@ -9,24 +9,24 @@
     <!-- Sidebar -->
     <div class="w-1/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 md:w-1/5 lg:w-1/6">
       <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
-      <p class="text-lg font-bold">User Name</p>
+      <p class="text-lg font-bold">{{fullname}}</p>
       <nav class="w-full pl-2">
         <ul class="space-y-4 text-base">
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-gauge"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-message"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-paw"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
           </li>
           <li class="flex items-center space-x-2">
             <i class="fa-solid fa-gear"></i>
-            <a href="#" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
           </li>
         </ul>
       </nav>
@@ -68,7 +68,12 @@
                   <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words">
-                  <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
+                  <form action="{% url 'delete_message' message_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?');">
+                    {% csrf_token %}
+                    <button type="submit">
+                      <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
+                    </button>
+                  </form>
                 </td>
               </tr>
               {% endfor %}
