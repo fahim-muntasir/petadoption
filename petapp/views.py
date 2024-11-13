@@ -224,12 +224,24 @@ def dashboard(request):
 
 @login_required
 def totalRequest(request):
-  return render(request, 'Dashboard/TotalRequest.html')
-
-
+  messages = Message.objects.filter(receiver=request.user).order_by('-created_at')[:10]
+  
+  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages})
 
 def updateInfo(request):
   return render(request, 'Dashboard/UpdateInfo.html')
 
 def totalPets(request):
   return render(request, 'Dashboard/TotalPets.html')
+
+
+def delete_message(request, message_id):
+
+  message = get_object_or_404(Message, id=message_id)
+ 
+  if request.user == message.receiver:
+    message.delete()
+    messages.success(request, "Message deleted successfully.")
+  else:
+    messages.error(request, "You don't have permission to delete this message.")
+  return redirect('totalRequest')
