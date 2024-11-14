@@ -41,6 +41,9 @@ def home(request):
 
   return render(request, 'petapp/index.html', {'posts': posts})
 
+def userProfile(request):
+  return render(request, 'petapp/userprofile.html')
+
 # ** Login **
 def user_login(request):
   if request.method == 'POST':
