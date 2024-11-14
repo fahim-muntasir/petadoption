@@ -22,11 +22,19 @@
                         <h3 class="text-xl text-[#7c7887] mb-2 font-bold">Locations</h3>
                         <ul class="space-y-1">
                             <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">All of Bangladesh</a></li>
-                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Dhaka</a></li>
-                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Barishal</a></li>
-                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Khulna</a></li>
-                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Rajshahi</a></li>
-                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Sylhet</a></li>
+                            <!-- {% if data %}
+                                <ul>
+                                    {% for item in data %}
+                                        <li>{{ item.district }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No data available</p>
+                            {% endif %} -->
+
+                            {% for item in data %}
+                            <li><a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">{{item.division}}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="mb-4">

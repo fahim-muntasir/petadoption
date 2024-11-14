@@ -1,4 +1,5 @@
 import re
+import requests
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
@@ -154,8 +155,20 @@ def items(request):
   
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
+  
+  api_url = "https://bdapis.com/api/v1.2/divisions"
+  
+  data = []
+  
+   # Make the API request
+  response = requests.get(api_url)
+  # Check if the request was successful
+  if response.status_code == 200:
+      data = response.json()  # Parse JSON data
+  else:
+      data = {}  # Handle error case with empty data or a custom message
     
-  return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj})
+  return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj, 'data': data["data"]})
 
 def item(request, id):
   posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
