@@ -36,6 +36,22 @@
         modalBox.classList.add("hidden");
       })
 
+      function toggleDistricts(divisionId) {
+        // Get the district list element by division ID
+        const districtList = document.getElementById(`districts-${divisionId}`);
+        
+        // Close any other open district lists
+        document.querySelectorAll("ul[id^='districts-']").forEach(list => {
+            if (list !== districtList) {
+                list.classList.add("hidden");
+            }
+        });
+
+        // Toggle the 'hidden' class to show/hide the district list
+        if (districtList) {
+            districtList.classList.toggle("hidden");
+        }
+    }
     </script>
   </body>
 </html>

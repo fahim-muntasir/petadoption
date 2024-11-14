@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
+# ** Provides Posts **
 def fetchPost(total=False):
   posts = []
   
@@ -22,6 +23,7 @@ def fetchPost(total=False):
   
   return posts
 
+# ** Provides Message **
 def fetchMessage(total=False):
   message = []
   
@@ -32,11 +34,14 @@ def fetchMessage(total=False):
   
   return message
 
+
+# ** Homepage **
 def home(request):
   posts = fetchPost(6)
 
   return render(request, 'petapp/index.html', {'posts': posts})
 
+# ** Login **
 def user_login(request):
   if request.method == 'POST':
     email = request.POST.get('email')
@@ -60,6 +65,7 @@ def user_login(request):
 
   return render(request, 'petapp/login.html')
 
+# ** Registration **
 def registration(request):
   if request.method == 'POST':
     # Get form data
@@ -142,34 +148,93 @@ def registration(request):
 
   return render(request, 'petapp/registration.html')
 
-
+# ** About Us **
 def about(request):
   return render(request, 'petapp/about.html')
 
-def items(request):
-  posts = fetchPost(10)
-  
-  # pagination 
-  posts_list = PetPost.objects.all().order_by('-created_at')
-  paginator = Paginator(posts_list, 10)
-  
-  page_number = request.GET.get('page')
-  page_obj = paginator.get_page(page_number)
-  
-  api_url = "https://bdapis.com/api/v1.2/divisions"
-  
-  data = []
-  
-   # Make the API request
-  response = requests.get(api_url)
-  # Check if the request was successful
-  if response.status_code == 200:
-      data = response.json()  # Parse JSON data
-  else:
-      data = {}  # Handle error case with empty data or a custom message
-    
-  return render(request, 'petapp/items.html', {'posts': posts, 'page_obj': page_obj, 'data': data["data"]})
+# ** All Pets List **
+# def items(request):
+#     division = request.GET.get('division')
+#     page_number = request.GET.get('page')
 
+#     # Fetch posts and set up pagination
+#     posts_list = PetPost.objects.all().order_by('-created_at')
+#     paginator = Paginator(posts_list, 10)
+#     page_obj = paginator.get_page(page_number)
+
+#     # API URL to fetch divisions
+#     api_url = "https://bdapis.com/api/v1.2/divisions"
+#     response = requests.get(api_url)
+    
+#     if response.status_code == 200:
+#         data = response.json().get("data", [])
+#     else:
+#         data = []
+
+#     # Initialize district_data as empty
+#     district_data = {}
+
+#     # Fetch districts if a division is specified
+#     if division:
+#         api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}"
+#         district_response = requests.get(api_url_for_district)
+        
+#         if district_response.status_code == 200:
+#             district_data = district_response.json().get("data", [])
+#         else:
+#             district_data = []
+
+#     # Pass all required data to the template
+#     context = {
+#         'posts': posts_list,
+#         'page_obj': page_obj,
+#         'divisions': data,           # List of divisions
+#         'selected_division': division, # Currently selected division
+#         'districts': district_data    # List of districts for the selected division
+#     }
+    
+#     return render(request, 'petapp/items.html', context)
+
+
+def items(request):
+    # Get the selected division from the URL query parameter
+    division = request.GET.get('division')
+    
+    # Base API for divisions and for fetching districts by division
+    api_url = "https://bdapis.com/api/v1.2/divisions"
+    api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}" if division else None
+    
+    # Fetch divisions data
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        divisions_data = response.json().get("data", [])
+    else:
+        divisions_data = []
+
+    # Fetch district data if a division is selected
+    districts_data = []
+    if division and api_url_for_district:
+        district_response = requests.get(api_url_for_district)
+        if district_response.status_code == 200:
+            districts_data = district_response.json().get("data", [])
+    
+    # Fetch posts data and set up pagination
+    posts_list = PetPost.objects.all().order_by('-created_at')
+    paginator = Paginator(posts_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'divisions': divisions_data,
+        'selected_division': division,
+        'districts': districts_data,
+        'posts': posts_list,
+        'page_obj': page_obj,
+    }
+
+    return render(request, 'petapp/items.html', context)
+  
+# ** Single Pet Post **
 def item(request, id):
   posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
   pet = get_object_or_404(PetPost, id=id)
@@ -196,6 +261,7 @@ def item(request, id):
 # def modal(request):
 #   return render(request, 'petapp/modal.html')
 
+# ** Pet Post Creation **
 @login_required
 def createPet(request):
   if request.method == 'POST':
@@ -222,12 +288,14 @@ def createPet(request):
 
   return render(request, 'petapp/createPet.html')
 
+# ** Logout **
 def user_logout(request):
   logout(request)
   return redirect('login')
 
 # Dashboard
 
+# ** Dashboard of user **
 @login_required
 def dashboard(request):
   totalPost = len(fetchPost())
@@ -235,12 +303,14 @@ def dashboard(request):
   
   return render(request, 'Dashboard/Dashboard.html', {"totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
 
+# ** Message Requests **
 @login_required
 def totalRequest(request):
   messages = Message.objects.filter(receiver=request.user).order_by('-created_at')[:10]
   
   return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, "fullname": request.user.first_name + " " + request.user.last_name})
 
+# ** Information Update **
 @login_required
 def updateInfo(request):
     # Load the current user profile
@@ -310,13 +380,14 @@ def updateInfo(request):
     }
     return render(request, 'Dashboard/UpdateInfo.html', {"user": context})
 
+# ** All Posts **
 @login_required
 def totalPets(request):
   pets = PetPost.objects.filter(user=request.user).order_by('-created_at')[:10]
   
   return render(request, 'Dashboard/TotalPets.html', {'posts': pets, "fullname": request.user.first_name + " " + request.user.last_name})
 
-
+# ** Delete Message **
 def delete_message(request, message_id):
 
   message = get_object_or_404(Message, id=message_id)
