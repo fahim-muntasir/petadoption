@@ -1,0 +1,150 @@
+{% extends 'petapp/base.html' %}
+
+{% block title %}
+  Pets - petadopt
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div class="container mx-auto my-12">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar Filter -->
+        <div class="w-full lg:w-1/4 bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-[#e95b47] p-4 mb-6 lg:mb-0">
+          <div class="flex items-center justify-center">
+            <div class="flex flex-col items-center justify-center">
+              <i class="fa-solid fa-user text-5xl"></i>
+              <h2 class="text-xl  py-2 font-medium">MR. Tomy</h2>
+            </div>
+          </div>
+
+          <hr class="border-t-2 border-[#B1B2B5] my-5" />
+
+          <div class="flex items-start">
+            <div class="flex items-center justify-start gap-5">
+              <i class="fa-solid fa-envelope text-2xl min-w-[32px]"></i>
+              <h2 class="text-lg font-semibold">MR. Tomy</h2>
+            </div>
+          </div>
+          <div class="flex items-start mt-2">
+            <div class="flex items-center justify-start gap-5">
+              <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
+              <h2 class="text-lg font-semibold">01799999999</h2>
+            </div>
+          </div>
+          <div class="flex items-start mt-2">
+            <div class="flex items-center justify-start gap-5">
+              <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
+              <h2 class="text-lg font-semibold">01799999999</h2>
+            </div>
+          </div>
+          <div class="flex items-start mt-2">
+            <div class="flex items-center justify-start gap-5">
+              <i class="fa-solid fa-location-dot text-2xl min-w-[32px]"></i>
+              <h2 class="text-lg font-semibold">Barishal</h2>
+            </div>
+          </div>
+          <div class="flex items-start mt-2">
+            <div class="flex items-center justify-start gap-5">
+              <i class="fa-solid fa-link text-xl min-w-[32px]"></i>
+              <h2 class="text-lg font-semibold">www.google.com</h2>
+            </div>
+          </div>
+
+          <div class="flex flex-col items-center mt-10 gap-4 w-full md:w-[200px]">
+            <button class="bg-[#E95B47] text-white w-full font-semibold py-2 rounded hover:bg-[#d04f3d]">Send Message</button>
+          </div>
+          <div class="mt-4">
+            <a href="{% url 'logout' %}?next={{ request.path }}" class="text-lg font-semibold underline text-start decoration-2 text-[#e95b47]">Logout</a>
+          </div>
+        </div>
+
+        <!-- Pet Listing Section -->
+        <div class="w-full lg:w-3/4 p-2 md:p-1 lg:p-0">
+          <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold ">All Post</h2>
+              <a href="{% url 'createPet' %}" class="flex items-center gap-2 bg-[#E95B47] text-white py-2 px-4 rounded-full hover:bg-[#d04f3d]">
+                <i class="fa-solid fa-plus text-xl"></i>New Post
+              </a>    
+          </div>
+          <div class="space-y-6">
+            <!-- Single Pet Card -->
+            {% for post in page_obj %}
+              <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
+                <img src="/media/{{ post.image }}" alt="Cat" class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4" />
+                <div class="flex flex-col">
+                  <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+                  <p class="text-[#115470] text-base mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
+                  <p class="font-semibold text-lg mt-2">
+                    {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
+                  </p>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+
+          <!-- Pagination -->
+          <div class="flex justify-end mt-6">
+            <nav class="inline-flex rounded-md shadow">
+              <!-- Previous Page Link -->
+              {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
+              {% endif %}
+
+              <!-- First Page Link -->
+              {% if page_obj.number > 2 %}
+                <a href="?page=1" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
+                {% if page_obj.number > 3 %}
+                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                {% endif %}
+              {% endif %}
+
+              <!-- Middle Page Links (Dynamic Range) -->
+              {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                  <a href="?page={{ num }}"
+                    class="px-3 py-2 {% if page_obj.number == num %}
+                      
+                      text-white bg-[#e95b47]
+
+                    {% else %}
+                      
+                      text-[#062d3e] bg-white
+
+                    {% endif %} border-t border-b border-[#e95b47] hover:bg-gray-100">
+                    {{ num }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+
+              <!-- Last Page Link -->
+              {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                {% endif %}
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">{{ page_obj.paginator.num_pages }}</a>
+              {% endif %}
+
+              <!-- Next Page Link -->
+              {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
+              {% endif %}
+            </nav>
+            {% comment %} <nav class="inline-flex rounded-md shadow">
+              {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
+              {% endif %}
+              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
+              <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">4</a>
+              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">5</a>
+
+              {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
+              {% endif %}
+            </nav> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
