@@ -64,7 +64,7 @@
                     <p class="text-xl"><strong>Age:</strong> 2 years</p>
                     <p class="text-xl"><strong>Location:</strong> {{ pet.location }}</p>
                     <p class="text-xl"><strong>Phone:</strong> {{ pet.user.phone_number }}</p>
-                    <p class="text-xl"><strong>Published By:</strong> {{ pet.user.first_name }} {{ pet.user.last_name }}</p>
+                    <p class="text-xl"><strong>Published By:</strong><a href="{% url 'userprofile' userid=pet.user.id %}" class=" underline text-[#e95b47] hover:text-[#f0604d] "> {{ pet.user.first_name }} {{ pet.user.last_name }}</a></p>
                     <div>
                       {% if request.user.is_authenticated  %}
                         <button class="requestBtn mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">

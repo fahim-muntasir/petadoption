@@ -41,8 +41,17 @@ def home(request):
 
   return render(request, 'petapp/index.html', {'posts': posts})
 
-def userProfile(request):
-  return render(request, 'petapp/userprofile.html')
+def userProfile(request, userid):
+  print(userid)
+  user = get_object_or_404(UserProfile, id=userid)
+  
+  # Fetch posts data and set up pagination
+  posts_list = PetPost.objects.filter(user=userid).order_by('-created_at')
+  paginator = Paginator(posts_list, 10)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  
+  return render(request, 'petapp/userprofile.html', {'user': user, 'page_obj': page_obj, 'isPost': len(page_obj)})
 
 # ** Login **
 def user_login(request):
@@ -156,49 +165,6 @@ def about(request):
   return render(request, 'petapp/about.html')
 
 # ** All Pets List **
-# def items(request):
-#     division = request.GET.get('division')
-#     page_number = request.GET.get('page')
-
-#     # Fetch posts and set up pagination
-#     posts_list = PetPost.objects.all().order_by('-created_at')
-#     paginator = Paginator(posts_list, 10)
-#     page_obj = paginator.get_page(page_number)
-
-#     # API URL to fetch divisions
-#     api_url = "https://bdapis.com/api/v1.2/divisions"
-#     response = requests.get(api_url)
-    
-#     if response.status_code == 200:
-#         data = response.json().get("data", [])
-#     else:
-#         data = []
-
-#     # Initialize district_data as empty
-#     district_data = {}
-
-#     # Fetch districts if a division is specified
-#     if division:
-#         api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}"
-#         district_response = requests.get(api_url_for_district)
-        
-#         if district_response.status_code == 200:
-#             district_data = district_response.json().get("data", [])
-#         else:
-#             district_data = []
-
-#     # Pass all required data to the template
-#     context = {
-#         'posts': posts_list,
-#         'page_obj': page_obj,
-#         'divisions': data,           # List of divisions
-#         'selected_division': division, # Currently selected division
-#         'districts': district_data    # List of districts for the selected division
-#     }
-    
-#     return render(request, 'petapp/items.html', context)
-
-
 def items(request):
     # Get the selected division from the URL query parameter
     division = request.GET.get('division')
