@@ -1,19 +1,19 @@
 <header>
   <nav class="bg-[#fff6e5] py-3">
     <div class="container mx-auto flex items-center justify-between px-4">
-      <!-- Logo -->
-      <a class="flex items-center space-x-2" href="{% url 'home' %}">
-        <img src="/media/image/logo.png" alt="Logo" class="lg:w-28 " />
-      </a>
-
       <!-- Mobile Menu Button -->
-      <div class="md:hidden">
+      <div class="md:hidden flex items-center">
         <button id="menu-button" class="text-gray-800 focus:outline-none">
-          <i class="fa-solid fa-bars"></i>
+          <i class="fa-solid text-2xl fa-bars"></i>
         </button>
       </div>
 
-      <!-- Large Screen Navigation Links (Centering added here) -->
+      <!-- Logo -->
+      <a class="flex items-center space-x-2 md:ml-0 ml-auto" href="{% url 'home' %}">
+        <img src="/media/image/logo.png" alt="Logo" class="w-20 lg:w-28 sm:w-20 md:w-24" />
+      </a>
+
+      <!-- Large Screen Navigation Links -->
       <ul class="hidden md:flex md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 md:flex-1 justify-center">
         <li>
           <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
@@ -38,9 +38,9 @@
       </div>
     </div>
 
-    <!-- Mobile Navigation Menu (hidden by default, visible on button click) -->
+    <!-- Mobile Navigation Menu -->
     <div id="mobile-menu" class="md:hidden hidden p-4">
-      <ul class="flex flex-col space-y-4 text-right">
+      <ul class="flex flex-col space-y-4 text-left">
         <li>
           <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
         </li>
@@ -53,14 +53,14 @@
       </ul>
 
       <!-- Auth and Donate Buttons for Mobile -->
-      <div class="space-y-4 mt-4">
+      <div class="space-y-4 mt-4 text-left">
         {% if request.user.is_authenticated %}
-          <div class="text-center">
+          <div>
             <a href="{% url 'logout' %}?next={{ request.path }}" class="text-[#E95B47] font-semibold hover:text-[#d04f3d]">Logout</a>
             <a href="{% url 'createPet' %}" class="bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Donate</a>
           </div>
         {% else %}
-          <a href="{% url 'login' %}" class="bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] block text-center">Login</a>
+          <a href="{% url 'login' %}" class="bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d] block">Login</a>
         {% endif %}
       </div>
     </div>
