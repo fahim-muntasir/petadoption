@@ -52,6 +52,32 @@
             districtList.classList.toggle("hidden");
         }
     }
+    function toggleDrawer() {
+      const sidebar = document.getElementById('sidebar');
+      const toggleButton = document.getElementById('toggleButton');
+    
+      // Ensure all elements exist
+      if (!sidebar || !toggleButton) {
+        console.error('Sidebar, overlay, or toggle button not found!');
+        return;
+      }
+    
+      // Toggle sidebar visibility
+      sidebar.classList.toggle('-translate-x-full');
+    
+      // Toggle overlay visibility
+      if (sidebar.classList.contains('-translate-x-full')) {
+        
+        toggleButton.classList.remove('left-[75%]');
+        toggleButton.classList.add('left-0'); // Move button to the left
+      } else {
+        
+        toggleButton.classList.remove('left-0');
+        toggleButton.classList.add('left-[75%]'); // Move button to 3/4
+      }
+    }
+    
+   
     </script>
   </body>
 </html>
