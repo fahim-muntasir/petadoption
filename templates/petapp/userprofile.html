@@ -13,7 +13,7 @@
           <div class="flex items-center justify-center">
             <div class="flex flex-col items-center justify-center">
               <i class="fa-solid fa-user text-5xl"></i>
-              <h2 class="text-xl  py-2 font-medium">MR. Tomy</h2>
+              <h2 class="text-xl  py-2 font-medium">{{user.first_name}} {{user.last_name}}</h2>
             </div>
           </div>
 
@@ -22,52 +22,67 @@
           <div class="flex items-start">
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-envelope text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">MR. Tomy</h2>
+              <h2 class="text-lg font-semibold">{{ user.email }}</h2>
             </div>
           </div>
           <div class="flex items-start mt-2">
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">01799999999</h2>
+              <h2 class="text-lg font-semibold">{{ user.phone_number }}</h2>
             </div>
           </div>
           <div class="flex items-start mt-2">
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">01799999999</h2>
+              <h2 class="text-lg font-semibold">{{ user.additional_number }}</h2>
             </div>
           </div>
           <div class="flex items-start mt-2">
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-location-dot text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">Barishal</h2>
+              <h2 class="text-lg font-semibold">{{user.address}}, {{user.state}}</h2>
             </div>
           </div>
           <div class="flex items-start mt-2">
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-link text-xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">www.google.com</h2>
+              <h2 class="text-lg font-semibold">
+                <a href="{{ user.social_media_link }}">{{ user.social_media_link }}</a>
+              </h2>
             </div>
           </div>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'dashboard' %}" class="flex flex-col items-center mt-10 gap-4 w-full md:w-[200px]">
+            <button class="bg-[#E95B47] text-white w-full font-semibold py-2 rounded hover:bg-[#d04f3d]">Dashboard</button>
+          </a>
 
-          <div class="flex flex-col items-center mt-10 gap-4 w-full md:w-[200px]">
-            <button class="bg-[#E95B47] text-white w-full font-semibold py-2 rounded hover:bg-[#d04f3d]">Send Message</button>
-          </div>
           <div class="mt-4">
             <a href="{% url 'logout' %}?next={{ request.path }}" class="text-lg font-semibold underline text-start decoration-2 text-[#e95b47]">Logout</a>
           </div>
+          {% else %}
+          <div class="flex flex-col items-center mt-10 gap-4 w-full md:w-[200px]">
+            <button class="bg-[#E95B47] text-white w-full font-semibold py-2 rounded hover:bg-[#d04f3d]">Send Message</button>
+          </div>
+          {% endif %}
+
         </div>
 
         <!-- Pet Listing Section -->
         <div class="w-full lg:w-3/4 p-2 md:p-1 lg:p-0">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between mb-5">
             <h2 class="text-2xl font-bold ">All Post</h2>
+            {% if request.user.is_authenticated %}
               <a href="{% url 'createPet' %}" class="flex items-center gap-2 bg-[#E95B47] text-white py-2 px-4 rounded-full hover:bg-[#d04f3d]">
                 <i class="fa-solid fa-plus text-xl"></i>New Post
-              </a>    
+              </a> 
+            {% endif %}
           </div>
           <div class="space-y-6">
             <!-- Single Pet Card -->
+            {% if not isPost %}
+            <img src="/media/image/empty.svg" alt="empty" class="w-full h-80 opacity-70" />
+            {% endif %}
+
             {% for post in page_obj %}
               <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
                 <img src="/media/{{ post.image }}" alt="Cat" class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4" />
@@ -83,66 +98,68 @@
           </div>
 
           <!-- Pagination -->
-          <div class="flex justify-end mt-6">
-            <nav class="inline-flex rounded-md shadow">
-              <!-- Previous Page Link -->
-              {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
-              {% endif %}
-
-              <!-- First Page Link -->
-              {% if page_obj.number > 2 %}
-                <a href="?page=1" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
-                {% if page_obj.number > 3 %}
-                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+          {% if isPost %}
+            <div class="flex justify-end mt-6">
+              <nav class="inline-flex rounded-md shadow">
+                <!-- Previous Page Link -->
+                {% if page_obj.has_previous %}
+                  <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
                 {% endif %}
-              {% endif %}
 
-              <!-- Middle Page Links (Dynamic Range) -->
-              {% for num in page_obj.paginator.page_range %}
-                {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
-                  <a href="?page={{ num }}"
-                    class="px-3 py-2 {% if page_obj.number == num %}
-                      
-                      text-white bg-[#e95b47]
-
-                    {% else %}
-                      
-                      text-[#062d3e] bg-white
-
-                    {% endif %} border-t border-b border-[#e95b47] hover:bg-gray-100">
-                    {{ num }}
-                  </a>
+                <!-- First Page Link -->
+                {% if page_obj.number > 2 %}
+                  <a href="?page=1" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
+                  {% if page_obj.number > 3 %}
+                    <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                  {% endif %}
                 {% endif %}
-              {% endfor %}
 
-              <!-- Last Page Link -->
-              {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
-                {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
-                  <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                <!-- Middle Page Links (Dynamic Range) -->
+                {% for num in page_obj.paginator.page_range %}
+                  {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
+                    <a href="?page={{ num }}"
+                      class="px-3 py-2 {% if page_obj.number == num %}
+                        
+                        text-white bg-[#e95b47]
+
+                      {% else %}
+                        
+                        text-[#062d3e] bg-white
+
+                      {% endif %} border-t border-b border-[#e95b47] hover:bg-gray-100">
+                      {{ num }}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+
+                <!-- Last Page Link -->
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
+                  {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                    <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                  {% endif %}
+                  <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">{{ page_obj.paginator.num_pages }}</a>
                 {% endif %}
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">{{ page_obj.paginator.num_pages }}</a>
-              {% endif %}
 
-              <!-- Next Page Link -->
-              {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
-              {% endif %}
-            </nav>
-            {% comment %} <nav class="inline-flex rounded-md shadow">
-              {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
-              {% endif %}
-              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
-              <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
-              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">4</a>
-              <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">5</a>
+                <!-- Next Page Link -->
+                {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
+                {% endif %}
+              </nav>
+              {% comment %} <nav class="inline-flex rounded-md shadow">
+                {% if page_obj.has_previous %}
+                  <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
+                {% endif %}
+                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
+                <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
+                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">4</a>
+                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">5</a>
 
-              {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
-              {% endif %}
-            </nav> {% endcomment %}
-          </div>
+                {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
+                {% endif %}
+              </nav> {% endcomment %}
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
