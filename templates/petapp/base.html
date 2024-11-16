@@ -55,25 +55,28 @@
     function toggleDrawer() {
       const sidebar = document.getElementById('sidebar');
       const toggleButton = document.getElementById('toggleButton');
+      const toggleIcon = document.getElementById('toggleIcon');
     
       // Ensure all elements exist
-      if (!sidebar || !toggleButton) {
-        console.error('Sidebar, overlay, or toggle button not found!');
+      if (!sidebar || !toggleButton || !toggleIcon) {
+        console.error('Sidebar, toggle button, or toggle icon not found!');
         return;
       }
     
       // Toggle sidebar visibility
       sidebar.classList.toggle('-translate-x-full');
     
-      // Toggle overlay visibility
+      // Toggle button and icon classes
       if (sidebar.classList.contains('-translate-x-full')) {
-        
         toggleButton.classList.remove('left-[75%]');
-        toggleButton.classList.add('left-0'); // Move button to the left
+        toggleButton.classList.add('left-0');
+        toggleIcon.classList.remove('rotate-90');
+        toggleIcon.classList.add('-rotate-90');
       } else {
-        
         toggleButton.classList.remove('left-0');
-        toggleButton.classList.add('left-[75%]'); // Move button to 3/4
+        toggleButton.classList.add('left-[75%]');
+        toggleIcon.classList.remove('-rotate-90');
+        toggleIcon.classList.add('rotate-90');
       }
     }
     

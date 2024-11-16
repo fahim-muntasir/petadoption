@@ -1,4 +1,4 @@
-import re
+import os
 import requests
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
@@ -12,14 +12,24 @@ from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
+def fetchAdoptedPost(total=False):
+  posts = []
+  
+  if total:
+    posts = PetPost.objects.filter(status='Adopted').order_by('-updated_at')[:total]
+  else:
+    posts = PetPost.objects.filter(status='Adopted').order_by('-updated_at')
+    
+  return posts
+
 # ** Provides Posts **
 def fetchPost(total=False):
   posts = []
   
   if total:
-    posts = PetPost.objects.all().order_by('-created_at')[:total]
+    posts = PetPost.objects.filter(status='Active').order_by('-created_at')[:total]
   else:
-    posts = PetPost.objects.all().order_by('-created_at')
+    posts = PetPost.objects.filter(status='Active').order_by('-created_at')
   
   return posts
 
@@ -37,9 +47,10 @@ def fetchMessage(total=False):
 
 # ** Homepage **
 def home(request):
-  posts = fetchPost(6)
+  active_posts = fetchPost(6)
+  adopted_posts = fetchAdoptedPost(4)
 
-  return render(request, 'petapp/index.html', {'posts': posts})
+  return render(request, 'petapp/index.html', {'posts': active_posts, 'adoptedPosts': adopted_posts})
 
 def userProfile(request, userid):
   print(userid)
@@ -269,8 +280,9 @@ def user_logout(request):
 def dashboard(request):
   totalPost = len(fetchPost())
   totalMessage = len(fetchMessage())
+  totalAdopted = len(fetchAdoptedPost())
   
-  return render(request, 'Dashboard/Dashboard.html', {"totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
+  return render(request, 'Dashboard/Dashboard.html', {"totalAdopted":totalAdopted, "totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
 
 # ** Message Requests **
 @login_required
@@ -349,6 +361,45 @@ def updateInfo(request):
     }
     return render(request, 'Dashboard/UpdateInfo.html', {"user": context})
 
+
+@login_required
+def updatePet(request, pet_id):
+  user = request.user
+  pet = get_object_or_404(PetPost, id=pet_id)
+
+  if pet.user != user:
+      messages.error(request, "You are not authorized to update this pet.")
+      return redirect('dashboard')
+
+  if request.method == 'POST':
+      print("POST request received")
+      title = request.POST.get('title', pet.title)
+      pet_type = request.POST.get('pet_type', pet.pet_type)
+      gender = request.POST.get('gender', pet.gender)
+      location = request.POST.get('location', pet.location)
+      description = request.POST.get('description', pet.description)
+      status = request.POST.get('status', pet.status)
+      new_image = request.FILES.get('image')
+
+      pet.title = title
+      pet.pet_type = pet_type
+      pet.gender = gender
+      pet.location = location
+      pet.description = description
+      pet.status = status
+
+      if new_image:
+          if pet.image and os.path.isfile(pet.image.path):
+              os.remove(pet.image.path)
+          pet.image = new_image
+
+      pet.save()
+      messages.success(request, "Pet updated successfully!")
+      return redirect('totalPets')
+
+  return render(request, 'Dashboard/updatePet.html', {'pet': pet})
+
+  
 # ** All Posts **
 @login_required
 def totalPets(request):

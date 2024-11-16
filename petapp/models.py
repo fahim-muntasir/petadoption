@@ -29,6 +29,11 @@ class PetPost(models.Model):
   gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
   description = models.TextField(blank=False, null=False)
   location = models.CharField(max_length=100, blank=False, null=False)
+  status = models.CharField(
+    max_length=10,
+    choices=[('Active', 'Active'), ('Adopted', 'Adopted')],
+    default='Active',
+  )
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 

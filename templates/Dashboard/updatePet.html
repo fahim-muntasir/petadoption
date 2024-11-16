@@ -1,0 +1,146 @@
+{% extends 'petapp/base.html' %}
+
+{% block title %}
+  Login - petadopt
+{% endblock %}
+
+{% block content %}
+  <div class="flex min-h-screen relative">
+    <!-- Drawer toggle button (only visible on mobile) -->
+    <button class="fixed top-28 left-1 z-30 px-3 py-1 text-white bg-[#062d3e] rounded md:hidden" onclick="toggleDrawer()"><i class="fa-solid fa-arrow-left"></i></button>
+
+    <!-- Sidebar (drawer for mobile) -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-20 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
+      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
+      <p class="text-lg font-bold">{{user.first_name}} {{user.last_name}}</p>
+      <nav class="w-full pl-2">
+        <ul class="space-y-4 text-base">
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gauge"></i>
+            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-message"></i>
+            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-paw"></i>
+            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
+          </li>
+          <li class="flex items-center space-x-2">
+            <i class="fa-solid fa-gear"></i>
+            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for drawer (only visible on mobile when sidebar is open) -->
+    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 p-1 md:p-2 lg:p-6 py-7 md:py-0 lg:py-2 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0">
+      <div class="flex-1 p-0 md:p-6  flex justify-center items-center">
+        <div class="relative bg-[#062d3e] bg-opacity-80 rounded-2xl p-6 md:p-10 shadow-lg max-w-2xl w-full mx-4">
+          <div class="flex justify-center mb-8 md:mb-12">
+            <img src="/media/image/logo.png" alt="PetAdopt Logo" class="w-24 h-20 md:w-32 md:h-24" />
+          </div>
+
+          <form method="POST" class="space-y-4" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <input
+                type="text"
+                placeholder="Name"
+                value="{{ pet.title }}"
+                name="title"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Type"
+                value="{{ pet.pet_type }}"
+                name="pet_type"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                required
+              />
+            </div>
+          
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <select
+                name="gender"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                required
+              >
+                <option value="male" {% if pet.gender == "male" %}selected{% endif %}>Male</option>
+                <option value="female" {% if pet.gender == "female" %}selected{% endif %}>Female</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Location"
+                name="location"
+                value="{{ pet.location }}"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                required
+              />
+            </div>
+          
+            <textarea
+              placeholder="Description"
+              name="description"
+              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold w-full placeholder:text-[#413d3d] h-12 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none"
+              required
+            >{{ pet.description }}</textarea>
+          
+            <select
+              name="status"
+              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 w-full"
+              required
+            >
+              <option value="Active" {% if pet.status == "Active" %}selected{% endif %}>Active</option>
+              <option value="Adopted" {% if pet.status == "Adopted" %}selected{% endif %}>Adopted</option>
+            </select>
+          
+            <div class="relative">
+              <label
+                class="input-field flex items-center focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 cursor-pointer"
+              >
+                <i class="fa-solid fa-file-arrow-up text-black text-xl mr-2"></i>
+                <span class="text-[#413d3d] font-semibold">Upload Photo</span>
+                <input type="file" class="hidden" name="image" />
+              </label>
+            </div>
+          
+            <div class="text-center mt-6">
+              <button
+                type="submit"
+                class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg"
+              >
+                Update
+              </button>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDrawer() {
+      const sidebar = document.getElementById('sidebar')
+      const overlay = document.getElementById('drawerOverlay')
+    
+      // Toggle sidebar visibility
+      sidebar.classList.toggle('-translate-x-full')
+    
+      // Toggle overlay visibility
+      if (sidebar.classList.contains('-translate-x-full')) {
+        overlay.classList.add('hidden')
+      } else {
+        overlay.classList.remove('hidden')
+      }
+    }
+  </script>
+{% endblock %}

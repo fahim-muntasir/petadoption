@@ -58,10 +58,13 @@
                       <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Gender</p>
                     </th>
                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Status</p>
+                    </th>
+                    <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                       <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Published At</p>
                     </th>
                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                      <p class="block font-sans text-xl antialiased font-bold text-end leading-none text-[#062d3e]">Action</p>
+                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Action</p>
                     </th>
                   </tr>
                 </thead>
@@ -72,15 +75,29 @@
                       <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{post.title}}</p>
                     </td>
                     <td class="p-4 whitespace-normal break-words max-w-xs">
-                      <p class="block font-bold font-sans text-justify text-lg antialiased leading-normal text-[#062d3e]">{{post.type}}</p>
+                      <p class="block font-bold font-sans text-justify text-lg antialiased leading-normal text-[#062d3e]">{{post.pet_type}}</p>
                     </td>
                     <td class="p-4 whitespace-normal break-words">
                       <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{post.gender}}</p>
                     </td>
                     <td class="p-4 whitespace-normal break-words">
-                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
+                      {% if post.status == 'Active' %}
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-green-500">{{post.status}}</p>
+                      {% else %}
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-yellow-500">{{post.status}}</p>
+                      {% endif %}
                     </td>
                     <td class="p-4 whitespace-normal break-words">
+                      <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
+                    </td>
+                    <td class="p-4 whitespace-normal break-words flex justify-start gap-5">
+                      
+                      <a href="{% url 'updatePet' pet_id=post.id %}">
+                        <button type="submit" class=" flex justify-end">
+                          <i class="fa-solid fa-pen-to-square text-green-700 text-2xl"></i>
+                        </button>
+                      </a>
+
                       <form action="{% url 'delete_pet' pet_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this pet?');">
                         {% csrf_token %}
                         <button type="submit" class=" flex justify-end">
