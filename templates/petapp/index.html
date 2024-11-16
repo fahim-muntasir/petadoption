@@ -6,10 +6,10 @@
 
 {% block content %}
   <!-- Banner -->
-  <section class="relative bg-cover bg-center h-[750px] flex items-center justify-center" style="background-image: url('/media/image/pexels-helen1-16395147.jpg')">
+  <section class="relative bg-cover bg-center h-[500px] lg:h-[750px] flex items-center justify-center" style="background-image: url('/media/image/pexels-helen1-16395147.jpg')">
     <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
 
-    <div class="text-center relative z-10 text-white px-4 w-full">
+    <div class="text-center relative z-10 text-white px-4 w-full ">
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">Adopt Happiness,</h1>
       <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mt-2 sm:mt-5 font-bold text-[#E95B47]">Save a Life!</h2>
       <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center">
@@ -24,7 +24,7 @@
 
   <section class="py-12 px-4">
     <div class="container mx-auto text-center">
-      <h2 class="text-5xl font-bold text-gray-800 my-20">Meet Our Friends</h2>
+      <h2 class="lg:text-5xl text-3xl font-bold text-gray-800 my-10 lg:my-20">Meet Our Friends</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
         {% for post in posts %}
@@ -43,16 +43,16 @@
       </div>
 
       <!-- View More Button -->
-      <div class="mt-8">
+      <div class="lg:mt-8 mt-4" >
         <a href="{% url 'items' %}"><button class="bg-[#E95B47] text-white font-semibold px-9 mt-10 py-4 rounded-md hover:bg-[#d04f3d]">View more</button></a>
       </div>
     </div>
   </section>
 
   <!-- Adopted card -->
-  <section class="py-12 px-4">
-    <div class="container mx-auto text-center">
-      <h2 class="text-5xl font-bold text-gray-800 mb-20 mt-7">Recently Adopted</h2>
+  <section class="lg:py-12 py-5">
+    <div class="container mx-auto px-3 text-center">
+      <h2 class="lg:text-5xl text-3xl font-bold text-gray-800 my-10 lg:my-20 mt-7">Recently Adopted</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
         {% for post in adoptedPosts %}

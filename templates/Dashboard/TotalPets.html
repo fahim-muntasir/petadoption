@@ -6,11 +6,12 @@
 
 {% block content %}
   <div class="flex min-h-screen relative">
-    <!-- Drawer toggle button (only visible on mobile) -->
-    <button class="fixed top-28 left-1 z-30 px-3 py-1 text-white bg-[#062d3e] rounded md:hidden" onclick="toggleDrawer()"><i class="fa-solid fa-arrow-left"></i></button>
-
-    <!-- Sidebar (drawer for mobile) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-20 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
+    <button id="toggleButton" class="fixed top-1/2 left-0 z-40 py-28 px-[2px] text-white bg-[#062d3e] rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300" onclick="toggleDrawer()">
+      <i class="fa-solid fa-caret-down transform -rotate-90"></i>
+    </button>
+    
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-30 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
       <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
       <p class="text-lg font-bold">{{fullname}}</p>
       <nav class="w-full pl-2">
@@ -112,23 +113,4 @@
           </div>
         </div>
       </div>
-      
-      
-
-  <script>
-    function toggleDrawer() {
-      const sidebar = document.getElementById('sidebar')
-      const overlay = document.getElementById('drawerOverlay')
-    
-      // Toggle sidebar visibility
-      sidebar.classList.toggle('-translate-x-full')
-    
-      // Toggle overlay visibility
-      if (sidebar.classList.contains('-translate-x-full')) {
-        overlay.classList.add('hidden')
-      } else {
-        overlay.classList.remove('hidden')
-      }
-    }
-  </script>
 {% endblock %}

@@ -6,8 +6,12 @@
 
 {% block content %}
   <div class="flex min-h-screen">
+    <button id="toggleButton" class="fixed top-1/2 left-0 z-40 py-28 px-[2px] text-white bg-[#062d3e] rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300" onclick="toggleDrawer()">
+      <i class="fa-solid fa-caret-down transform -rotate-90"></i>
+    </button>
+    
     <!-- Sidebar -->
-    <div class="w-1/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 md:w-1/5 lg:w-1/6">
+    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-30 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
       <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
       <p class="text-lg font-bold">{{fullname}}</p>
       <nav class="w-full pl-2">
@@ -31,11 +35,12 @@
         </ul>
       </nav>
     </div>
-
     
+    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
 
-    <div class="flex-1 p-6 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-y-0">
+    <div class="flex-1 pt-5 pl-5 flex flex-col items-start overflow-x-auto space-y-4 md:flex-row md:justify-start md:space-y-0">
       <div class="relative flex flex-col w-full h-full overflow-hidden text-gray-700 bg-white rounded-sm bg-clip-border">
+        <!-- Wrap table in a div to enable horizontal scrolling -->
         <div class="overflow-x-auto">
           <table class="w-full text-left table-auto min-w-max table-responsive">
             <thead class="bg-[#fff6e5]">
@@ -61,8 +66,7 @@
                   <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{post.sender}}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words max-w-xs">
-                  <p class="block font-bold font-sans text-justify text-lg antialiased  leading-normal text-[#062d3e]"> {{post.message}}
-                  </p>
+                  <p class="block font-bold font-sans text-justify text-lg antialiased leading-normal text-[#062d3e]">{{post.message}}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words">
                   <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
@@ -82,6 +86,7 @@
         </div>
       </div>
     </div>
+    
     
     
     
