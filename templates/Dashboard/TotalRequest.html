@@ -7,7 +7,7 @@
 {% block content %}
   <div class="flex min-h-screen">
     <button id="toggleButton" class="fixed top-1/2 left-0 z-40 py-28 px-[2px] text-white bg-[#062d3e] rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300" onclick="toggleDrawer()">
-      <i class="fa-solid fa-caret-down transform -rotate-90"></i>
+      <i id="toggleIcon" class="fa-solid fa-caret-down transform -rotate-90"></i>
     </button>
     
     <!-- Sidebar -->
@@ -38,7 +38,7 @@
     
     <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
 
-    <div class="flex-1 pt-5 pl-5 flex flex-col items-start overflow-x-auto space-y-4 md:flex-row md:justify-start md:space-y-0">
+    <div class="flex-1 flex flex-col items-start overflow-x-auto space-y-4 md:flex-row md:justify-start md:space-y-0 container mx-auto pt-3 p-2">
       <div class="relative flex flex-col w-full h-full overflow-hidden text-gray-700 bg-white rounded-sm bg-clip-border">
         <!-- Wrap table in a div to enable horizontal scrolling -->
         <div class="overflow-x-auto">
@@ -46,16 +46,16 @@
             <thead class="bg-[#fff6e5]">
               <tr>
                 <th class="p-4 border-b border-blue-gray-100">
-                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Sender</p>
+                  <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Sender</p>
                 </th>
                 <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Message</p>
+                  <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Message</p>
                 </th>
                 <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                  <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Date</p>
+                  <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Date</p>
                 </th>
                 <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                  <p class="block font-sans text-xl antialiased font-bold text-end leading-none text-[#062d3e]">Action</p>
+                  <p class="block font-sans lg:text-xl  antialiased font-bold text-end leading-none text-[#062d3e]">Action</p>
                 </th>
               </tr>
             </thead>
