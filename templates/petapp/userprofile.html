@@ -47,7 +47,10 @@
             <div class="flex items-center justify-start gap-5">
               <i class="fa-solid fa-link text-xl min-w-[32px]"></i>
               <h2 class="text-lg font-semibold">
-                <a href="{{ user.social_media_link }}">{{ user.social_media_link }}</a>
+                <a href="{{ user.social_media_link }}" 
+                   class="block truncate max-w-[200px] hover:underline">
+                  {{ user.social_media_link }}
+                </a>
               </h2>
             </div>
           </div>

@@ -7,7 +7,7 @@
 {% block content %}
   <div class="flex min-h-screen relative">
     <button id="toggleButton" class="fixed top-1/2 left-0 z-40 py-28 px-[2px] text-white bg-[#062d3e] rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300" onclick="toggleDrawer()">
-      <i class="fa-solid fa-caret-down transform -rotate-90"></i>
+      <i id="toggleIcon" class="fa-solid fa-caret-down transform -rotate-90"></i>
     </button>
     
     <!-- Sidebar -->
@@ -49,13 +49,16 @@
                 <thead class="bg-[#fff6e5]">
                   <tr>
                     <th class="p-4 border-b border-blue-gray-100">
-                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Name</p>
+                      <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Name</p>
                     </th>
                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Type</p>
+                      <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Type</p>
                     </th>
                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                      <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Gender</p>
+                      <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Gender</p>
+                    </th>
+                    <th class="p-2 border-b border-blue-gray-100 bg-blue-gray-50">
+                      <p class="block font-sans lg:text-xl  antialiased font-bold leading-none text-[#062d3e]">Published At</p>
                     </th>
                     <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                       <p class="block font-sans text-xl antialiased font-bold leading-none text-[#062d3e]">Status</p>
