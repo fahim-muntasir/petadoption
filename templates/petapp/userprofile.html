@@ -84,10 +84,20 @@
             {% endif %}
 
             {% for post in page_obj %}
-              <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row items-start">
-                <img src="/media/{{ post.image }}" alt="Cat" class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4" />
-                <div class="flex flex-col">
-                  <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+              <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col gap-5 sm:flex-row items-start">
+                <div class="w-[20%]">
+                  <img src="/media/{{ post.image }}" alt="Cat" class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4" />
+                </div>
+                <div class="flex flex-col w-[80%]">
+                  <div class="flex justify-between">
+                    <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+                    
+                    {% if post.status == "Active" %}
+                    <span class="text-green-500">{{post.status}}</span>
+                    {%else%}
+                    <span class="text-yellow-400">{{post.status}}</span>
+                    {% endif %}
+                  </div>
                   <p class="text-[#115470] text-base mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
                   <p class="font-semibold text-lg mt-2">
                     {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
