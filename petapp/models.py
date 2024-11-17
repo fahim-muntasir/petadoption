@@ -28,12 +28,13 @@ class PetPost(models.Model):
   pet_type = models.CharField(max_length=50, blank=False, null=False)
   gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
   description = models.TextField(blank=False, null=False)
-  location = models.CharField(max_length=100, blank=False, null=False)
   status = models.CharField(
     max_length=10,
     choices=[('Active', 'Active'), ('Adopted', 'Adopted')],
     default='Active',
   )
+  division = models.CharField(max_length=50, blank=False,null=True)
+  district = models.CharField(max_length=50, blank=False, null=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
@@ -43,7 +44,7 @@ class PetPost(models.Model):
 class Message(models.Model):
     sender = models.ForeignKey('UserProfile', related_name="sent_messages", on_delete=models.CASCADE)
     receiver = models.ForeignKey('UserProfile', related_name="received_messages", on_delete=models.CASCADE)
-    pet_post = models.ForeignKey(PetPost, on_delete=models.CASCADE)
+    pet_post = models.ForeignKey(PetPost, on_delete=models.CASCADE, blank=True,null=True)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -21,34 +21,73 @@
               <h3 class="text-xl text-[#7c7887] mb-2 font-bold">Category</h3>
               <ul class="space-y-1">
                 <li>
-                  <a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Cat</a>
+                    <a href="?type=cat{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'cat' %}font-bold{% endif %}">
+                       Cat
+                    </a>
                 </li>
                 <li>
-                  <a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Dog</a>
+                    <a href="?type=dog{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'dog' %}font-bold{% endif %}">
+                       Dog
+                    </a>
                 </li>
                 <li>
-                  <a href="#" class="text-[#e95b47] hover:text-black text-lg font-bold">Bird</a>
+                    <a href="?type=bird{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'bird' %}font-bold{% endif %}">
+                       Bird
+                    </a>
                 </li>
-              </ul>
+                <li>
+                    <a href="?type=fish{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'fish' %}font-bold{% endif %}">
+                       Fish
+                    </a>
+                </li>
+                <li>
+                    <a href="?type=rabbit{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'rabbit' %}font-bold{% endif %}">
+                       Rabbit
+                    </a>
+                </li>
+                <li>
+                    <a href="?type=exotic{% if request.GET.division %}&division={{ request.GET.division }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg {% if selected_type == 'exotic' %}font-bold{% endif %}">
+                       Exotic Pets
+                    </a>
+                </li>
+            </ul>
             </div>
 
             <!-- Locations Section -->
             <div class="mb-4">
               <h3 class="text-xl text-[#7c7887] mb-2 font-bold">Locations</h3>
               <ul class="space-y-1">
+                <!-- All of Bangladesh -->
                 <li>
-                  <a href="{% url 'items' %}" class="text-[#e95b47] hover:text-black text-lg font-bold">All of Bangladesh</a>
+                  <a href="{% url 'items' %}{% if selected_type %}?type={{ selected_type }}{% endif %}" 
+                     class="text-[#e95b47] hover:text-black text-lg font-bold">
+                    All of Bangladesh
+                  </a>
                 </li>
-
+            
+                <!-- Loop through divisions -->
                 {% for item in divisions %}
                   <li>
-                    <a href="?division={{ item.division }}" class="text-[#e95b47] hover:text-black text-lg font-bold block">{{ item.division }}</a>
-
+                    <a href="?division={{ item.division }}{% if selected_type %}&type={{ selected_type }}{% endif %}" 
+                       class="text-[#e95b47] hover:text-black text-lg font-bold block">
+                      {{ item.division }}
+                    </a>
+            
+                    <!-- Show districts only if the current division is selected -->
                     {% if selected_division == item.division and districts %}
                       <ul class="space-y-1 mt-2 ml-4">
                         {% for district in districts %}
                           <li>
-                            <a href="#" class="text-gray-800 hover:text-[#e95b47]">{{ district.district }}</a>
+                            <a href="?division={{ selected_division }}&district={{ district.district }}{% if selected_type %}&type={{ selected_type }}{% endif %}" 
+                               class="text-gray-800 hover:text-[#e95b47]">
+                              {{ district.district }}
+                            </a>
                           </li>
                         {% endfor %}
                       </ul>
@@ -57,6 +96,7 @@
                 {% endfor %}
               </ul>
             </div>
+            
           </div>
         </div>
 

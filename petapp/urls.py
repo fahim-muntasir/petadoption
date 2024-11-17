@@ -18,4 +18,5 @@ urlpatterns = [
   path('delete_message/<int:message_id>/', views.delete_message, name='delete_message'),
   path('delete_pet/<int:pet_id>/', views.delete_pet, name='delete_pet'),
   path('update_pet/<int:pet_id>/', views.updatePet, name='updatePet'),
+  path('get-districts/', views.get_districts, name='get-districts'),
 ]
