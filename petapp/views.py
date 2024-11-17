@@ -63,12 +63,31 @@ def home(request):
 # ** Profile **
 def userProfile(request, userid):
   user = get_object_or_404(UserProfile, id=userid)
-  posts_list = PetPost.objects.filter(user=userid).order_by('-created_at')
+  posts_list = PetPost.objects.filter(user=user).order_by('-created_at')
+  
   paginator = Paginator(posts_list, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   
-  return render(request, 'petapp/userprofile.html', {'user': user, 'page_obj': page_obj, 'isPost': len(page_obj)})
+  if request.method == 'POST':
+    message_content = request.POST.get('message')
+    if message_content:
+        # Prepare the message fields
+        message_data = {
+            'sender': request.user,
+            'receiver': user,
+            'message': message_content,
+        }
+        
+        # Create the message
+        Message.objects.create(**message_data)
+
+        messages.success(request, "Your message has been sent to the pet post publisher.")
+        return redirect('userprofile', userid=userid)
+    else:
+        messages.error(request, "Message content cannot be empty.")
+  
+  return render(request, 'petapp/userprofile.html', {'user': user, 'page_obj': page_obj, 'isPost': len(page_obj) > 0})
 
 
 # ** Login **
@@ -216,7 +235,6 @@ def item(request, id):
 
   if request.method == 'POST':
     message_content = request.POST.get('message')
-    print(request.user)
     if message_content:
       Message.objects.create(
         sender=request.user,
@@ -394,7 +412,6 @@ def updateInfo(request):
       messages.success(request, 'Information updated successfully.')
       return redirect('updateInfo')
 
-    # If GET request, pre-fill the form with current information
     context = {
       'username': user.username,
       'first_name': user.first_name,
@@ -409,6 +426,7 @@ def updateInfo(request):
     return render(request, 'Dashboard/UpdateInfo.html', {"user": context})
 
 
+# ** Pet Post Update **
 @login_required
 def updatePet(request, pet_id):
   user = request.user
@@ -454,9 +472,9 @@ def totalPets(request):
   
   return render(request, 'Dashboard/TotalPets.html', {'posts': pets, "fullname": request.user.first_name + " " + request.user.last_name})
 
+
 # ** Delete Message **
 def delete_message(request, message_id):
-
   message = get_object_or_404(Message, id=message_id)
  
   if request.user == message.receiver:
@@ -466,8 +484,9 @@ def delete_message(request, message_id):
     messages.error(request, "You don't have permission to delete this message.")
   return redirect('totalRequest')
 
-def delete_pet(request, pet_id):
 
+# ** Delete Pet **
+def delete_pet(request, pet_id):
   pet = get_object_or_404(PetPost, id=pet_id)
  
   if request.user == pet.user:
@@ -475,4 +494,5 @@ def delete_pet(request, pet_id):
     messages.success(request, "Pet deleted successfully.")
   else:
     messages.error(request, "You don't have permission to delete this pet.")
+    
   return redirect('totalPets')
