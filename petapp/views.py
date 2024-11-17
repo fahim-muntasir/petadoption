@@ -1,5 +1,4 @@
-import os
-import requests
+import os, requests
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
@@ -9,9 +8,15 @@ from django.contrib.auth import get_user_model, authenticate, login, logout, upd
 from django.contrib.auth.hashers import make_password, check_password
 from .models import UserProfile, PetPost, Message # added
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
+
+# * Variables *
 User = get_user_model()
+api_url_division = "https://bdapis.com/api/v1.2/divisions"
 
+
+# ** Provides Posts **
 def fetchAdoptedPost(total=False):
   posts = []
   
@@ -21,6 +26,7 @@ def fetchAdoptedPost(total=False):
     posts = PetPost.objects.filter(status='Adopted').order_by('-updated_at')
     
   return posts
+
 
 # ** Provides Posts **
 def fetchPost(total=False):
@@ -32,6 +38,7 @@ def fetchPost(total=False):
     posts = PetPost.objects.filter(status='Active').order_by('-created_at')
   
   return posts
+
 
 # ** Provides Message **
 def fetchMessage(total=False):
@@ -52,11 +59,10 @@ def home(request):
 
   return render(request, 'petapp/index.html', {'posts': active_posts, 'adoptedPosts': adopted_posts})
 
+
+# ** Profile **
 def userProfile(request, userid):
-  print(userid)
   user = get_object_or_404(UserProfile, id=userid)
-  
-  # Fetch posts data and set up pagination
   posts_list = PetPost.objects.filter(user=userid).order_by('-created_at')
   paginator = Paginator(posts_list, 10)
   page_number = request.GET.get('page')
@@ -64,34 +70,33 @@ def userProfile(request, userid):
   
   return render(request, 'petapp/userprofile.html', {'user': user, 'page_obj': page_obj, 'isPost': len(page_obj)})
 
+
 # ** Login **
 def user_login(request):
   if request.method == 'POST':
     email = request.POST.get('email')
     password = request.POST.get('password')
 
-    # Find the user by email
     try:
         user = UserProfile.objects.get(email=email)
     except UserProfile.DoesNotExist:
         messages.error(request, "Invalid email or password.")
         return render(request, 'petapp/login.html')
 
-    # Authenticate user
     user = authenticate(request, username=user.username, password=password)
     if user is not None:
         login(request, user)
-        return redirect('home')  # Redirect to the home page or any other page after login
+        return redirect('home')
     else:
         messages.error(request, "Invalid email or password.")
         return render(request, 'petapp/login.html')
 
   return render(request, 'petapp/login.html')
 
+
 # ** Registration **
 def registration(request):
   if request.method == 'POST':
-    # Get form data
     form_data = {
         'username': request.POST.get('username'),
         'first_name': request.POST.get('firstName'),
@@ -106,19 +111,14 @@ def registration(request):
     password1 = request.POST.get('password1')
     password2 = request.POST.get('password2')
 
-    # Validation checks
-    
-    # 6. Check if first name, last name, address, and state are not empty
     if not form_data['first_name'] or not form_data['last_name'] or not form_data['address'] or not form_data['state']:
         messages.error(request, "First name, last name, address, and state cannot be empty.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
       
-    # 3. Check if username has no spaces or uppercase letters
     if ' ' in form_data['username'] or not form_data['username'].islower():
         messages.error(request, "Username cannot contain spaces or uppercase letters.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
     
-    # 4. Check if the phone numbers have exactly 11 digits
     if not (form_data['phone1'].isdigit() and len(form_data['phone1']) == 11):
         messages.error(request, "Primary phone number must contain exactly 11 digits.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
@@ -126,7 +126,6 @@ def registration(request):
         messages.error(request, "Additional phone number must contain exactly 11 digits.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
     
-    # 5. Validate the social link to ensure it's a URL
     url_validator = URLValidator()
     try:
         url_validator(form_data['socialLink'])
@@ -134,17 +133,14 @@ def registration(request):
         messages.error(request, "Social link must be a valid URL.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
           
-    # 1. Check if password has at least 6 characters
     if len(password1) < 6:
         messages.error(request, "Password must be at least 6 characters long.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
 
-    # 2. Check if both passwords match
     if password1 != password2:
         messages.error(request, "Passwords do not match.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
 
-    # 7. Check if username or email is already taken
     if User.objects.filter(username=form_data['username']).exists():
         messages.error(request, "Username already taken.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
@@ -152,7 +148,6 @@ def registration(request):
         messages.error(request, "Email already taken.")
         return render(request, 'petapp/registration.html', {'form_data': form_data})
 
-    # Create the user if all validations pass
     user = User(
       username=form_data['username'],
       first_name=form_data['first_name'],
@@ -171,57 +166,55 @@ def registration(request):
 
   return render(request, 'petapp/registration.html')
 
+
 # ** About Us **
 def about(request):
   return render(request, 'petapp/about.html')
 
-# ** All Pets List **
+# ** All Items **
 def items(request):
-    # Get the selected division from the URL query parameter
-    division = request.GET.get('division')
-    
-    # Base API for divisions and for fetching districts by division
-    api_url = "https://bdapis.com/api/v1.2/divisions"
-    api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}" if division else None
-    
-    # Fetch divisions data
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        divisions_data = response.json().get("data", [])
-    else:
-        divisions_data = []
+  division = request.GET.get('division')
+  pet_type = request.GET.get('type')
+  api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}" if division else None
+  
+  response = requests.get(api_url_division)
+  if response.status_code == 200:
+      divisions_data = response.json().get("data", [])
+  else:
+      divisions_data = []
 
-    # Fetch district data if a division is selected
-    districts_data = []
-    if division and api_url_for_district:
-        district_response = requests.get(api_url_for_district)
-        if district_response.status_code == 200:
-            districts_data = district_response.json().get("data", [])
-    
-    # Fetch posts data and set up pagination
-    posts_list = PetPost.objects.all().order_by('-created_at')
-    paginator = Paginator(posts_list, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    context = {
-        'divisions': divisions_data,
-        'selected_division': division,
-        'districts': districts_data,
-        'posts': posts_list,
-        'page_obj': page_obj,
-    }
+  districts_data = []
+  if division and api_url_for_district:
+      district_response = requests.get(api_url_for_district)
+      if district_response.status_code == 200:
+          districts_data = district_response.json().get("data", [])
+  
+  posts_list = PetPost.objects.all().order_by('-created_at')
+  if pet_type:
+      posts_list = posts_list.filter(pet_type__iexact=pet_type)
 
-    return render(request, 'petapp/items.html', context)
+  paginator = Paginator(posts_list, 10)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  
+  context = {
+      'divisions': divisions_data,
+      'selected_division': division,
+      'districts': districts_data,
+      'posts': posts_list,
+      'page_obj': page_obj,
+      'selected_type': pet_type,
+  }
+
+  return render(request, 'petapp/items.html', context)
+
   
 # ** Single Pet Post **
 def item(request, id):
   posts = PetPost.objects.exclude(id=id).order_by('-created_at')[:2]
   pet = get_object_or_404(PetPost, id=id)
 
-  # started
   if request.method == 'POST':
-    # Get the message content from the form
     message_content = request.POST.get('message')
     print(request.user)
     if message_content:
@@ -232,7 +225,7 @@ def item(request, id):
         message=message_content
       )
       messages.success(request, "Your message has been sent to the pet post publisher.")
-      return redirect('item', id=id)  # Redirect to avoid resubmission on refresh
+      return redirect('item', id=id)
     else:
         messages.error(request, "Message content cannot be empty.")
 
@@ -242,15 +235,73 @@ def item(request, id):
 #   return render(request, 'petapp/modal.html')
 
 # ** Pet Post Creation **
+# @login_required
+# def createPet(request):
+
+#   # Fetch divisions data
+#   response = requests.get(api_url_division)
+#   if response.status_code == 200:
+#       divisions_data = response.json().get("data", [])
+#   else:
+#       divisions_data = []
+  
+#   if request.method == 'POST':
+#       title = request.POST.get('title')
+#       image = request.FILES.get('image')
+#       pet_type = request.POST.get('pet_type')
+#       gender = request.POST.get('gender')
+#       description = request.POST.get('description')
+
+#       pet_post = PetPost(
+#           user=request.user,
+#           title=title,
+#           image=image,
+#           pet_type=pet_type,
+#           gender=gender,
+#           description=description,
+#           location=location,
+#       )
+
+#       pet_post.save()
+
+#       return redirect('home')
+
+#   return render(request, 'petapp/createPet.html', {"divisions": divisions_data})
+
+
+# ** Disctricts **
+@login_required
+def get_districts(request):
+  division = request.GET.get('division')
+  if division:
+      # Fetch districts based on the selected division
+      api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}"
+      response = requests.get(api_url_for_district)
+      if response.status_code == 200:
+          districts_data = response.json().get("data", [])
+          return JsonResponse({'districts': districts_data}, status=200)
+  return JsonResponse({'districts': []}, status=400)
+
+
+# ** Pet Post Creation **
 @login_required
 def createPet(request):
+  # Fetch divisions data
+  response = requests.get(api_url_division)
+  if response.status_code == 200:
+      divisions_data = response.json().get("data", [])
+  else:
+      divisions_data = []
+
   if request.method == 'POST':
       title = request.POST.get('title')
       image = request.FILES.get('image')
-      pet_type = request.POST.get('pet_type')
+      pet_type = request.POST.get('type')
       gender = request.POST.get('gender')
       description = request.POST.get('description')
-      location = request.POST.get('location')
+      
+      division = request.POST.get('division')
+      district = request.POST.get('district')
 
       pet_post = PetPost(
           user=request.user,
@@ -259,21 +310,25 @@ def createPet(request):
           pet_type=pet_type,
           gender=gender,
           description=description,
-          location=location,
+          division=division,
+          district=district,
       )
 
       pet_post.save()
-
       return redirect('home')
 
-  return render(request, 'petapp/createPet.html')
+  return render(request, 'petapp/createPet.html', {"divisions": divisions_data})
+
 
 # ** Logout **
 def user_logout(request):
   logout(request)
   return redirect('login')
 
+
 # Dashboard
+
+
 
 # ** Dashboard of user **
 @login_required
@@ -284,6 +339,7 @@ def dashboard(request):
   
   return render(request, 'Dashboard/Dashboard.html', {"totalAdopted":totalAdopted, "totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
 
+
 # ** Message Requests **
 @login_required
 def totalRequest(request):
@@ -291,14 +347,13 @@ def totalRequest(request):
   
   return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, "fullname": request.user.first_name + " " + request.user.last_name})
 
+
 # ** Information Update **
 @login_required
 def updateInfo(request):
-    # Load the current user profile
     user = request.user
 
     if request.method == 'POST':
-      # Get form data from POST request
       username = request.POST.get('username', user.username)
       first_name = request.POST.get('first_name', user.first_name)
       last_name = request.POST.get('last_name', user.last_name)
@@ -309,12 +364,10 @@ def updateInfo(request):
       state = request.POST.get('state', user.state)
       social_link = request.POST.get('social_link', user.social_media_link)
 
-      # Password change logic
       current_password = request.POST.get('current_password')
       new_password = request.POST.get('new_password')
       confirm_password = request.POST.get('confirm_password')
 
-      # Update basic info
       user.username = username
       user.first_name = first_name
       user.last_name = last_name
@@ -325,25 +378,19 @@ def updateInfo(request):
       user.state = state
       user.social_media_link = social_link
 
-      # Check if password fields are provided for a password update
       if current_password and new_password and confirm_password:
-        # Verify current password
         if check_password(current_password, user.password):
-            # Ensure new password matches confirmation
             if new_password == confirm_password:
                 user.set_password(new_password)
-                update_session_auth_hash(request, user)  # Keeps the user logged in after password change
+                update_session_auth_hash(request, user)
                 messages.success(request, 'Password updated successfully.')
             else:
                 messages.error(request, 'New password and confirmation do not match.')
         else:
             messages.error(request, 'Current password is incorrect.')
 
-      # Save the user and profile info
       user.save()
-      # user.profile.save()
 
-      # Success message and redirect
       messages.success(request, 'Information updated successfully.')
       return redirect('updateInfo')
 

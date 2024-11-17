@@ -28,12 +28,13 @@ class PetPost(models.Model):
   pet_type = models.CharField(max_length=50, blank=False, null=False)
   gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
   description = models.TextField(blank=False, null=False)
-  location = models.CharField(max_length=100, blank=False, null=False)
   status = models.CharField(
     max_length=10,
     choices=[('Active', 'Active'), ('Adopted', 'Adopted')],
     default='Active',
   )
+  division = models.CharField(max_length=50, blank=False,null=True)
+  district = models.CharField(max_length=50, blank=False, null=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 

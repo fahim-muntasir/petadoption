@@ -22,51 +22,56 @@
 
         <form method="POST" class="space-y-4" enctype="multipart/form-data">
           {% csrf_token %}
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Name"
-              name="title"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Type"
-              name="pet_type"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-              required
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Name"
+            name="title"
+            class="input-field w-full focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
+            required
+          />
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <select name="gender" id="" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" required >
+            <select name="gender" id="" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" >
+              <option value="">Select Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
-            <input
-              type="tel"
-              placeholder="Location"
-              name="location"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-              required
-            />
+            
+            <select name="type" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" required >
+              <option value="">Select Type</option>
+              <option value="cat">Cat</option>
+              <option value="dog">Dog</option>
+              <option value="bird">Bird</option>
+              <option value="fish">Fish</option>
+              <option value="rabbit">Rabbit</option>
+              <option value="exotic">Exotic Pets</option>
+            </select>
           </div>
-          <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-            />
-            <input
-              type="tel"
-              placeholder="Phone Number (Optional)"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-            />
-          </div> -->
-          <!-- <textarea placeholder="Description"
-                    class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-32 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none">
-                </textarea> -->
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select
+                name="division"
+                id="division"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                required
+            >
+                <option value="">Select Division</option>
+                {% for item in divisions %}
+                    <option value="{{ item.division }}">{{ item.division }}</option>
+                {% endfor %}
+            </select>
+        
+            <select
+                name="district"
+                id="district"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                required
+            >
+                <option value="">Select District</option>
+            </select>
+          </div>
+        
+
           <textarea
             placeholder="Description"
             name="description"
@@ -98,4 +103,31 @@
       </div>
     </div>
 
+    <script>
+      document.getElementById('division').addEventListener('change', function () {
+      const division = this.value;
+      const districtSelect = document.getElementById('district');
+
+      // Clear current district options
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+
+      if (division) {
+        // Fetch districts for the selected division
+        fetch(`/get-districts/?division=${division}`)
+          .then(response => response.json())
+          .then(data => {
+              const districts = data.districts;
+              districts.forEach(district => {
+                  const option = document.createElement('option');
+                  option.value = district.district; // Update this based on API response
+                  option.textContent = district.district; // Update this based on API response
+                  districtSelect.appendChild(option);
+              });
+          })
+          .catch(error => {
+              console.error('Error fetching districts:', error);
+          });
+      }
+    })
+    </script>
 {% endblock %}
