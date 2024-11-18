@@ -271,43 +271,6 @@ def item(request, id):
 
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
 
-# def modal(request):
-#   return render(request, 'petapp/modal.html')
-
-# ** Pet Post Creation **
-# @login_required
-# def createPet(request):
-
-#   # Fetch divisions data
-#   response = requests.get(api_url_division)
-#   if response.status_code == 200:
-#       divisions_data = response.json().get("data", [])
-#   else:
-#       divisions_data = []
-  
-#   if request.method == 'POST':
-#       title = request.POST.get('title')
-#       image = request.FILES.get('image')
-#       pet_type = request.POST.get('pet_type')
-#       gender = request.POST.get('gender')
-#       description = request.POST.get('description')
-
-#       pet_post = PetPost(
-#           user=request.user,
-#           title=title,
-#           image=image,
-#           pet_type=pet_type,
-#           gender=gender,
-#           description=description,
-#           location=location,
-#       )
-
-#       pet_post.save()
-
-#       return redirect('home')
-
-#   return render(request, 'petapp/createPet.html', {"divisions": divisions_data})
-
 
 # ** Disctricts **
 @login_required
@@ -364,11 +327,6 @@ def createPet(request):
 def user_logout(request):
   logout(request)
   return redirect('login')
-
-
-# Dashboard
-
-
 
 # ** Dashboard of user **
 @login_required
