@@ -12,11 +12,37 @@
     <div class="text-center relative z-10 text-white px-4 w-full ">
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">Adopt Happiness,</h1>
       <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mt-2 sm:mt-5 font-bold text-[#E95B47]">Save a Life!</h2>
-      <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center">
-        <input type="text" placeholder="Search Pet..." class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
-        <input type="text" placeholder="Enter City, State, Or Zip" class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
-        <button class="bg-[#E95B47] text-white font-semibold w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#d04f3d] text-base sm:text-lg">Search</button>
-      </div>
+      <form action="/items">
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center text-black">
+
+          <input type="text" name="query" placeholder="Search Pet..." class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
+
+          <!-- <input type="text" placeholder="Enter City, State, Or Zip" class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" /> -->
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select
+                name="division"
+                id="division"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border border-gray-300"
+            >
+                <option value="">Select Division</option>
+                {% for item in divisions %}
+                    <option value="{{ item.division }}">{{ item.division }}</option>
+                {% endfor %}
+            </select>
+        
+            <select
+                name="district"
+                id="district"
+                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border border-gray-300"
+            >
+                <option value="">Select District</option>
+            </select>
+          </div>
+
+          <button type="submit" class="bg-[#E95B47] text-white font-semibold w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#d04f3d] text-base sm:text-lg">Search</button>
+        </div>
+      </form>
     </div>
   </section>
 
@@ -71,4 +97,32 @@
       </div>
     </div>
   </section>
+
+  <script>
+      document.getElementById('division').addEventListener('change', function () {
+      const division = this.value;
+      const districtSelect = document.getElementById('district');
+
+      // Clear current district options
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+
+      if (division) {
+        // Fetch districts for the selected division
+        fetch(`/get-districts/?division=${division}`)
+          .then(response => response.json())
+          .then(data => {
+              const districts = data.districts;
+              districts.forEach(district => {
+                  const option = document.createElement('option');
+                  option.value = district.district; // Update this based on API response
+                  option.textContent = district.district; // Update this based on API response
+                  districtSelect.appendChild(option);
+              });
+          })
+          .catch(error => {
+              console.error('Error fetching districts:', error);
+          });
+      }
+    })
+  </script>
 {% endblock %}

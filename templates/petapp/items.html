@@ -10,10 +10,12 @@
       <div class="flex flex-col lg:flex-row gap-8">
         <!-- Sidebar Filter -->
         <div class="w-full lg:w-1/4 bg-white  lg:border-r-2 border-[#e95b47] p-4 mb-6 lg:mb-0">
-          <div class="flex items-center justify-between mb-4 lg:hidden">
-            <input type="text" placeholder="Search Pets..." class="w-full p-2 border border-[#e95b47] rounded mr-2 focus:outline-none" />
-            <button id="filter-button" class="w-auto bg-[#e95b47] text-white py-2 px-3 rounded focus:outline-none"><i class="fa-solid fa-filter text-lg"></i> <!-- Filter Icon --></button>
-          </div>
+          <form>
+            <div class="flex items-center justify-between mb-4">
+              <input type="text" name="query" placeholder="Search Pets..." class="w-full p-2 border border-[#e95b47] rounded mr-2 focus:outline-none" />
+              <button id="filter-button" type="submit" class="w-auto bg-[#e95b47] text-white py-2 px-3 rounded focus:outline-none"><i class="fa-solid fa-filter text-lg"></i> <!-- Filter Icon --></button>
+            </div>
+          </form>
           <!-- Sidebar Content -->
           <div id="filter-panel" class="lg:block mt-4 lg:mt-0 hidden">
             <!-- Category Section -->

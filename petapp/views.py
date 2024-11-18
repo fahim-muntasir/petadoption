@@ -1,4 +1,5 @@
 import os, requests
+from django.db.models import Q
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
@@ -57,7 +58,13 @@ def home(request):
   active_posts = fetchPost(6)
   adopted_posts = fetchAdoptedPost(4)
 
-  return render(request, 'petapp/index.html', {'posts': active_posts, 'adoptedPosts': adopted_posts})
+  response = requests.get(api_url_division)
+  if response.status_code == 200:
+      divisions_data = response.json().get("data", [])
+  else:
+      divisions_data = []
+  
+  return render(request, 'petapp/index.html', {'posts': active_posts, 'adoptedPosts': adopted_posts, 'divisions': divisions_data})
 
 
 # ** Profile **
@@ -193,6 +200,9 @@ def about(request):
 # ** All Items **
 def items(request):
   division = request.GET.get('division')
+  district = request.GET.get('district')
+  search_query = request.GET.get('query')
+  
   pet_type = request.GET.get('type')
   api_url_for_district = f"https://bdapis.com/api/v1.2/division/{division}" if division else None
   
@@ -211,7 +221,19 @@ def items(request):
   posts_list = PetPost.objects.all().order_by('-created_at')
   if pet_type:
       posts_list = posts_list.filter(pet_type__iexact=pet_type)
+      
+  if division:
+      posts_list = posts_list.filter(division__iexact=division)
+      
+  if district:
+      posts_list = posts_list.filter(district__iexact=district)
 
+  if search_query:
+      # Filter posts by the search query (e.g., title or description)
+      posts_list = posts_list.filter(
+          Q(title__icontains=search_query) | Q(description__icontains=search_query)
+      )
+        
   paginator = Paginator(posts_list, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
@@ -248,43 +270,6 @@ def item(request, id):
         messages.error(request, "Message content cannot be empty.")
 
   return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
-
-# def modal(request):
-#   return render(request, 'petapp/modal.html')
-
-# ** Pet Post Creation **
-# @login_required
-# def createPet(request):
-
-#   # Fetch divisions data
-#   response = requests.get(api_url_division)
-#   if response.status_code == 200:
-#       divisions_data = response.json().get("data", [])
-#   else:
-#       divisions_data = []
-  
-#   if request.method == 'POST':
-#       title = request.POST.get('title')
-#       image = request.FILES.get('image')
-#       pet_type = request.POST.get('pet_type')
-#       gender = request.POST.get('gender')
-#       description = request.POST.get('description')
-
-#       pet_post = PetPost(
-#           user=request.user,
-#           title=title,
-#           image=image,
-#           pet_type=pet_type,
-#           gender=gender,
-#           description=description,
-#           location=location,
-#       )
-
-#       pet_post.save()
-
-#       return redirect('home')
-
-#   return render(request, 'petapp/createPet.html', {"divisions": divisions_data})
 
 
 # ** Disctricts **
@@ -342,11 +327,6 @@ def createPet(request):
 def user_logout(request):
   logout(request)
   return redirect('login')
-
-
-# Dashboard
-
-
 
 # ** Dashboard of user **
 @login_required
