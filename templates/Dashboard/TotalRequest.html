@@ -72,7 +72,7 @@
                   <p class="block font-sans text-lg antialiased font-bold leading-normal text-[#062d3e]">{{ post.created_at|date:"d M Y" }}</p>
                 </td>
                 <td class="p-4 whitespace-normal break-words">
-                  <form action="{% url 'delete_message' message_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?');">
+                  <form class="flex items-center justify-end" action="{% url 'delete_message' message_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?');">
                     {% csrf_token %}
                     <button type="submit">
                       <i class="fa-solid fa-trash text-red-700 text-2xl flex justify-end"></i>
