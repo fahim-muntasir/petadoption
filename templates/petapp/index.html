@@ -47,7 +47,7 @@
         {% for post in posts %}
           <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col space-y-4 items-start">
             <!-- Image at the top -->
-            <img src="/media/{{ post.image }}" alt="Cat" class="w-full h-60 rounded-md object-fill" />
+            <img src="/media/{{ post.image }}" alt="Cat" class="w-full h-[24rem] object-cover rounded-md" />
 
             <!-- Text content below the image -->
             <div class="flex flex-col justify-start text-left">
