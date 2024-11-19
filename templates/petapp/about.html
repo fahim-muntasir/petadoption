@@ -1,89 +1,82 @@
-{% extends "petapp/base.html" %}
+{% extends 'petapp/base.html' %}
 
-{% block title %} Home - petadopt {% endblock %}
+{% block title %}
+  Home - petadopt
+{% endblock %}
 
 {% block content %}
+  <!-- banner -->
+  <section class="relative bg-cover bg-top h-[500px] lg:h-[650px] flex items-center justify-center" style="background-image: url('/media/image/pexels-helen1-16395147.jpg')">
+    <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
 
-    <!-- banner -->
-    <section
-      class="relative bg-cover bg-top h-[650px] flex items-center justify-center"
-      style="background-image: url('/media/image/pexels-helen1-16395147.jpg')"
-    >
-      <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
+    <div class="text-center relative z-10 text-white px-4 w-full">
+      <h1 class="text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">About <span class="text-[#d04f3d]">Us</span></h1>
+    </div>
+  </section>
 
-      <div class="text-center relative z-10 text-white px-4 w-full">
-        <h1 class="text-6xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">
-          About <span class="text-[#d04f3d]">Us</span>
-        </h1>
+  <section class="container mx-auto px-5 lg:px-20 py-16 bg-white text-gray-800">
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-extrabold text-[#E95B47]">Welcome to PetAdopt</h1>
+      <p class="mt-4 text-lg font-medium">Bangladesh’s Online Pet Adoption Platform</p>
+    </div>
+
+    <div class="space-y-10">
+      <!-- Mission Section -->
+      <div class="text-lg leading-relaxed">
+        <p>At PetAdopt, our mission is simple: to connect loving homes with pets in need across Bangladesh. We believe every pet deserves a family, and we’re here to make that happen by providing a trusted, user-friendly platform for pet adoption.</p>
       </div>
-    </section>
 
-    <section
-      class="container mx-auto flex flex-col md:flex-row justify-between px-5 lg:px-0 md:px-0 py-16"
-    >
-      <div class=" text-lg">
-        Welcome to PetAdopt – Bangladesh’s Online Pet Adoption Platform
-
-        <br>
-        At PetAdopt, our mission is simple: to connect loving homes with pets in need across Bangladesh. We believe every pet deserves a family, and we’re here to make that happen by providing a trusted, user-friendly platform for pet adoption.
-
-        <hr>
-        <br>
-        <br>
-        <b class="text-red-500">Important Notice</b>
-        <br>
-        <br>
-
-        PetAdopt is strictly an adoption platform and is not intended for selling pets. We strongly discourage and do not support the buying or selling of animals through our site.*
-        <br>
-        Our purpose is to help pets find loving, caring homes where they can thrive, and we ask all users to respect this mission by refraining from using the site for commercial pet trading. We believe in responsible pet ownership and the ethical treatment of all animals, and we encourage all adopters and caregivers to act with compassion and integrity.
-
-        <br>
-        <br>
-
-        Who We Are
-        <br>
-        <br>
-        <p>
-          Founded by pet enthusiasts, PetAdopt is Bangladesh’s dedicated online platform for adopting pets. Whether you’re looking to adopt a dog, cat, bird, or any other pet, PetAdopt provides a place where animal lovers and pet seekers can come together, helping animals find new homes with caring owners. We aim to reduce the number of stray animals in the country, giving each pet a chance to live in a warm, loving environment.
-        </p>
-
-        <br>
-        <br>
-        Why Adopt from PetAdopt?
-        <br>
-        <br>
-        1. Support a Good Cause: By adopting a pet, you’re helping to reduce the number of stray and abandoned animals in Bangladesh, promoting a humane approach to pet ownership.
-
-        <br>
-          
-        2. Verified Listings: Every pet listed on our website is uploaded by registered users. Our team continuously monitors listings to ensure pets are posted in good faith and to reduce the risk of scams or commercial activities.
-        <br>
-        3. Diverse Range of Pets*: From dogs and cats to birds and rabbits, our platform is home to many animals in need. We encourage users to adopt based on their lifestyle and capacity to care, ensuring the pet’s well-being.
-        <br>
-        Our Mission
-
-        <br><br>
-        PetAdopt is more than just an adoption platform. We’re a community of pet lovers who believe in the power of compassion and responsible pet ownership. Our mission is to:
-
-        <br><br>
-        - Promote adoption over buying, to reduce the number of stray and abandoned pets.
-        - Educate future pet owners, on responsible pet care and help them choose a pet that suits their lifestyle.
-        - Create a supportive community, for pet owners and enthusiasts in Bangladesh, where they can share resources, advice, and support.
-        <br><br>
-        How It Works
-        <br><br>
-        1. Explore – Browse our listings to find pets available for adoption across Bangladesh. Each pet profile includes details such as name, age, type, gender, description, and location.
-        <br>
-        2. Connect – When you find a pet you’re interested in, contact the current caregiver to learn more and discuss adoption. 
-        <br>
-        3. Adopt – Once everything is set, welcome your new pet into your family! We encourage all adopters to stay connected with PetAdopt and share updates as your pet grows.
-        <br><br>
-        Join Our Community
-        <br><br>
-        PetAdopt is open to all pet lovers, whether you're here to adopt or simply support the cause. We encourage users to create profiles, share their experiences, and contribute to building a pet-loving community in Bangladesh. Connect with us on social media, attend local adoption events, or reach out if you have any questions.
-        <br><br>
-        Together, let’s make a difference for animals in need, one adoption at a time. Thank you for being a part of this journey and for choosing to adopt, not shop.
+      <!-- Important Notice -->
+      <div class="bg-red-50 p-6 rounded-lg shadow">
+        <h2 class="text-2xl font-bold text-red-600">Important Notice</h2>
+        <p class="mt-4">PetAdopt is strictly an adoption platform and is not intended for selling pets. We strongly discourage and do not support the buying or selling of animals through our site.*</p>
+        <p class="mt-2">Our purpose is to help pets find loving, caring homes where they can thrive, and we ask all users to respect this mission by refraining from using the site for commercial pet trading.</p>
       </div>
-    </section>
+
+      <!-- Who We Are -->
+      <div>
+        <h2 class="text-3xl font-semibold text-[#E95B47]">Who We Are</h2>
+        <p class="mt-4 leading-relaxed">Founded by pet enthusiasts, PetAdopt is Bangladesh’s dedicated online platform for adopting pets. Whether you’re looking to adopt a dog, cat, bird, or any other pet, PetAdopt provides a place where animal lovers and pet seekers can come together, helping animals find new homes with caring owners.</p>
+      </div>
+
+      <!-- Why Adopt -->
+      <div>
+        <h2 class="text-3xl font-semibold text-[#E95B47]">Why Adopt from PetAdopt?</h2>
+        <ul class="mt-4 space-y-3 pl-5 list-disc leading-relaxed">
+          <li>
+            <strong>Support a Good Cause:</strong> By adopting a pet, you’re helping to reduce the number of stray and abandoned animals in Bangladesh, promoting a humane approach to pet ownership.
+          </li>
+          <li>
+            <strong>Verified Listings:</strong> Every pet listed on our website is uploaded by registered users. Our team continuously monitors listings to ensure pets are posted in good faith and to reduce the risk of scams or commercial activities.
+          </li>
+          <li>
+            <strong>Diverse Range of Pets:</strong> From dogs and cats to birds and rabbits, our platform is home to many animals in need. We encourage users to adopt based on their lifestyle and capacity to care, ensuring the pet’s well-being.
+          </li>
+        </ul>
+      </div>
+
+      <!-- How It Works -->
+      <div>
+        <h2 class="text-3xl font-semibold text-[#E95B47]">How It Works</h2>
+        <ol class="mt-4 space-y-3 pl-5 list-decimal leading-relaxed">
+          <li>
+            <strong>Explore:</strong> Browse our listings to find pets available for adoption across Bangladesh.
+          </li>
+          <li>
+            <strong>Connect:</strong> Contact the current caregiver to learn more and discuss adoption.
+          </li>
+          <li>
+            <strong>Adopt:</strong> Welcome your new pet into your family!
+          </li>
+        </ol>
+      </div>
+
+      <!-- Join Our Community -->
+      <div class="bg-[#fff6e5] p-6 rounded-lg shadow">
+        <h2 class="text-3xl font-bold text-[#E95B47]">Join Our Community</h2>
+        <p class="mt-4 leading-relaxed">PetAdopt is open to all pet lovers, whether you're here to adopt or simply support the cause. Connect with us on social media, attend local adoption events, or reach out if you have any questions.</p>
+        <p class="mt-4">Together, let’s make a difference for animals in need, one adoption at a time.</p>
+      </div>
+    </div>
+  </section>
 {% endblock %}
