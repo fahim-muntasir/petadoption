@@ -1,117 +1,80 @@
-<footer class="bg-[#062d3e] p-8">
-  <div class="container mx-auto flex flex-col md:flex-row justify-between">
-    <!-- First Section -->
-    <div class="flex flex-col mb-8 md:mb-0 flex-1">
-      <div class="flex items-center mb-4">
-        <!-- Added margin bottom to space the logo and title -->
-        <img
-          src="/media/image/logo.png"
-          alt="PetAdopt Logo"
-          class="object-cover w-24 rounded-md"
-        />
-        <h1 class="text-3xl font-bold text-white ml-2">
-          pet<span class="text-[#e95b47]">adopt</span>
-        </h1>
-      </div>
-      <p class="text-white mb-2 text-lg">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-        varius enim in eros elementum tristique.
-      </p>
-      <hr class="border-t-2 border-white my-5" />
-      <p class="text-white text-lg">
-        © 2024 Petadopt is a registered trademark. All Rights Reserved.
-      </p>
-    </div>
-
-    <!-- Second Section -->
-    <div
-      class="mb-8 md:mb-0 flex-1 lg:flex lg:flex-col justify-center items-center"
-    >
-      <div
-       class="w-full flex-none md:flex items-center justify-center max-w-xs"
-      >
-        <!-- Set max width for smaller size -->
-        <div>
-          <h3 class="font-bold text-[#e95b47] mb-4 text-xl text-start">
-            Links
-          </h3>
-          <!-- Centered the heading -->
-          <hr class="border-t-2 border-white mb-2 w-28" />
-          <!-- Centered the hr -->
-          <ul class="space-y-2 text-start">
-            <li>
-              <a href="{% url 'home' %}" class="text-white text-lg hover:text-blue-300"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-lg hover:text-blue-300"
-                >Top Contributors</a
-              >
-            </li>
-            <li>
-              <a href="{% url 'items'%}" class="text-white text-lg hover:text-blue-300"
-                >Pets</a
-              >
-            </li>
-            <li>
-              <a href="{% url 'about'%}" class="text-white text-lg hover:text-blue-300"
-                >About Us</a
-              >
-            </li>
-            <li>
-              <a href="#" class="text-white text-lg hover:text-blue-300"
-                >Contact</a
-              >
-            </li>
-          </ul>
+<footer class="bg-gray-900 text-white">
+  <div class="container mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <!-- About Section -->
+      <div>
+        <div class="flex items-center gap-2 mb-6">
+          <i class="fa-solid fa-paw text-3xl md:text-4xl text-rose-500"></i>
+          <span class="text-xl font-bold">PetHomeBD</span>
+        </div>
+        <p class="text-gray-400 mb-6">
+          Connecting loving homes with pets in need across Bangladesh. Our mission is to make pet adoption simple, humane, and rewarding.
+        </p>
+        <div class="flex gap-4">
+          <a href="https://www.facebook.com/profile.php?id=61568685013980" target="_blank" class="text-gray-400 hover:text-rose-500 transition-colors">
+            <i class="fa-brands fa-facebook-f text-lg "></i>
+          </a>
+          <a href="https://www.instagram.com" target="_blank" class="text-gray-400 hover:text-rose-500 transition-colors">
+            <i class="fa-brands fa-instagram text-lg"></i>
+          </a>
+          <a href="https://www.youtube.com" target="_blank" class="text-gray-400 hover:text-rose-500 transition-colors">
+            <i class="fa-brands fa-youtube text-lg"></i>
+          </a>
         </div>
       </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+        <ul class="space-y-4">
+          <li>
+            <a href="{% url 'home' %}" class="text-gray-400 hover:text-rose-500 transition-colors">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'items'%}" class="text-gray-400 hover:text-rose-500 transition-colors">Pets</a>
+          </li>
+          <li>
+            <a href="{% url 'about'%}" class="text-gray-400 hover:text-rose-500 transition-colors">About Us</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+        <ul class="space-y-4">
+          <li class="flex items-center gap-3 text-gray-400">
+            <i class="fa-solid fa-phone text-rose-500"></i>
+            <span>+880 1234444</span>
+          </li>
+          <li class="flex items-center gap-3 text-gray-400">
+            <i class="fa-solid fa-envelope text-rose-500"></i>
+            <span>info@pethomebd.com</span>
+          </li>
+        </ul>
+      </div>
+
+       <!-- Newsletter  -->
+      <div>
+        <h3 class="text-lg font-semibold mb-6">Newsletter</h3>
+        <p class="text-gray-400 mb-4">
+          Subscribe to our newsletter for updates on available pets and adoption success stories.
+        </p>
+        <form class="space-y-3">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+          />
+          <button class="w-full bg-rose-500 hover:bg-rose-600 text-white py-2 rounded-lg transition-colors">
+            Subscribe
+          </button>
+        </form>
+      </div>
     </div>
 
-    <!-- Third Section -->
-    <div class="flex flex-col flex-1">
-      <div class="bg-[#fff6e5] p-4 rounded-md shadow-md flex-1">
-        <p class="text-[#062d3e] font-bold text-lg">
-          Email: example@example.com
-        </p>
-        <p class="text-[#062d3e] font-bold text-lg">
-          Phone: (123) 456-7890
-        </p>
-        <div class="mt-4">
-          <h4 class="text-md text-xl text-[#062d3e] font-bold">
-            Follow Us:
-          </h4>
-          <div class="flex space-x-4 mt-2 justify-center">
-            <!-- Centered the social icons -->
-            <a
-              href="#"
-              class="text-[#062d3e] font-bold"
-            >
-            <i class="fa-brands fa-youtube text-3xl hover:text-red-700"></i>
-            </a>
-            <a
-              href="#"
-              class="text-[#062d3e] font-bold"
-            >
-            <i class="fa-brands fa-facebook text-3xl hover:text-blue-700"></i>
-            </a>
-            <i class="fa-brands fa-instagram text-3xl hover:bg-gradient-to-r hover:from-pink-500 hover:to-yellow-500 hover:text-transparent hover:bg-clip-text cursor-pointer"></i>
-            <a
-              href="#"
-              class="text-[#062d3e] font-bold"
-            >
-            <i class="fa-brands fa-pinterest text-3xl hover:text-red-600"></i>
-            </a>
-            <a
-              href="#"
-              class="text-[#062d3e] font-bold"
-            >
-            <i class="fa-brands fa-twitter text-3xl hover:text-blue-600"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+    <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+      <p>&copy; 2025 PetHomeBD. All rights reserved.</p>
     </div>
   </div>
 </footer>
