@@ -269,7 +269,7 @@ def item(request, id):
     else:
         messages.error(request, "Message content cannot be empty.")
 
-  return render(request, 'petapp/item.html', {'pet': pet, 'posts': posts})
+  return render(request, 'petapp/item.html', {'pet': pet, 'division': pet.division, 'district': pet.district, 'posts': posts})
 
 
 # ** Disctricts **

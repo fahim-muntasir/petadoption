@@ -31,19 +31,19 @@
                   </div>
                 </div>
                 <div class="space-y-2">
-                  <div class="flex gap-1 items-center text-gray-500 text-sm">
-                    <i class="fa-solid fa-location-dot text-sm"></i> 
-                    {{ post.district }}, {{ post.division }}
+                  <div class="flex gap-2 items-center text-gray-500 ">
+                    <i class="fa-solid fa-location-dot "></i> 
+                    {{ district }}, {{ division }}
                   </div>
                 </div>
                 <div class="space-y-2">
-                  <div class="flex gap-1 items-center text-gray-500">
+                  <div class="flex gap-2 items-center text-gray-500">
                     <i class="fa-solid fa-phone "></i> 
                     {{ pet.user.phone_number }}
                   </div>
                 </div>
                 <div class="space-y-2">
-                  <div class="flex gap-1 items-center text-gray-500">
+                  <div class="flex gap-2 items-center text-gray-500">
                     <i class="fa-solid fa-user"></i>
                     <p><a href="{% url 'userprofile' userid=pet.user.id %}" class="text-gray-500 underline "> {{ pet.user.first_name }} {{ pet.user.last_name }}</a></p>
                   </div>
