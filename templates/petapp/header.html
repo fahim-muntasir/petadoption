@@ -1,66 +1,60 @@
 <header>
-  <nav class="bg-[#fff6e5] py-3">
-    <div class="container mx-auto flex items-center justify-between px-4">
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden flex items-center">
-        <button id="menu-button" class="text-gray-800 focus:outline-none">
-          <i class="fa-solid text-2xl fa-bars"></i>
+  <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+    <div class="container mx-auto px-6">
+      <div class="flex items-center justify-between h-20">
+        <a href="{% url 'home' %}" class="flex items-center gap-2">
+          <i class="fa-solid fa-paw text-3xl md:text-4xl text-rose-500"></i>
+          <span class="text-xl font-bold">PetHomeBD</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-8">
+          <a href="{% url 'home' %}" class="text-gray-600 hover:text-rose-500 transition-colors">Home</a>
+          <a href="{% url 'items' %}" class="text-gray-600 hover:text-rose-500 transition-colors">Adopt</a>
+          <a href="{% url 'about' %}" class="text-gray-600 hover:text-rose-500 transition-colors">About</a>
+
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'userprofile' userid=request.user.id %}">
+              <button class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full transition-colors">
+                Profile
+              </button>
+            </a>
+          {% else %}
+            <a href="{% url 'login' %}">
+              <button class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full transition-colors">
+                Login
+              </button>
+            </a>
+          {% endif %}
+        </div>
+
+        <button
+          id="menu-button"
+          class="md:hidden"
+        >
+          <i class="fa-solid fa-bars text-2xl text-gray-600"></i>
         </button>
       </div>
 
-      <!-- Logo -->
-      <a class="flex items-center space-x-2 md:ml-0 ml-auto" href="{% url 'home' %}">
-        <img src="/media/image/logo.png" alt="Logo" class="w-20 lg:w-28 sm:w-20 md:w-24" />
-      </a>
-
-      <!-- Large Screen Navigation Links -->
-      <ul class="hidden md:flex md:flex-row md:space-x-8 text-gray-800 md:mt-0 mt-4 md:flex-1 justify-center">
-        <li>
-          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
-        </li>
-        <li>
-          <a href="{% url 'items' %}" class="hover:text-[#d04f3d] text-xl font-bold">Pets</a>
-        </li>
-        <li>
-          <a href="{% url 'about' %}" class="hover:text-[#d04f3d] text-xl font-bold">About Us</a>
-        </li>
-      </ul>
-
-      <!-- Auth and Donate Buttons for Large Screens -->
-      <div class="md:flex hidden items-center space-x-8">
-        {% if request.user.is_authenticated %}
-          <div>
-            <a href="{% url 'userprofile' userid=request.user.id %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Profile</a>
-          </div>
-        {% else %}
-          <a href="{% url 'login' %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Login</a>
-        {% endif %}
-      </div>
-    </div>
-
-    <!-- Mobile Navigation Menu -->
-    <div id="mobile-menu" class="md:hidden hidden p-4">
-      <ul class="flex flex-col space-y-4 text-left">
-        <li>
-          <a href="{% url 'home' %}" class="hover:text-[#d04f3d] text-xl font-bold">Home</a>
-        </li>
-        <li>
-          <a href="{% url 'items' %}" class="hover:text-[#d04f3d] text-xl font-bold">Pets</a>
-        </li>
-        <li>
-          <a href="{% url 'about' %}" class="hover:text-[#d04f3d] text-xl font-bold">About Us</a>
-        </li>
-      </ul>
-
-      <!-- Auth and Donate Buttons for Mobile -->
-      <div class="space-y-4 mt-4 text-left">
-        {% if request.user.is_authenticated %}
-          <div>
-            <a href="{% url 'userprofile' userid=request.user.id %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Profile</a>
-          </div>
-        {% else %}
-          <a href="{% url 'login' %}" class="mt-4 md:mt-0 bg-[#E95B47] text-white font-semibold px-12 py-2 rounded hover:bg-[#d04f3d]">Login</a>
-        {% endif %}
+      <!-- Mobile Menu  -->
+      <div id="mobile-menu" class="md:hidden absolute left-0 right-0 top-16 bg-white border-t border-gray-100 shadow-lg">
+        <div class="flex flex-col p-4 space-y-4">
+          <a href="{% url 'home' %}" class="text-gray-600 hover:text-rose-500 transition-colors py-2">Home</a>
+          <a href="{% url 'items' %}" class="text-gray-600 hover:text-rose-500 transition-colors py-2">Adopt</a>
+          <a href="{% url 'about' %}" class="text-gray-600 hover:text-rose-500 transition-colors py-2">About</a>
+          {% if request.user.is_authenticated %}
+            <a href="{% url 'userprofile' userid=request.user.id %}">
+              <button class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full transition-colors">
+                Profile
+              </button>
+            </a>
+          {% else %}
+            <a href="{% url 'login' %}">
+              <button class="bg-rose-500 hover:bg-rose-600 text-white px-6 py-2 rounded-full transition-colors">
+                Login
+              </button>
+            </a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </nav>

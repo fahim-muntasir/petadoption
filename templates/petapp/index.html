@@ -6,87 +6,223 @@
 
 {% block content %}
   <!-- Banner -->
-  <section class="relative bg-cover bg-center h-[500px] lg:h-[750px] flex items-center justify-center" style="background-image: url('/media/image/pexels-helen1-16395147.jpg')">
-    <div class="absolute inset-0 bg-[#151035] opacity-65"></div>
+  <section class="relative min-h-[800px] flex items-center pt-20">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1450778869180-41d0601e046e?auto=format&fit=crop&q=80"
+        alt="Happy dog"
+        class="w-full h-full object-cover over brightness-50"
+      />
+    </div>
 
-    <div class="text-center relative z-10 text-white px-4 w-full">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold">Adopt Happiness,</h1>
-      <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mt-2 sm:mt-5 font-bold text-[#E95B47]">Save a Life!</h2>
-      <form action="/items">
-        <div class="mt-8 flex flex-col sm:flex-row gap-4 w-full px-4 sm:px-0 justify-center items-center text-black">
-          <input type="text" name="query" placeholder="Search Pet..." class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" />
-
-          <!-- <input type="text" placeholder="Enter City, State, Or Zip" class="w-full sm:w-1/3 md:w-1/3 lg:w-1/4 px-8 sm:px-16 lg:px-10 py-3 sm:py-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#E95B47] text-base sm:text-lg" /> -->
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <select name="division" id="division" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border border-gray-300">
-              <option value="">Select Division</option>
-              {% for item in divisions %}
-                <option value="{{ item.division }}">{{ item.division }}</option>
-              {% endfor %}
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-2xl text-white mb-16">
+        <h1 class="text-5xl font-bold mb-6">Find Your Perfect Companion in Bangladesh</h1>
+        <p class="text-xl mb-8">Search for your new furry friend by name and location. Every adoption brings joy to both pets and humans alike.</p>
+        <div class="flex gap-4">
+          <a href="{% url 'items' %}">
+            <button class="bg-rose-500 hover:bg-rose-600 text-white px-8 py-3 rounded-full flex items-center gap-2 transition-all">
+              <i class="fa-regular fa-heart text-lg"></i>
+              Adopt Now
+            </button>
+          </a>
+          <a href="{% url 'items' %}">
+            <button class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-8 py-3 rounded-full flex items-center gap-2 transition-all">
+              <i class="fa-solid fa-paw text-lg"></i>
+               Browse Pets
+            </button>
+          </a>
+        </div>
+      </div>
+      <!-- search box -->
+      <div class="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg max-w-4xl mx-auto">
+        <form action="/items" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-paw text-lg"></i>
+            </div>
+            <input
+              type="text"
+              placeholder="Search by name, description"
+              name="query"
+              class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all"
+            />
+          </div>
+          
+          <div class="relative">
+            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-location-dot text-lg"></i>
+            </div>
+            <select
+              name="division"
+              id="division"
+              class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all appearance-none bg-white cursor-pointer"
+            >
+            <option value="">Select Division</option>
+            {% for item in divisions %}
+              <option value="{{ item.division }}">{{ item.division }}</option>
+            {% endfor %}
             </select>
-
-            <select name="district" id="district" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border border-gray-300">
+          </div>
+  
+          <div class="relative">
+            <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <i class="fa-regular fa-building text-lg"></i>
+            </div>
+            <select
+              name="district"
+              id="district"
+              class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 outline-none transition-all appearance-none bg-white cursor-pointer"
+            >
               <option value="">Select District</option>
             </select>
           </div>
-
-          <button type="submit" class="bg-[#E95B47] text-white font-semibold w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-md hover:bg-[#d04f3d] text-base sm:text-lg">Search</button>
-        </div>
-      </form>
+          
+          <div class="relative">
+            <button type="submit" class="w-full bg-rose-500 hover:bg-rose-600 text-white py-3 rounded-lg transition-all flex items-center justify-center gap-2 font-medium">
+              <i class="fa-solid fa-magnifying-glass text-lg"></i>
+              Search Pets
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- search box -->
     </div>
   </section>
 
   <!-- Friend Card -->
-
-  <section class="py-12 px-4">
-    <div class="container mx-auto text-center">
-      <h2 class="lg:text-5xl text-3xl font-bold text-gray-800 my-10 lg:my-20">Meet Our Friends</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-3xl font-bold">Featured Pets</h2>
+          <p class="text-gray-600 mt-2">Meet our adorable pets waiting for their forever homes</p>
+        </div>
+        <a href="{% url 'items' %}">
+          <button class="text-rose-500 hover:text-rose-600 font-medium transition-colors">
+            View All Pets →
+          </button>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for post in posts %}
-          <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col space-y-4 items-start">
-            <!-- Image at the top -->
-            <img src="/media/{{ post.image }}" alt="Cat" class="w-full h-[24rem] object-cover rounded-md" />
-
-            <!-- Text content below the image -->
-            <div class="flex flex-col justify-start text-left">
-              <h3 class="text-2xl font-bold text-gray-800">{{ post.title }}</h3>
-              <p class="text-[#115470] text-lg mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
-              <p class="font-semibold text-lg mt-2">Posted by: {{ post.user.username }}</p>
-              <p class="font-semibold text-lg mt-2">
-                {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
-              </p>
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <div class="relative h-64">
+              <img 
+                src="/media/{{ post.image }}"
+                alt="{{ post.image }}"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"> </div>
+              <button class="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-full backdrop-blur-sm transition-colors">
+                <i class="fa-regular fa-heart text-base"></i>
+              </button>
             </div>
-          </a>
+            <div class="p-6">
+              <div class="flex justify-between items-start mb-3">
+                <a href="{% url 'item' id=post.id %}">
+                  <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
+                  <p class="text-gray-600 font-medium">{{ post.description|truncatewords:10 }}</p>
+                </a>
+                <span class="bg-emerald-100 text-emerald-700 text-sm px-3 py-1 rounded-full font-medium">
+                  {{ post.status }}
+                </span>
+              </div>
+              <div class="space-y-2 mb-4">
+                <div class="flex gap-1 items-center text-gray-500 text-sm">
+                  <i class="fa-regular fa-calendar text-sm"></i>
+                  {{ post.created_at }}
+                </div>
+                <div class="flex gap-1 items-center text-gray-500 text-sm">
+                  <i class="fa-solid fa-location-dot text-sm"></i> 
+                  {{ post.district }}, {{ post.division }}
+                </div>
+              </div>
+              <a href="{% url 'item' id=post.id %}">
+                <button class="w-full bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-lg transition-colors font-medium">
+                  Meet {{ post.title }}
+                </button>
+              </a>
+            </div>
+          </div>
         {% endfor %}
       </div>
+    </div>
+  </section>
 
-      <!-- View More Button -->
-      <div class="lg:mt-8 mt-4">
-        <a href="{% url 'items' %}"><button class="bg-[#E95B47] text-white font-semibold px-9 mt-10 py-4 rounded-md hover:bg-[#d04f3d]">View more</button></a>
+  <section class="py-16 bg-rose-500">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center text-white">
+          <i class="fa-regular fa-heart text-3xl mb-2"></i>
+          <div class="text-3xl font-bold mb-2">1500+</div>
+          <div class="text-white/80">Pets Adopted</div>
+        </div>
+        <div class="text-center text-white">
+          <i class="fa-solid fa-house text-3xl mb-2"></i>
+          <div class="text-3xl font-bold mb-2">50+</div>
+          <div class="text-white/80">Partner Shelters</div>
+        </div>
+        <div class="text-center text-white">
+          <i class="fa-solid fa-user text-3xl mb-2"></i>
+          <div class="text-3xl font-bold mb-2">1000+</div>
+          <div class="text-white/80">Happy Families</div>
+        </div>
+        <div class="text-center text-white">
+          <i class="fa-solid fa-award text-3xl mb-2"></i>
+          <div class="text-3xl font-bold mb-2">1+</div>
+          <div class="text-white/80">Years Experience</div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Adopted card -->
-  <section class="lg:py-12 py-5">
-    <div class="container mx-auto px-3 text-center">
-      <h2 class="lg:text-5xl text-3xl font-bold text-gray-800 my-10 lg:my-20 mt-7">Recently Adopted</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Recently Adopted</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Meet some of our furry friends who have found their forever homes. These success stories inspire us to continue our mission of connecting pets with loving families.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for post in adoptedPosts %}
-          <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
-            <img src="/media/{{ post.image }}" alt="Cat" class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
-            <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-              <h3 class="text-2xl text-start font-bold text-gray-800">{{ post.title }}</h3>
-              <p class="text-[#115470] text-lg text-justify mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
-              <p class="font-semibold text-lg text-start mt-2">Posted by: {{ post.user.username }}</p>
-              <p class="font-semibold text-lg text-start mt-2">
-                {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
-              </p>
+        <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+          <a href="{% url 'item' id=post.id %}">
+            <div class="relative h-48">
+              <img 
+                src="/media/{{ post.image }}" 
+                alt="{{ post.image }}"
+                class="w-full h-full object-cover" 
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
+                <div class="flex items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1">
+                    <i class="fa-regular fa-calendar text-sm"></i>
+                    {{ post.updated_at }}
+                  </span>
+                  <span class="flex items-center gap-1">
+                    <i class="fa-solid fa-location-dot text-sm"></i> 
+                    {{ post.division }}
+                  </span>
+                </div>
+              </div>
+              <div class="absolute top-4 right-4">
+                <Heart class="w-5 h-5 text-rose-500 fill-rose-500" />
+              </div>
             </div>
           </a>
+          <div class="p-6">
+            <div class="mb-3">
+              <span class="text-rose-500 font-medium">Adopted by</span>
+              <h4 class="text-gray-800 font-medium">{{ post.user }}</h4>
+            </div>
+            <p class="text-gray-600 text-sm line-clamp-3">{{ post.description }}</p>
+          </div>
+        </div>
         {% endfor %}
       </div>
     </div>
