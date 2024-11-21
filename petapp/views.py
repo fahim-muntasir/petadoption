@@ -421,7 +421,7 @@ def updatePet(request, pet_id):
       title = request.POST.get('title', pet.title)
       pet_type = request.POST.get('pet_type', pet.pet_type)
       gender = request.POST.get('gender', pet.gender)
-      location = request.POST.get('location', pet.location)
+      # location = request.POST.get('location', pet.location)
       description = request.POST.get('description', pet.description)
       status = request.POST.get('status', pet.status)
       new_image = request.FILES.get('image')
@@ -429,7 +429,7 @@ def updatePet(request, pet_id):
       pet.title = title
       pet.pet_type = pet_type
       pet.gender = gender
-      pet.location = location
+      # pet.location = location
       pet.description = description
       pet.status = status
 
