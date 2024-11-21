@@ -3,136 +3,85 @@
 {% block title %} Pet - petadopt {% endblock %}
 
 {% block content %}
-
-    <div>
-
-      <!-- modal example  -->
-      <div id="modalBox" class="hidden">
-        <div
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-        >
-          <!-- Modal Container (Increased Width and Height) -->
-          <div
-            class="bg-[#fff6e5] p-6 rounded-lg shadow-lg w-full max-w-xl min-h-[400px] mx-4 sm:mx-6 md:mx-8 lg:mx-10"
-          >
-            <div class=" flex justify-end ">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" id="modalCloseBtn" class="size-8 cursor-pointer text-gray-700">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>              
-            </div>
-            <!-- Modal Title -->
-            <h2 class="text-center text-3xl font-bold text-gray-700 mb-4 py-6">
-              Send Message
-            </h2>
-             
-            <form method="POST">
-                <!-- Message Input with Increased Height -->
-              {% csrf_token %}
-                <textarea
-                name="message"
-                class="w-full resize-none h-48 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300"
-                placeholder="Type your message..."
-              ></textarea>
-
-              <!-- Send Button -->
-              <div class="py-4">
-                <button
-                  class="w-full mt-4 bg-[#E95B47] text-white font-semibold py-4 rounded-md hover:bg-[#d35544] transition duration-300"
-                >
-                  Send
-                </button>
+    <div class="min-h-screen bg-gray-50 pt-20">
+      <main class="container mx-auto px-4 py-8 md:px-6">
+        <div class="w-full mx-auto">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4"></h1>
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="grid md:grid-cols-2 gap-6 p-6">
+              <div class="space-y-4">
+                <div class="aspect-square relative rounded-lg overflow-hidden">
+                  <img src="/media/{{ pet.image }}" class="object-cover w-full h-full" />
+                </div>
+                
               </div>
-            </form>
+              <div class="space-y-6">
+                <div class="flex flex-wrap gap-4">
+                  <div class="flex items-center gap-2 bg-rose-100 text-rose-800 px-3 py-1 rounded-full">
+                    <i class="fas fa-paw text-rose-500"></i>
+                    <span>{{ pet.pet_type  }}</span>
+                  </div>
+                  <div class="flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                    <i class="fas fa-clock text-blue-500"></i>
+                    <span>{{ pet.created_at }}</span>
+                  </div>
+                  <div class="flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full">
+                    <i class="fas fa-venus-mars text-green-500"></i>
+                    <span>{{ pet.gender }}</span>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex gap-1 items-center text-gray-500 text-sm">
+                    <i class="fa-solid fa-location-dot text-sm"></i> 
+                    {{ post.district }}, {{ post.division }}
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex gap-1 items-center text-gray-500">
+                    <i class="fa-solid fa-phone "></i> 
+                    {{ pet.user.phone_number }}
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex gap-1 items-center text-gray-500">
+                    <i class="fa-solid fa-user"></i>
+                    <p><a href="{% url 'userprofile' userid=pet.user.id %}" class="text-gray-500 underline "> {{ pet.user.first_name }} {{ pet.user.last_name }}</a></p>
+                  </div>
+                </div>
+                <p class="text-gray-600">{{ pet.description }}</p>
+                <div class="flex gap-4">
+                  <button class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
+                    Adopt {{pet.title}}
+                  </button>
+                  <button class="flex items-center justify-center w-12 h-12 bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-full transition duration-300 ease-in-out">
+                    <i class="fas fa-heart text-xl"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div> 
-      </div>
 
-    <!-- modal example  -->
-
-        <div class="container mx-auto bg-white py-12 px-4">
-            <!-- Pet Details Section -->
-            <div class="flex flex-col md:flex-row gap-16">
-                <div class="md:w-2/4">
-                    <img src="/media/{{ pet.image }}" alt="Pet Image"
-                        class="w-full h-[600px] rounded-md object-cover">
-                </div>
-                <div class="md:w-1/2 flex flex-col gap-2">
-                    <h2 class="text-5xl font-semibold text-gray-800">{{ pet.title }}</h2>
-                    <hr class="border-t-2 border-black my-5">
-                    <p class="text-xl"><strong>Type:</strong> {{ pet.pet_type }}</p>
-                    <p class="text-xl"><strong>Gender:</strong> {{ pet.gender }}</p>
-                    <p class="text-xl"><strong>Age:</strong> 2 years</p>
-                    <p class="text-xl"><strong>Location:</strong> {{ pet.location }}</p>
-                    <p class="text-xl"><strong>Phone:</strong> {{ pet.user.phone_number }}</p>
-                    <p class="text-xl"><strong>Published By:</strong><a href="{% url 'userprofile' userid=pet.user.id %}" class=" underline text-[#e95b47] hover:text-[#f0604d] "> {{ pet.user.first_name }} {{ pet.user.last_name }}</a></p>
-                    <div>
-                      {% if request.user.is_authenticated  %}
-                        <button class="requestBtn mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
-                            Send Message
-                        </button>
-                      {% else %}
-                        <a
-                        href="{% url 'login'%}"
-                        >
-                        <button class=" mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
-                          Send Message
-                        </button>
-                        </a>
-                      {% endif %}
+          <div class="mt-12">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900 mb-6">Recent Posts</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+              {% for post in posts %}
+                <div key={post.id} class="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                  <img src="/media/{{ post.image }}" alt="{{ post.title }}" class="w-full h-48 object-cover" />
+                  <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 line-clamp-2">{{ post.title }}</h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ post.description|truncatewords:30 }}</p>
+                    <div class="flex justify-between items-center">
+                      <span class="text-sm text-gray-500">{% load tz %} {% localtime on %}{{ post.created_at }}{% endlocaltime %}</span>
+                      <a href="{% url 'item' id=post.id %}" class="text-rose-500 hover:text-rose-600 font-medium">Read More</a>
                     </div>
-
-                    {% if messages %}
-                      {% for message in messages %}
-                      {% if message.tags == 'success' %}
-                      <div class="bg-green-300 p-4 rounded-2xl border border-green-400 text-green-900 font-medium mt-2">
-                        <p>{{ message }}</p>
-                      </div>
-                      {% endif %}
-
-                      {% if message.tags == 'error' %}
-                      <div class="bg-red-300 p-4 rounded-2xl border border-red-400 text-red-900 font-medium mt-2">
-                        <p>{{ message }}</p>
-                      </div>
-                      {% endif %}
-                      {% endfor %}
-                    {% endif %}
+                  </div>
                 </div>
-
+                {% endfor %}
             </div>
+          </div>
 
-            <!-- Description Section -->
-            <div class="mt-6 text-gray-700">
-                <p class=" font-bold text-lg">Published At: {{ pet.created_at }}</p>
-                <p class="mt-4 font-bold text-lg">
-                  {{ pet.description }}
-                </p>
-            </div>
 
-            <!-- Recent Posts Section -->
-            <div class="mt-11">
-                <h3 class="text-2xl font-bold text-gray-700 mb-4">Recent Post</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
-                  {% for post in posts %}
-                    <div
-                        class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col sm:flex-row space-x-0 sm:space-x-4 items-start">
-                        <img src="/media/{{ post.image }}" alt="{{ post.title }}"
-                            class="w-full h-40 sm:w-60 sm:h-60 object-cover rounded-md" />
-                        <div class="mt-4 sm:mt-0 flex flex-col justify-center">
-                            <h3 class="text-2xl text-start font-bold text-gray-800">
-                              {{ post.title }}
-                            </h3>
-                            <p class="text-[#115470] text-xl text-justify mt-2 font-semibold">
-                              {{ post.description|truncatewords:30 }}
-                            </p>
-                            <p class="font-semibold text-lg text-start mt-2">
-                              {% load tz %}
-                              Published At: {% localtime on %}{{ post.created_at }}{% endlocaltime %}
-                            </p>
-                        </div>
-                    </div>
-                  {% endfor %}
-                </div>
-            </div>
         </div>
+      </main>
     </div>
 {% endblock %}
