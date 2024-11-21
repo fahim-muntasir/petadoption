@@ -1,82 +1,86 @@
-{% extends "petapp/base.html" %}
+{% extends 'petapp/base.html' %}
 
-{% block title %} Login - petadopt {% endblock %}
+{% block title %}
+  Login - petadopt
+{% endblock %}
 
 {% block content %}
+  <div class="pt-20 min-h-screen flex items-center justify-center">
+    <div class="w-full">
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+      </div>
 
-    <div
-      class="relative bg-cover bg-center min-h-screen flex items-center justify-center"
-      style="
-        background-image: url('/media/image/pexels-helen1-16395147.jpg');
-      "
-    >
-      <div
-        class="absolute inset-0 bg-gradient-to-b from-[#062d3e] to-[#062d3e] opacity-75"
-      ></div>
-
-      <!-- Login Form -->
-      <div
-        class="relative bg-[#062d3e] bg-opacity-90 rounded-3xl p-12 shadow-lg max-w-3xl w-full mx-4"
-      >
-        <div class="flex justify-center mb-12">
-          <img
-            src="/media/image/logo.png"
-            alt="PetAdopt Logo"
-            class="w-40 h-28"
-          />
-        </div>
-
-        <form method="POST" class="space-y-8 mt-10">
-          {% csrf_token %}
-          <input
-            type="email"
-            placeholder="jon@gmail.com"
-            name="email"
-            class="w-full px-5 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e95b47] text-lg bg-[#fff6e5]"
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            class="w-full px-5 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e95b47] text-lg bg-[#fff6e5]"
-          />
-
-          {% if messages %}
-            {% for message in messages %}
-              {% if message.tags == 'success' %}
-              <div class="bg-green-300 p-4 rounded-lg border border-green-400 text-green-900 font-medium mt-2">
-                <p>{{ message }}</p>
+      <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
+          <form method="POST" class="space-y-6">
+            {% csrf_token %}
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-envelope text-gray-400"></i>
+                </div>
+                <input id="email" type="email" name="email" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your email" />
               </div>
-              {% endif %}
-              {% if message.tags == 'error' %}
-              <div class="bg-red-300 p-4 rounded-lg border border-red-400 text-red-900 font-medium mt-2">
-                <p>{{ message }}</p>
-              </div>
-              {% endif %}
-            {% endfor %}
-          {% endif %}
+            </div>
 
-          <div class="text-center mt-8">
-            <button
-              type="submit"
-              class="w-full bg-[#e95b47] text-white py-4 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg"
-            >
-              Login
-            </button>
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-lock text-gray-400"></i>
+                </div>
+                <input id="password" type="password" name="password" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your password" />
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded" />
+                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
+              </div>
+
+              <div class="text-sm">
+                <a href="#" class="font-medium text-rose-600 hover:text-rose-500">Forgot your password?</a>
+              </div>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <div class=" text-red-400 font-medium">
+                    <p>{{ message }}</p>
+                  </div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                  <div class=" text-red-600 font-medium">
+                    <p>{{ message }}</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+            <div>
+              <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"><i class="fas fa-sign-in-alt mr-2"></i> Sign in</button>
+            </div>
+          </form>
+
+          <div class="mt-6">
+            <div class="relative">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">Don't have an account?</span>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <a  href="{% url 'registration' %}" class="w-full flex justify-center py-2 px-4 border border-rose-300 rounded-md shadow-sm text-sm font-medium text-rose-600 bg-white hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">Create new account</a>
+            </div>
           </div>
-        </form>
-
-        <p class="text-center text-md text-gray-300 mt-8 font-bold text-lg">
-          Don’t you have an account?
-          <a
-            href="{% url 'registration' %}"
-            class="text-[#e95b47] hover:underline"
-            >Register Now</a
-          >
-        </p>
+        </div>
       </div>
     </div>
-    <!-- test -->
-    <!-- test -->
+  </div>
 {% endblock %}
