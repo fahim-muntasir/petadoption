@@ -273,7 +273,6 @@ def item(request, id):
 
 
 # ** Disctricts **
-@login_required
 def get_districts(request):
   division = request.GET.get('division')
   if division:
