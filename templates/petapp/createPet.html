@@ -1,43 +1,39 @@
-{% extends "petapp/base.html" %}
+{% extends 'petapp/base.html' %}
 
-{% block title %} Create Pet Post {% endblock %}
+{% block title %}
+  Create Pet Post
+{% endblock %}
 
 {% block content %}
-    <!-- header  -->
-    <div
-      class="relative bg-cover bg-center flex items-center justify-center py-10"
-      style="background-image: url('/media/image/pexels-helen1-16395147.jpg')"
-    >
-      <div class="absolute inset-0 bg-[#062d3e] opacity-70"></div>
-      <div
-        class="relative z-10 bg-[#062d3e] bg-opacity-80 rounded-2xl p-10 shadow-lg max-w-2xl w-full mx-4"
-      >
-        <div class="flex justify-center mb-12">
-          <img
-            src="/media/image/logo.png"
-            alt="PetAdopt Logo"
-            class="w-32 h-24"
-          />
+  <!-- header -->
+  <div class="pt-14">
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 mb-20 mt-10">
+      <div class="flex items-center gap-2 mb-6">
+        <i class="fas fa-plus text-rose-500"></i>
+        <h2 class="text-2xl font-bold">Post a New Pet</h2>
+      </div>
+
+      <form method="POST" class="space-y-6" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Pet Name -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">Pet Name</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-paw text-gray-400"></i>
+            </div>
+            <input name="title" type="text" id="name" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter pet name" required/>
+          </div>
         </div>
 
-        <form method="POST" class="space-y-4" enctype="multipart/form-data">
-          {% csrf_token %}
-          <input
-            type="text"
-            placeholder="Name"
-            name="title"
-            class="input-field w-full focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
-            required
-          />
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <select name="gender" id="" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-            
-            <select name="type" class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300" required >
+        <!-- Breed -->
+        <div>
+          <label for="breed" class="block text-sm font-medium text-gray-700">Breed</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-dog text-gray-400"></i>
+            </div>
+            <select name="type" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" required>
               <option value="">Select Type</option>
               <option value="cat">Cat</option>
               <option value="dog">Dog</option>
@@ -47,87 +43,141 @@
               <option value="exotic">Exotic Pets</option>
             </select>
           </div>
+        </div>
+        <!-- gender -->
+        <div>
+          <label for="breed" class="block text-sm font-medium text-gray-700">Gender</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-venus-mars text-gray-400"></i>
+            </div>
+            <select name="gender" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" required>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <select
+        <!-- Age -->
+        <div>
+          <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+          <div class="mt-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-calendar-alt text-gray-400"></i>
+            </div>
+            <input type="text" id="age" name="age" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter age (e.g., 2 years)" />
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="relative">
+            <label for="division" class="block text-sm font-medium text-gray-700">Division</label>
+            <div class="relative mt-1">
+              <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <i class="fas fa-map-marker-alt text-gray-400"></i>
+              </div>
+              <select
                 name="division"
                 id="division"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500"
                 required
-            >
+              >
                 <option value="">Select Division</option>
                 {% for item in divisions %}
-                    <option value="{{ item.division }}">{{ item.division }}</option>
+                  <option value="{{ item.division }}">{{ item.division }}</option>
                 {% endfor %}
-            </select>
-        
-            <select
+              </select>
+              <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                <i class="fas fa-chevron-down text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+            <div class="relative mt-1">
+              <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <i class="fas fa-map-marker-alt text-gray-400"></i>
+              </div>
+              <select
                 name="district"
                 id="district"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
+                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500"
                 required
-            >
+              >
                 <option value="">Select District</option>
-            </select>
+              </select>
+              <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                <i class="fas fa-chevron-down text-gray-400"></i>
+              </div>
+            </div>
           </div>
+        </div>
         
 
-          <textarea
-            placeholder="Description"
-            name="description"
-            name=""
-            id=""
-            class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold w-full placeholder:text-[#413d3d] h-12 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none"
-            required
-          ></textarea>
-
-          <div class="relative">
-            <label
-              class="input-field flex items-center focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 cursor-pointer"
-            >
-              <i class="fa-solid fa-file-arrow-up text-black text-xl mr-2"></i>
-              <span class="text-[#413d3d] font-semibold">Upload Photo</span>
-              <input type="file" class="hidden" name="image" required />
-            </label>
+        <!-- Description -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="description"  name="description" rows="4" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter pet description" required></textarea>
+        </div>
+        <!-- Pet Images -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Pet Images</label>
+          <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div class="space-y-1 text-center">
+              <i class="fas fa-camera text-gray-400 text-2xl"></i>
+              <div class="flex text-sm text-gray-600">
+                <label for="images" class="relative cursor-pointer bg-white rounded-md font-medium text-rose-600 hover:text-rose-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-rose-500">
+                  <span>Upload images</span>
+                  <input
+                  id="images"
+                  type="file"
+                  class="sr-only"
+                  name="image"
+                  required
+                />  
+                </label>
+                <p class="pl-1">or drag and drop</p>
+              </div>
+              <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            </div>
           </div>
+        </div>
 
-          <div class="text-center mt-6">
-            <button
-              type="submit"
-              class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg"
-            >
-              Upload
-            </button>
-          </div>
-        </form>
-      </div>
+        <!-- Submit Button -->
+        <div>
+          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">Post Pet</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <script>
-      document.getElementById('division').addEventListener('change', function () {
-      const division = this.value;
-      const districtSelect = document.getElementById('district');
-
+  <script>
+    document.getElementById('division').addEventListener('change', function () {
+      const division = this.value
+      const districtSelect = document.getElementById('district')
+    
       // Clear current district options
-      districtSelect.innerHTML = '<option value="">Select District</option>';
-
+      districtSelect.innerHTML = '<option value="">Select District</option>'
+    
       if (division) {
         // Fetch districts for the selected division
         fetch(`/get-districts/?division=${division}`)
-          .then(response => response.json())
-          .then(data => {
-              const districts = data.districts;
-              districts.forEach(district => {
-                  const option = document.createElement('option');
-                  option.value = district.district; // Update this based on API response
-                  option.textContent = district.district; // Update this based on API response
-                  districtSelect.appendChild(option);
-              });
+          .then((response) => response.json())
+          .then((data) => {
+            const districts = data.districts
+            districts.forEach((district) => {
+              const option = document.createElement('option')
+              option.value = district.district // Update this based on API response
+              option.textContent = district.district // Update this based on API response
+              districtSelect.appendChild(option)
+            })
           })
-          .catch(error => {
-              console.error('Error fetching districts:', error);
-          });
+          .catch((error) => {
+            console.error('Error fetching districts:', error)
+          })
       }
     })
-    </script>
+  </script>
 {% endblock %}
