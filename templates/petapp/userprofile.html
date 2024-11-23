@@ -78,7 +78,7 @@
                   {% if request.user.is_authenticated %}
                     <button id="openModalBtn" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors">Send Message</button>
                   {% else %}
-                    <a href="{% url 'login' %}"><button id="openModalBtn" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors">Send Message</button></a>
+                    <a href="{% url 'login' %}"><button class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors">Send Message</button></a>
                   {% endif %}
                 </div>
               {% endif %}
