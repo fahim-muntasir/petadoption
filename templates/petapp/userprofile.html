@@ -5,229 +5,103 @@
 {% endblock %}
 
 {% block content %}
-  <div>
-    <!-- modal example  -->
-    <div id="modalBox" class="hidden">
-      <div
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-      >
-        <!-- Modal Container (Increased Width and Height) -->
-        <div
-          class="bg-[#fff6e5] p-6 rounded-lg shadow-lg w-full max-w-xl min-h-[400px] mx-4 sm:mx-6 md:mx-8 lg:mx-10"
-        >
-          <div class=" flex justify-end ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" id="modalCloseBtn" class="size-8 cursor-pointer text-gray-700">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>              
-          </div>
-          <!-- Modal Title -->
-          <h2 class="text-center text-3xl font-bold text-gray-700 mb-4 py-6">
-            Send Message
-          </h2>
+  <div class="min-h-screen bg-gray-50 pt-20">
+    <div class="container mx-auto px-3 lg:px-6 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- User Details Section -->
+        <div class="lg:col-span-4">
+          <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex justify-end gap-2 mb-6">
+              <a href="{% url 'logout' %}?next={{ request.path }}" class="p-2 hover:bg-gray-100 rounded-lg transition-colors"><i class="fa-solid fa-arrow-right-from-bracket text-gray-600"></i></a>
+            </div>
+
+            <div class="text-center mb-6">
+              <div class="relative inline-block">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80" alt="user name" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg" />
+              </div>
+              <h1 class="text-2xl font-bold mt-4">{{ user.first_name }} {{ user.last_name }}</h1>
+              <p class="text-gray-600 text-sm">Member since {{user.created_at}}</p>
+            </div>
+
+            {% comment %} <p class="text-gray-600 text-sm leading-relaxed mb-6">Animal lover and advocate for pet adoption. I believe every pet deserves a loving home. Currently fostering two adorable kittens.</p> {% endcomment %}
+
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-gray-600">
+                <i class="fas fa-envelope text-gray-400 min-w-[20px]"></i>
+                <span>{{ user.email }}</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-600">
+                <i class="fas fa-phone-alt text-gray-400 min-w-[20px]"></i>
+                <span>{{ user.phone_number }}</span>
+              </div>
+              <div class="flex items-center gap-3 text-gray-600">
+                <i class="fas fa-map-marker-alt text-gray-400 min-w-[20px]"></i>
+                <span>{{ user.address }}, {{ user.state }}</span>
+              </div>
+              <div class="flex items-center  gap-3 text-gray-600">
+                <i class="fa-solid fa-link text-gray-400 min-w-[20px]"></i>
+                <a href="{{ user.social_media_link }}" class="block truncate max-w-[200px] hover:underline">{{ user.social_media_link }}</a>
+              </div>
+              <div class="flex items-center gap-3 text-gray-600">
+                <i class="fa-solid fa-gauge text-gray-400 min-w-[20px]"></i>
+                <a href="{% url 'dashboard' %}" class="block truncate max-w-[200px] hover:underline">Dashboard</a>
+              </div>
+            </div>
            
-          <form method="POST">
-              <!-- Message Input with Increased Height -->
-            {% csrf_token %}
-              <textarea
-              name="message"
-              class="w-full resize-none h-48 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300"
-              placeholder="Type your message..."
-            ></textarea>
-
-            <!-- Send Button -->
-            <div class="py-4">
-              <button
-                class="w-full mt-4 bg-[#E95B47] text-white font-semibold py-4 rounded-md hover:bg-[#d35544] transition duration-300"
-              >
-                Send
-              </button>
-            </div>
-          </form>
+          </div>
         </div>
-      </div> 
-    </div>
 
-  <!-- modal example  -->
+        <!-- Posted Pets Section -->
+        <div class="lg:col-span-8">
+          <div class="bg- p-3 md:p-6">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-2xl font-bold">Posted Pets</h2>
+              <button></button>
+              <a href="{% url 'createPet' %}" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors">Post New Pet</a>
+            </div>
 
-    <div class="container mx-auto">
-      <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Sidebar Filter -->
-        <div class="w-full lg:w-1/4 bg-white border-b-2 lg:border-b-0 lg:border-r-2 border-[#e95b47] p-4 mb-6 lg:mb-0">
-          <div class="flex items-center justify-center">
-            <div class="flex flex-col items-center justify-center">
-              <i class="fa-solid fa-user text-5xl"></i>
-              <h2 class="text-xl  py-2 font-medium">{{user.first_name}} {{user.last_name}}</h2>
-            </div>
-          </div>
-
-          <hr class="border-t-2 border-[#B1B2B5] my-5" />
-
-          <div class="flex items-start">
-            <div class="flex items-center justify-start gap-5">
-              <i class="fa-solid fa-envelope text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">{{ user.email }}</h2>
-            </div>
-          </div>
-          <div class="flex items-start mt-2">
-            <div class="flex items-center justify-start gap-5">
-              <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">{{ user.phone_number }}</h2>
-            </div>
-          </div>
-          <div class="flex items-start mt-2">
-            <div class="flex items-center justify-start gap-5">
-              <i class="fa-solid fa-phone text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">{{ user.additional_number }}</h2>
-            </div>
-          </div>
-          <div class="flex items-start mt-2">
-            <div class="flex items-center justify-start gap-5">
-              <i class="fa-solid fa-location-dot text-2xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">{{user.address}}, {{user.state}}</h2>
-            </div>
-          </div>
-          <div class="flex items-start mt-2">
-            <div class="flex items-center justify-start gap-5">
-              <i class="fa-solid fa-link text-xl min-w-[32px]"></i>
-              <h2 class="text-lg font-semibold">
-                <a href="{{ user.social_media_link }}" 
-                   class="block truncate max-w-[200px] hover:underline">
-                  {{ user.social_media_link }}
-                </a>
-              </h2>
-            </div>
-          </div>
-          {% if request.user.id == user.id %}
-          <a href="{% url 'dashboard' %}" class="flex flex-col items-center mt-10 gap-4 w-full md:w-[200px]">
-            <button class="bg-[#E95B47] text-white w-full font-semibold py-2 rounded hover:bg-[#d04f3d]">Dashboard</button>
-          </a>
-
-          <div class="mt-4">
-            <a href="{% url 'logout' %}?next={{ request.path }}" class="text-lg font-semibold underline text-start decoration-2 text-[#e95b47]">Logout</a>
-          </div>
-          {% else %}
-            <div>
-              {% if request.user.is_authenticated  %}
-                <button class="requestBtn mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
-                    Send Message
-                </button>
-              {% else %}
-                <a
-                href="{% url 'login'%}"
-                >
-                <button class=" mt-4 bg-[#e95b47] text-white py-3 px-6 rounded-md hover:bg-[#f0604d]">
-                  Send Message
-                </button>
-                </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {% if not isPost %}
+                <img src="/media/image/empty.svg" alt="empty" class="w-full h-80 opacity-70" />
               {% endif %}
-            </div>
-          {% endif %}
+              <!-- Pet Card -->
 
-        </div>
-
-        <!-- Pet Listing Section -->
-        <div class="w-full lg:w-3/4 p-2 md:p-1 lg:p-0">
-          <div class="flex items-center justify-between mb-5">
-            <h2 class="text-2xl font-bold ">All Post</h2>
-            {% if request.user.id == user.id %}
-              <a href="{% url 'createPet' %}" class="flex items-center gap-2 bg-[#E95B47] text-white py-2 px-4 rounded-full hover:bg-[#d04f3d]">
-                <i class="fa-solid fa-plus text-xl"></i>New Post
-              </a> 
-            {% endif %}
-          </div>
-          <div class="space-y-6">
-            <!-- Single Pet Card -->
-            {% if not isPost %}
-            <img src="/media/image/empty.svg" alt="empty" class="w-full h-80 opacity-70" />
-            {% endif %}
-
-            {% for post in page_obj %}
-              <a href="{% url 'item' id=post.id %}" class="bg-[#fff6e5] border border-red-200 rounded-lg p-4 flex flex-col gap-5 sm:flex-row items-start">
-                <div class="w-[20%]">
-                  <img src="/media/{{ post.image }}" alt="Cat" class="w-full sm:w-56 h-48 object-cover rounded-md mb-4 sm:mb-0 sm:mr-4" />
-                </div>
-                <div class="flex flex-col w-[80%]">
-                  <div class="flex justify-between">
-                    <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
-                    
-                    {% if post.status == "Active" %}
-                    <span class="text-green-500">{{post.status}}</span>
-                    {%else%}
-                    <span class="text-yellow-400">{{post.status}}</span>
-                    {% endif %}
+              {% for post in page_obj %}
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group flex flex-col">
+                  <div class="relative h-64">
+                    <img src="/media/{{ post.image }}" alt="Luna" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <button class="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-full backdrop-blur-sm transition-colors"><i class="fas fa-heart text-rose-500"></i></button>
                   </div>
-                  <p class="text-[#115470] text-base mt-2 font-semibold">{{ post.description|truncatewords:30 }}</p>
-                  <p class="font-semibold text-lg mt-2">
-                    {% load tz %}Published At:{% localtime on %}{{ post.created_at }}{% endlocaltime %}
-                  </p>
-                </div>
-              </a>
-            {% endfor %}
-          </div>
-
-          <!-- Pagination -->
-          {% if isPost %}
-            <div class="flex justify-end mt-6">
-              <nav class="inline-flex rounded-md shadow">
-                <!-- Previous Page Link -->
-                {% if page_obj.has_previous %}
-                  <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
-                {% endif %}
-
-                <!-- First Page Link -->
-                {% if page_obj.number > 2 %}
-                  <a href="?page=1" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
-                  {% if page_obj.number > 3 %}
-                    <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
-                  {% endif %}
-                {% endif %}
-
-                <!-- Middle Page Links (Dynamic Range) -->
-                {% for num in page_obj.paginator.page_range %}
-                  {% if num >= page_obj.number|add:'-1' and num <= page_obj.number|add:'1' %}
-                    <a href="?page={{ num }}"
-                      class="px-3 py-2 {% if page_obj.number == num %}
-                        
-                        text-white bg-[#e95b47]
-
+                  <div class="p-6 flex-grow">
+                    <div class="flex justify-between items-start mb-3">
+                      <div>
+                        <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
+                        <p class="text-gray-600 font-medium">{{ post.description|truncatewords:10 }}</p>
+                      </div>
+                      {% if post.status == 'Active' %}
+                        <span class="bg-emerald-100 text-emerald-700 text-sm px-3 py-1 rounded-full font-medium">{{ post.status }}</span>
                       {% else %}
-                        
-                        text-[#062d3e] bg-white
-
-                      {% endif %} border-t border-b border-[#e95b47] hover:bg-gray-100">
-                      {{ num }}
-                    </a>
-                  {% endif %}
-                {% endfor %}
-
-                <!-- Last Page Link -->
-                {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
-                  {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
-                    <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
-                  {% endif %}
-                  <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">{{ page_obj.paginator.num_pages }}</a>
-                {% endif %}
-
-                <!-- Next Page Link -->
-                {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
-                {% endif %}
-              </nav>
-              {% comment %} <nav class="inline-flex rounded-md shadow">
-                {% if page_obj.has_previous %}
-                  <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-l-md hover:bg-gray-100">Prev</a>
-                {% endif %}
-                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">1</a>
-                <span class="px-3 py-2 text-gray-500 bg-white border-t border-b border-[#e95b47]">...</span>
-                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">4</a>
-                <a href="#" class="px-3 py-2 text-[#062d3e] bg-white border-t border-b border-[#e95b47] hover:bg-gray-100">5</a>
-
-                {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 text-[#062d3e] bg-white border border-[#e95b47] rounded-r-md hover:bg-gray-100">Next</a>
-                {% endif %}
-              </nav> {% endcomment %}
+                        <span class="bg-yellow-100 text-yellow-400 text-sm px-3 py-1 rounded-full font-medium">{{ post.status }}</span>
+                      {% endif %}
+                    </div>
+                    <div class="space-y-2 mb-4">
+                      <div class="flex items-center text-gray-500 text-sm">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        {% load tz %} {% localtime on %}{{ post.created_at }}{% endlocaltime %}
+                      </div>
+                      <div class="flex items-center text-gray-500 text-sm">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        {{ post.district }}, {{ post.division }}
+                      </div>
+                    </div>
+                  </div>
+                  <a href="{% url 'item' id=post.id %}" class="mx-6 mb-5 bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-lg transition-colors font-medium text-center">Meet {{ post.title }}</a>
+                </div>
+              {% endfor %}
+              <!-- Add more Pet Cards here -->
             </div>
-          {% endif %}
+          </div>
         </div>
       </div>
     </div>
