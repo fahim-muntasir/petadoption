@@ -102,29 +102,34 @@
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <!-- Pet Card 1 -->
           {% for post in page_obj %}
-            <div class="bg-white  relative rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-              <div class="aspect-square relative">
-                <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="object-cover w-full h-full" />
-                <span class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">{{ post.status }}</span>
-              </div>
-              <div class="p-4">
-                <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
-                <p class="text-gray-600 text-sm mb-3">{{ post.description|truncatewords:10 }}</p>
-                <div class="space-y-2 text-sm text-gray-500 mb-4">
-                  <div class="flex items-center gap-2">
-                    <i class="fas fa-paw h-4 w-4"></i>
-                    <span>{{ post.pet_type }}</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <i class="fas fa-map-marker-alt h-4 w-4"></i>
-                    <span>{{ post.district }}, {{ post.division }}</span>
-                  </div>
+          <div class="bg-white relative rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+            <div class="aspect-square relative">
+              <img src="/media/{{ post.image }}" alt="{{ post.image }}" class="object-cover w-full h-full" />
+              <span class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">{{ post.status }}</span>
+            </div>
+            <div class="p-4 flex-grow">
+              <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
+              <p class="text-gray-600 text-sm mb-3">{{ post.description|truncatewords:10 }}</p>
+              <div class="space-y-2 text-sm text-gray-500 mb-4">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-paw h-4 w-4"></i>
+                  <span>{{ post.pet_type }}</span>
                 </div>
-                <div class="border-t border-gray-200 pt-4">
-                  <a href="{% url 'item' id=post.id %}"><button class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out">Meet {{ post.title }}</button></a>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-map-marker-alt h-4 w-4"></i>
+                  <span>{{ post.district }}, {{ post.division }}</span>
                 </div>
               </div>
             </div>
+            <div class="border-t border-gray-200 p-4">
+              <a href="{% url 'item' id=post.id %}" class="block">
+                <button class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out">
+                  Meet {{ post.title }}
+                </button>
+              </a>
+            </div>
+          </div>
+          
           {% endfor %}
         </div>
 
