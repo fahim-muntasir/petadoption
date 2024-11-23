@@ -4,16 +4,34 @@
 
 {% block content %}
     <div class="min-h-screen bg-gray-50 pt-20">
+
+      <div id="modalBox" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center ">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl min-h-[400px] mx-4 sm:mx-6 md:mx-8 lg:mx-10 z-60">
+          <div class="flex justify-end">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" id="modalCloseBtn" class="size-8 cursor-pointer text-gray-700">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h2 class="text-center text-2xl font-bold mb-4 py-6">Send Message</h2>
+          <form method="POST">
+            {% csrf_token %}
+            <textarea name="message" class="w-full resize-none h-48 p-3 border outline-rose-600  focus:ring-rose-500 border-gray-300 rounded" placeholder="Type your message..."></textarea>
+            <div class="py-4 flex justify-end">
+              <button type="submit" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <main class="container mx-auto px-4 py-8 md:px-6">
         <div class="w-full mx-auto">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 mb-4"></h1>
-          <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
             <div class="grid md:grid-cols-2 gap-6 p-6">
               <div class="space-y-4">
                 <div class="aspect-square relative rounded-lg overflow-hidden">
                   <img src="/media/{{ pet.image }}" class="object-cover w-full h-full" />
                 </div>
-                
               </div>
               <div class="space-y-6">
                 <div class="flex flex-wrap gap-4">
@@ -49,14 +67,48 @@
                   </div>
                 </div>
                 <p class="text-gray-600">{{ pet.description }}</p>
-                <div class="flex gap-4">
-                  <button class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
-                    Adopt {{pet.title}}
-                  </button>
-                  <button class="flex items-center justify-center w-12 h-12 bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-full transition duration-300 ease-in-out">
-                    <i class="fas fa-heart text-xl"></i>
-                  </button>
+                <div class="flex flex-col gap-4 mb-2">
+                  {% if pet.status == "Active" %}
+                    {% if user.is_authenticated %}
+                      <button id="openModalBtn" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
+                        Adopt {{ pet.title }}
+                      </button>
+                    {% else %}
+                      <a href="{% url 'login' %}" class="w-full">
+                        <button class="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
+                          Adopt {{ pet.title }}
+                        </button>
+                      </a>
+                    {% endif %}
+                  {% elif pet.status == "Adopted" %}
+                    {% if user.is_authenticated %}
+                      <button disabled class="w-full bg-rose-400 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
+                        Already adopted
+                      </button>
+                    {% else %}
+                      <a href="{% url 'login' %}" class="w-full">
+                        <button class="w-full bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
+                          Already adopted
+                        </button>
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                </div> 
+
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="bg-green-300 p-4 rounded-2xl border text-green-700 font-medium mt-2">
+                  <p>{{ message }}</p>
                 </div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="bg-red-300 p-4 rounded-2xl border text-red-700 font-medium mt-2">
+                  <p>{{ message }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              {% endif %}
               </div>
             </div>
           </div>
@@ -79,8 +131,6 @@
                 {% endfor %}
             </div>
           </div>
-
-
         </div>
       </main>
     </div>
