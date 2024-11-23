@@ -22,19 +22,24 @@
     {% include 'petapp/footer.html' %}
 
     <script>
-      const requestBtn = document.querySelector(".requestBtn");
-      const modalBox = document.querySelector("#modalBox");
-      const modalCloseBtn = document.querySelector("#modalCloseBtn");
-
-      requestBtn.addEventListener("click", () => {
-        modalBox.classList.remove("hidden")
-        modalBox.classList.add('block');
-      })
-
-      modalCloseBtn.addEventListener("click", () => {
-        modalBox.classList.remove("block");
-        modalBox.classList.add("hidden");
-      })
+      document.addEventListener("DOMContentLoaded", () => {
+        const openModalBtn = document.querySelector("#openModalBtn"); // Updated button selector
+        const modalBox = document.querySelector("#modalBox");
+        const modalCloseBtn = document.querySelector("#modalCloseBtn");
+      
+        // Open modal on button click
+        openModalBtn?.addEventListener("click", () => {
+          modalBox?.classList.remove("hidden");
+          modalBox?.classList.add("block");
+        });
+      
+        // Close modal on close button click
+        modalCloseBtn?.addEventListener("click", () => {
+          modalBox?.classList.remove("block");
+          modalBox?.classList.add("hidden");
+        });
+      });
+      
 
       function toggleDistricts(divisionId) {
         // Get the district list element by division ID
