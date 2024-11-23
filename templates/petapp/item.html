@@ -81,17 +81,9 @@
                       </a>
                     {% endif %}
                   {% elif pet.status == "Adopted" %}
-                    {% if user.is_authenticated %}
-                      <button disabled class="w-full bg-rose-400 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
-                        Already adopted
-                      </button>
-                    {% else %}
-                      <a href="{% url 'login' %}" class="w-full">
-                        <button class="w-full bg-rose-400 hover:bg-rose-500 text-white font-semibold py-3 px-4 rounded-md transition duration-300 ease-in-out">
-                          Already adopted
-                        </button>
-                      </a>
-                    {% endif %}
+                    <button disabled class="w-full bg-rose-400 text-white font-semibold py-3 px-4 rounded-md transition duration-300 cursor-not-allowed ease-in-out">
+                      Already adopted
+                    </button>
                   {% endif %}
                 </div> 
 
