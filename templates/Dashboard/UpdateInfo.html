@@ -5,101 +5,250 @@
 {% endblock %}
 
 {% block content %}
-  <div class="flex min-h-screen relative">
-    <button id="toggleButton" class="fixed top-1/2 left-0 z-40 py-28 px-[2px] text-white bg-[#062d3e] rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300" onclick="toggleDrawer()">
-      <i id="toggleIcon" class="fa-solid fa-caret-down transform -rotate-90"></i>
-    </button>
-    
+  <div class="container mx-auto flex">
     <!-- Sidebar -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-30 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
-      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
-      <p class="text-lg font-bold">{{fullname}}</p>
-      <nav class="w-full pl-2">
-        <ul class="space-y-4 text-base">
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-gauge"></i>
-            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-message"></i>
-            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-paw"></i>
-            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-gear"></i>
-            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    
-    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
+    <div class="w-64 bg-white pt-20 h-screen">
+      <div class="flex flex-col h-full">
+        <nav class="flex-1 p-4">
+          <ul class="space-y-2">
+            <li>
+              <a href="{% url 'dashboard' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                    {% if current_page == 'dashboard' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fa-solid fa-gauge {% if current_page == 'dashboard' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}">
+                  </i>
+                  Dashboard
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'totalPets' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                    {% if current_page == 'myPets' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-paw {% if current_page == 'myPets' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}">
 
-    <!-- Main content -->
-    <div class="flex-1 p-1 md:p-2 lg:p-6 py-7 md:py-0 lg:py-2 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0">
-      <div class="flex-1 p-0 md:p-6  flex justify-center items-center">
-        <div class="relative bg-[#062d3e] bg-opacity-80 rounded-2xl p-6 md:p-10 shadow-lg max-w-2xl w-full mx-2 lg:mx-4">
-          <div class="flex justify-center mb-8 md:mb-12">
-            <img src="/media/image/logo.png" alt="PetAdopt Logo" class="w-24 h-20 md:w-32 md:h-24" />
+                  </i>
+                  My Pets
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'totalRequest' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                    {% if current_page == 'totalRequest' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-bell {% if current_page == 'totalRequest' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}">
+
+                  </i>
+                  Requests
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'updateInfo' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                    {% if current_page == 'updateInfo' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-cog {% if current_page == 'updateInfo' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}">
+
+                  </i>
+                  Settings
+                </button>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="p-4 border-t">
+          <button class="w-full flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+            <i class="fas fa-sign-out-alt text-gray-600"></i>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md py-16 pt-20">
+      <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
+        <form class="space-y-6" method="POST">
+          {% csrf_token %}
+          <div class="flex justify-between gap-2">
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-user text-gray-400"></i>
+                </div>
+                <input id="firstName" name="first_name" type="text" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter first name" value="{{ user.first_name }}" />
+              </div>
+            </div>
+
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-user text-gray-400"></i>
+                </div>
+                <input id="lastName" name="last_name" type="text" value="{{ user.last_name }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter last name"  />
+              </div>
+            </div>
           </div>
 
-          <form method="POST" class="space-y-4">
-            {% csrf_token %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="First Name" name="first_name" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.first_name}}" />
-              <input type="text" placeholder="Last Name" name="last_name" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.last_name}}" />
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-user text-gray-400"></i>
+              </div>
+              <input id="username" name="username" type="text" value="{{ user.username }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your last name"  />
             </div>
+          </div>
 
-            <input type="text" placeholder="Username" name="username" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.username}}" />
-
-            <input type="email" placeholder="Email Address" name="email" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.email}}" />
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="tel" placeholder="Phone Number" name="phone1" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]"  value="{{user.phone1}}" />
-              <input type="tel" placeholder="Phone Number (Optional)" name="phone2" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.phone2}}" />
+          <div>
+            <label for="emailAddress" class="block text-sm font-medium text-gray-700">Email address</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-envelope text-gray-400"></i>
+              </div>
+              <input id="emailAddress" name="email" type="email" value="{{ user.email }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your email"  />
             </div>
+          </div>
 
-            <input type="text" placeholder="Social Media link (Facebook, Instagram)" name="social_link" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.social_link}}" />
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="text" placeholder="Address" name="address" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.address}}" />
-              <input type="text" placeholder="State" name="state" class="input-field h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" value="{{user.state}}" />
+          <div>
+            <label for="phone1" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-phone text-gray-400"></i>
+              </div>
+              <input id="phone1" name="phone1" type="tel" value="{{ user.phone1 }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your phone number"  />
             </div>
+          </div>
 
-            <input type="password" placeholder="Current Password" name="current_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+          <div>
+            <label for="phone2" class="block text-sm font-medium text-gray-700">Phone Number (Optional)</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-phone text-gray-400"></i>
+              </div>
+              <input id="phone2" name="phone2" type="tel" value="{{ user.phone2 }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your phone number" />
+            </div>
+          </div>
 
-            <input type="password" placeholder="New Password" name="new_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+          <div>
+            <label for="socialLink" class="block text-sm font-medium text-gray-700">Social Media link (Facebook, Instagram)</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-link text-gray-400"></i>
+              </div>
+              <input id="socialLink"  name="social_link" type="text" value="{{ user.social_link }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your phone number"  />
+            </div>
+          </div>
 
-            <input type="password" placeholder="Confirm Password" name="confirm_password" class="input-field w-full h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d] focus:outline-none focus:ring-2 focus:ring-[#e95b47]" />
+          <div>
+            <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-location-dot text-gray-400"></i>
+              </div>
+              <input id="address" name="address" type="tel" value="{{ user.address }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your phone number"  />
+            </div>
+          </div>
 
-            {% if messages %}
-              {% for message in messages %}
-                {% if message.tags == 'success' %}
+          <div>
+            <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-building text-gray-400"></i>
+              </div>
+              <input id="state" name="state" type="text" value="{{ user.state }}" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter your phone number"  />
+            </div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">current password</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-gray-400"></i>
+              </div>
+              <input id="password" name="current_password" type="password" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Current Password"  />
+            </div>
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-gray-400"></i>
+              </div>
+              <input id="password" name="new_password" type="password" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Create a password"  />
+            </div>
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <div class="mt-1 relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-lock text-gray-400"></i>
+              </div>
+              <input id="confirmPassword" name="confirm_password" type="password" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Confirm your password" />
+            </div>
+          </div>
+
+          {% if messages %}
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
                 <div class="bg-green-300 p-4 rounded-lg border border-green-400 text-green-900 font-medium mt-2">
                   <p>{{ message }}</p>
                 </div>
-                {% endif %}
-                {% if message.tags == 'error' %}
+              {% endif %}
+              {% if message.tags == 'error' %}
                 <div class="bg-red-300 p-4 rounded-lg border border-red-400 text-red-900 font-medium mt-2">
                   <p>{{ message }}</p>
                 </div>
-                {% endif %}
-              {% endfor %}
-            {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
 
-            <div class="text-center mt-6">
-              <button type="submit" class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg">Update</button>
-            </div>
-          </form>
-        </div>
+          <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"> Update</button>
+          </div>
+        </form>
+
+        <div class="mt-6"></div>
       </div>
     </div>
   </div>
 
-  <script>
+  {% comment %} <script>
     function toggleDrawer() {
       const sidebar = document.getElementById('sidebar')
       const overlay = document.getElementById('drawerOverlay')
@@ -114,5 +263,5 @@
         overlay.classList.remove('hidden')
       }
     }
-  </script>
+  </script> {% endcomment %}
 {% endblock %}
