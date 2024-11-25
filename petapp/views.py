@@ -334,7 +334,7 @@ def dashboard(request):
   totalMessage = len(fetchMessage())
   totalAdopted = len(fetchAdoptedPost())
   
-  return render(request, 'Dashboard/Dashboard.html', {"totalAdopted":totalAdopted, "totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
+  return render(request, 'Dashboard/Dashboard.html', {"totalAdopted":totalAdopted, 'current_page':'dashboard', "totalPost": totalPost, "totalMessage": totalMessage, "fullname": request.user.first_name + " " + request.user.last_name})
 
 
 # ** Message Requests **
@@ -342,7 +342,7 @@ def dashboard(request):
 def totalRequest(request):
   messages = Message.objects.filter(receiver=request.user).order_by('-created_at')[:10]
   
-  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, "fullname": request.user.first_name + " " + request.user.last_name})
+  return render(request, 'Dashboard/TotalRequest.html', {'posts': messages, 'current_page':'totalRequest' ,"fullname": request.user.first_name + " " + request.user.last_name})
 
 
 # ** Information Update **
@@ -402,7 +402,7 @@ def updateInfo(request):
       'state': user.state,
       'social_link': user.social_media_link,
     }
-    return render(request, 'Dashboard/UpdateInfo.html', {"user": context})
+    return render(request, 'Dashboard/UpdateInfo.html', {"user":context, 'current_page':'updateInfo'})
 
 
 # ** Pet Post Update **
@@ -449,7 +449,7 @@ def updatePet(request, pet_id):
 def totalPets(request):
   pets = PetPost.objects.filter(user=request.user).order_by('-created_at')[:10]
   
-  return render(request, 'Dashboard/TotalPets.html', {'posts': pets, "fullname": request.user.first_name + " " + request.user.last_name})
+  return render(request, 'Dashboard/TotalPets.html', {'posts': pets, 'current_page':'myPets', "fullname": request.user.first_name + " " + request.user.last_name})
 
 
 # ** Delete Message **
