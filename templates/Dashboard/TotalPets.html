@@ -7,32 +7,33 @@
 {% block content %}
   <div class="container mx-auto flex">
     <!-- Sidebar -->
-    <div class="w-64 bg-white pt-20 h-screen">
-      <div class="flex flex-col h-full">
-        <nav class="flex-1 p-4">
-          <ul class="space-y-2">
-            <li>
-              <a href="{% url 'dashboard' %}">
-                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
-                    {% if current_page == 'dashboard' %}
-                    bg-rose-50 text-rose-600
-                  {% else %}
-                    text-gray-600 hover:bg-gray-50
-                  {% endif %}">
-                  <i class="fa-solid fa-gauge {% if current_page == 'dashboard' %}
-                      text-rose-600
-                    {% else %}
-                      text-gray-600
-                    {% endif %}">
-                  </i>
-                  Dashboard
-                </button>
-              </a>
-            </li>
-            <li>
+  <button
+    id="toggleButton"
+    class="fixed top-28 left-0 z-50 py-4 px-2 bg-rose-600 text-white rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300"
+    onclick="toggleDrawer()">
+    <i id="toggleIcon" class="fa-solid fa-caret-down transform -rotate-90"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div
+    id="sidebar"
+    class="w-64 bg-white pt-20 h-screen transform transition-transform -translate-x-full md:translate-x-0 fixed md:relative z-40 md:z-auto">
+    <div class="flex flex-col h-full">
+      <nav class="flex-1 p-4">
+        <ul class="space-y-2">
+          <li>
+            <a href="{% url 'dashboard' %}">
+              <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                {% if current_page == 'dashboard' %} bg-rose-50 text-rose-600 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                <i class="fa-solid fa-gauge {% if current_page == 'dashboard' %} text-rose-600 {% else %} text-gray-600 {% endif %}"></i>
+                Dashboard
+              </button>
+            </a>
+          </li>
+          <li>
               <a href="{% url 'totalPets' %}">
                 <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
-                    {% if current_page == 'myPets' %}
+                  {% if current_page == 'myPets' %}
                     bg-rose-50 text-rose-600
                   {% else %}
                     text-gray-600 hover:bg-gray-50
@@ -41,9 +42,7 @@
                       text-rose-600
                     {% else %}
                       text-gray-600
-                    {% endif %}">
-
-                  </i>
+                    {% endif %}"></i>
                   My Pets
                 </button>
               </a>
@@ -51,7 +50,7 @@
             <li>
               <a href="{% url 'totalRequest' %}">
                 <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
-                    {% if current_page == 'totalRequest' %}
+                  {% if current_page == 'totalRequest' %}
                     bg-rose-50 text-rose-600
                   {% else %}
                     text-gray-600 hover:bg-gray-50
@@ -60,9 +59,7 @@
                       text-rose-600
                     {% else %}
                       text-gray-600
-                    {% endif %}">
-
-                  </i>
+                    {% endif %}"></i>
                   Requests
                 </button>
               </a>
@@ -70,7 +67,7 @@
             <li>
               <a href="{% url 'updateInfo' %}">
                 <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
-                    {% if current_page == 'updateInfo' %}
+                  {% if current_page == 'updateInfo' %}
                     bg-rose-50 text-rose-600
                   {% else %}
                     text-gray-600 hover:bg-gray-50
@@ -79,26 +76,24 @@
                       text-rose-600
                     {% else %}
                       text-gray-600
-                    {% endif %}">
-
-                  </i>
+                    {% endif %}"></i>
                   Settings
                 </button>
               </a>
             </li>
-          </ul>
-        </nav>
-        <div class="p-4 border-t">
-          <button class="w-full flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
-            <i class="fas fa-sign-out-alt text-gray-600"></i>
-            Sign Out
-          </button>
-        </div>
+        </ul>
+      </nav>
+      <div class="p-4 border-t">
+        <button class="w-full flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+          <i class="fas fa-sign-out-alt text-gray-600"></i>
+          Sign Out
+        </button>
       </div>
     </div>
+  </div>
 
     <!-- Main Content -->
-    <div class="flex-1 p-8 pt-24">
+    <div class="flex-1 p-8 pt-24 overflow-x-auto">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">My Pets</h1>
         <button class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
@@ -106,10 +101,10 @@
           Post New Pet
         </button>
       </div>
-
+    
       <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
+          <table class="min-w-full table-auto divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pet</th>
@@ -121,46 +116,48 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               {% for post in posts %}
-                <tr class="hover:bg-gray-50">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="h-12 w-12 flex-shrink-0">
-                        <img class="h-12 w-12 rounded-lg object-cover" src="/media/{{ post.image }}" alt="Pet" />
-                      </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">{{ post.title }}</div>
-                        <div class="text-sm text-gray-500">{{ post.pet_type }}</div>
-                      </div>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="h-12 w-12 flex-shrink-0">
+                      <img class="h-12 w-12 rounded-lg object-cover" src="/media/{{ post.image }}" alt="Pet" />
                     </div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">{{ post.created_at|date:'d M Y' }}</div>
-                    <div class="text-sm text-gray-500">{{ post.district }}, {{ post.division }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    {% if post.status == 'Active' %}
-                      <p class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{{ post.status }}</p>
-                    {% else %}
-                      <p class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-400">{{ post.status }}</p>
-                    {% endif %}
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 requests</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div class="flex gap-2">
-                      <a href="{% url 'updatePet' pet_id=post.id %}">
-                        <button type="submit" class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i></button>
-                      </a>
-                      <form action="{% url 'delete_pet' pet_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this pet?');">
-                        {% csrf_token %}
-                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                      </form>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">{{ post.title }}</div>
+                      <div class="text-sm text-gray-500">{{ post.pet_type }}</div>
                     </div>
-                  </td>
-                </tr>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ post.created_at|date:'d M Y' }}</div>
+                  <div class="text-sm text-gray-500">{{ post.district }}, {{ post.division }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  {% if post.status == 'Active' %}
+                  <p class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{{ post.status }}</p>
+                  {% else %}
+                  <p class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-400">{{ post.status }}</p>
+                  {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 requests</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex gap-2">
+                    <a href="{% url 'updatePet' pet_id=post.id %}">
+                      <button type="submit" class="text-indigo-600 hover:text-indigo-900"><i class="fas fa-edit"></i></button>
+                    </a>
+                    <form action="{% url 'delete_pet' pet_id=post.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this pet?');">
+                      {% csrf_token %}
+                      <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
+        
+         <!-- End of overflow-x-auto div -->
         <div class="px-6 py-4 border-t">
           <div class="flex justify-center space-x-2">
             <button class="px-3 py-1 border rounded-md text-sm text-gray-600 hover:bg-gray-100">Previous</button>
@@ -171,5 +168,9 @@
         </div>
       </div>
     </div>
+    
+    
+    
+    
   </div>
 {% endblock %}
