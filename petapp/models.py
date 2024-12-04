@@ -13,7 +13,9 @@ class UserProfile(AbstractUser):
   address = models.TextField()
   state = models.CharField(max_length=100)
   social_media_link = models.URLField(blank=True, null=True)
-
+  created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+  updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+  
   # Set the username field
   USERNAME_FIELD = 'username'
   REQUIRED_FIELDS = ['email']
@@ -28,6 +30,7 @@ class PetPost(models.Model):
   pet_type = models.CharField(max_length=50, blank=False, null=False)
   gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
   description = models.TextField(blank=False, null=False)
+  age = models.CharField(max_length=50, blank=False, null=True)
   status = models.CharField(
     max_length=10,
     choices=[('Active', 'Active'), ('Adopted', 'Adopted')],

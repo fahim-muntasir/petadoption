@@ -66,6 +66,12 @@
                     <p><a href="{% url 'userprofile' userid=pet.user.id %}" class="text-gray-500 underline "> {{ pet.user.first_name }} {{ pet.user.last_name }}</a></p>
                   </div>
                 </div>
+                <div class="space-y-2">
+                  <div class="flex gap-2 items-center text-gray-500">
+                    <i class="fas fa-calendar-alt"></i>
+                    {{ pet.age }}
+                  </div>
+                </div>
                 <p class="text-gray-600">{{ pet.description }}</p>
                 <div class="flex flex-col gap-4 mb-2">
                   {% if pet.status == "Active" %}
