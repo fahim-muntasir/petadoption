@@ -218,7 +218,7 @@ def items(request):
       if district_response.status_code == 200:
           districts_data = district_response.json().get("data", [])
   
-  posts_list = PetPost.objects.all().order_by('-created_at')
+  posts_list = PetPost.objects.all().filter(status="Active").order_by('-created_at')
   if pet_type:
       posts_list = posts_list.filter(pet_type__iexact=pet_type)
       
@@ -301,6 +301,7 @@ def createPet(request):
       pet_type = request.POST.get('type')
       gender = request.POST.get('gender')
       description = request.POST.get('description')
+      age = request.POST.get("age")
       
       division = request.POST.get('division')
       district = request.POST.get('district')
@@ -314,6 +315,7 @@ def createPet(request):
           description=description,
           division=division,
           district=district,
+          age=age,
       )
 
       pet_post.save()
