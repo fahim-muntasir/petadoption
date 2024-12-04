@@ -28,7 +28,7 @@
 
         <!-- Breed -->
         <div>
-          <label for="breed" class="block text-sm font-medium text-gray-700">Breed</label>
+          <label for="type" class="block text-sm font-medium text-gray-700">Type</label>
           <div class="mt-1 relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <i class="fas fa-dog text-gray-400"></i>
@@ -122,7 +122,7 @@
           <textarea id="description"  name="description" rows="4" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter pet description" required></textarea>
         </div>
         <!-- Pet Images -->
-        <div>
+        <!-- <div>
           <label class="block text-sm font-medium text-gray-700">Pet Images</label>
           <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
             <div class="space-y-1 text-center">
@@ -142,6 +142,35 @@
               </div>
               <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
             </div>
+          </div>
+        </div> -->
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Pet Images</label>
+          <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div class="space-y-1 text-center">
+              <i class="fas fa-camera text-gray-400 text-2xl"></i>
+              <div class="flex text-sm text-gray-600">
+                <label for="images" class="relative cursor-pointer bg-white rounded-md font-medium text-rose-600 hover:text-rose-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-rose-500">
+                  <span>Upload images</span>
+                  <input
+                    id="images"
+                    type="file"
+                    class="sr-only"
+                    name="image"
+                    required
+                    onchange="previewImage(event)"
+                  />
+                </label>
+                <p class="pl-1">or drag and drop</p>
+              </div>
+              <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+            </div>
+          </div>
+        
+          <!-- Image preview section -->
+          <div id="imagePreview" class="mt-2 hidden text-center">
+            <img id="previewImg" src="" alt="Image preview" class="max-w-xs mx-auto">
           </div>
         </div>
 
@@ -179,5 +208,22 @@
           })
       }
     })
+
+    // scripts for image preview
+    function previewImage(event) {
+      const file = event.target.files[0];
+      const previewImg = document.getElementById('previewImg');
+      const imagePreview = document.getElementById('imagePreview');
+      
+      if (file) {
+        // Check if the file is an image
+        const reader = new FileReader();
+        reader.onload = function() {
+          previewImg.src = reader.result; // Set the image preview
+          imagePreview.classList.remove('hidden'); // Show the preview
+        };
+        reader.readAsDataURL(file); // Read the image file as a data URL
+      }
+    }
   </script>
 {% endblock %}
