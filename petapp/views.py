@@ -408,8 +408,15 @@ def updateInfo(request):
 # ** Pet Post Update **
 @login_required
 def updatePet(request, pet_id):
+  
   user = request.user
   pet = get_object_or_404(PetPost, id=pet_id)
+
+  response = requests.get(api_url_division)
+  if response.status_code == 200:
+      divisions_data = response.json().get("data", [])
+  else:
+      divisions_data = []
 
   if pet.user != user:
       messages.error(request, "You are not authorized to update this pet.")
@@ -423,6 +430,8 @@ def updatePet(request, pet_id):
       # location = request.POST.get('location', pet.location)
       description = request.POST.get('description', pet.description)
       status = request.POST.get('status', pet.status)
+      division = request.POST.get('division', pet.division)
+      district = request.POST.get('district', pet.district)
       new_image = request.FILES.get('image')
 
       pet.title = title
@@ -431,7 +440,9 @@ def updatePet(request, pet_id):
       # pet.location = location
       pet.description = description
       pet.status = status
-
+      pet.district = district
+      pet.division = division
+      
       if new_image:
           if pet.image and os.path.isfile(pet.image.path):
               os.remove(pet.image.path)
@@ -441,7 +452,7 @@ def updatePet(request, pet_id):
       messages.success(request, "Pet updated successfully!")
       return redirect('totalPets')
 
-  return render(request, 'Dashboard/updatePet.html', {'pet': pet})
+  return render(request, 'Dashboard/updatePet.html', {'pet': pet , "divisions": divisions_data})
 
   
 # ** All Posts **

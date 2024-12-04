@@ -5,141 +5,296 @@
 {% endblock %}
 
 {% block content %}
-  <div class="flex min-h-screen relative">
-    <!-- Drawer toggle button (only visible on mobile) -->
-    <button class="fixed top-28 left-1 z-30 px-3 py-1 text-white bg-[#062d3e] rounded md:hidden" onclick="toggleDrawer()"><i class="fa-solid fa-arrow-left"></i></button>
+<div class="container mx-auto flex">
+  <!-- Toggle Button -->
+  <button
+    id="toggleButton"
+    class="fixed top-28 left-0 z-50 py-4 px-2 bg-rose-600 text-white rounded-r-md md:hidden transform -translate-y-1/2 transition-all duration-300"
+    onclick="toggleDrawer()">
+    <i id="toggleIcon" class="fa-solid fa-caret-down transform -rotate-90"></i>
+  </button>
 
-    <!-- Sidebar (drawer for mobile) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 w-3/4 bg-[#062d3e] text-white p-4 flex flex-col items-center space-y-6 z-20 md:relative md:translate-x-0 md:w-1/5 lg:w-1/6">
-      <div class="w-20 h-20 bg-gray-200 rounded-full"></div>
-      <p class="text-lg font-bold">{{user.first_name}} {{user.last_name}}</p>
-      <nav class="w-full pl-2">
-        <ul class="space-y-4 text-base">
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-gauge"></i>
-            <a href="{% url 'dashboard' %}" class="hover:text-gray-300 text-xl font-bold">Dashboard</a>
+  <!-- Sidebar -->
+  <div
+    id="sidebar"
+    class="w-64 bg-white pt-20 h-screen transform transition-transform -translate-x-full md:translate-x-0 fixed md:relative z-40 md:z-auto">
+    <div class="flex flex-col h-full">
+      <nav class="flex-1 p-4">
+        <ul class="space-y-2">
+          <li>
+            <a href="{% url 'dashboard' %}">
+              <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                {% if current_page == 'dashboard' %} bg-rose-50 text-rose-600 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                <i class="fa-solid fa-gauge {% if current_page == 'dashboard' %} text-rose-600 {% else %} text-gray-600 {% endif %}"></i>
+                Dashboard
+              </button>
+            </a>
           </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-message"></i>
-            <a href="{% url 'totalRequest' %}" class="hover:text-gray-300 text-xl font-bold">Total request</a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-paw"></i>
-            <a href="{% url 'totalPets' %}" class="hover:text-gray-300 text-xl font-bold">Total Posts</a>
-          </li>
-          <li class="flex items-center space-x-2">
-            <i class="fa-solid fa-gear"></i>
-            <a href="{% url 'updateInfo' %}" class="hover:text-gray-300 text-xl font-bold">Update Info</a>
-          </li>
+          <li>
+              <a href="{% url 'totalPets' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                  {% if current_page == 'myPets' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-paw {% if current_page == 'myPets' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}"></i>
+                  My Pets
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'totalRequest' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                  {% if current_page == 'totalRequest' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-bell {% if current_page == 'totalRequest' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}"></i>
+                  Requests
+                </button>
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'updateInfo' %}">
+                <button class="w-full flex items-center gap-2 px-4 py-2 rounded-lg transition-colors 
+                  {% if current_page == 'updateInfo' %}
+                    bg-rose-50 text-rose-600
+                  {% else %}
+                    text-gray-600 hover:bg-gray-50
+                  {% endif %}">
+                  <i class="fas fa-cog {% if current_page == 'updateInfo' %}
+                      text-rose-600
+                    {% else %}
+                      text-gray-600
+                    {% endif %}"></i>
+                  Settings
+                </button>
+              </a>
+            </li>
         </ul>
       </nav>
-    </div>
-
-    <!-- Overlay for drawer (only visible on mobile when sidebar is open) -->
-    <div id="drawerOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-10 md:hidden" onclick="toggleDrawer()"></div>
-
-    <!-- Main content -->
-    <div class="flex-1 p-1 md:p-2 lg:p-6 py-7 md:py-0 lg:py-2 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0">
-      <div class="flex-1 p-0 md:p-6  flex justify-center items-center">
-        <div class="relative bg-[#062d3e] bg-opacity-80 rounded-2xl p-6 md:p-10 shadow-lg max-w-2xl w-full mx-4">
-          <div class="flex justify-center mb-8 md:mb-12">
-            <img src="/media/image/logo.png" alt="PetAdopt Logo" class="w-24 h-20 md:w-32 md:h-24" />
-          </div>
-
-          <form method="POST" class="space-y-4" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Name"
-                value="{{ pet.title }}"
-                name="title"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 placeholder:font-semibold placeholder:text-[#413d3d]"
-                required
-              />
-              <input
-                type="text"
-                placeholder="Type"
-                value="{{ pet.pet_type }}"
-                name="pet_type"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-                required
-              />
-            </div>
-          
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <select
-                name="gender"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-                required
-              >
-                <option value="male" {% if pet.gender == "male" %}selected{% endif %}>Male</option>
-                <option value="female" {% if pet.gender == "female" %}selected{% endif %}>Female</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Location"
-                name="location"
-                value="{{ pet.location }}"
-                class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300"
-              />
-            </div>
-          
-            <textarea
-              placeholder="Description"
-              name="description"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold w-full placeholder:text-[#413d3d] h-12 lg:h-40 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 resize-none"
-              required
-            >{{ pet.description }}</textarea>
-          
-            <select
-              name="status"
-              class="input-field focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 w-full"
-              required
-            >
-              <option value="Active" {% if pet.status == "Active" %}selected{% endif %}>Active</option>
-              <option value="Adopted" {% if pet.status == "Adopted" %}selected{% endif %}>Adopted</option>
-            </select>
-          
-            <div class="relative">
-              <label
-                class="input-field flex items-center focus:outline-none focus:ring-2 focus:ring-[#e95b47] placeholder:font-semibold placeholder:text-[#413d3d] h-12 lg:h-14 p-3 rounded-lg border bg-[#fff6e5] border-gray-300 cursor-pointer"
-              >
-                <i class="fa-solid fa-file-arrow-up text-black text-xl mr-2"></i>
-                <span class="text-[#413d3d] font-semibold">Upload Photo</span>
-                <input type="file" class="hidden" name="image" />
-              </label>
-            </div>
-          
-            <div class="text-center mt-6">
-              <button
-                type="submit"
-                class="w-full bg-[#e95b47] text-white py-3 rounded-lg font-semibold hover:bg-[#e66655] transition text-lg"
-              >
-                Update
-              </button>
-            </div>
-          </form>
-          
-        </div>
+      <div class="p-4 border-t">
+        <button class="w-full flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+          <i class="fas fa-sign-out-alt text-gray-600"></i>
+          Sign Out
+        </button>
       </div>
     </div>
   </div>
 
-  <script>
-    function toggleDrawer() {
-      const sidebar = document.getElementById('sidebar')
-      const overlay = document.getElementById('drawerOverlay')
+  <!-- Main Content -->
+  <div class=" flex-1 p-6 flex flex-col items-start space-y-4 md:flex-row md:justify-start md:space-x-6 md:space-y-0 pt">
     
-      // Toggle sidebar visibility
-      sidebar.classList.toggle('-translate-x-full')
+    <div class="sm:mx-auto sm:w-full sm:max-w-md lg:max-w-2xl py-16">
+      <div>
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 mb-20 mt-10">
+          <div class="flex items-center gap-2 mb-6">
+            <i class="fas fa-plus text-rose-500"></i>
+            <h2 class="text-2xl font-bold">Update your post</h2>
+          </div>
     
-      // Toggle overlay visibility
-      if (sidebar.classList.contains('-translate-x-full')) {
-        overlay.classList.add('hidden')
-      } else {
-        overlay.classList.remove('hidden')
-      }
+          <form method="POST" class="space-y-6" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Pet Name -->
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700">Pet Name</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-paw text-gray-400"></i>
+                </div>
+                <input name="title" value="{{ pet.title }}" type="text" id="name" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter pet name" required/>
+              </div>
+            </div>
+    
+            <!-- Breed -->
+            <div>
+              <label for="breed" class="block text-sm font-medium text-gray-700">Breed</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-dog text-gray-400"></i>
+                </div>
+                <input
+                type="text"
+                placeholder="Type"
+                value="{{ pet.pet_type }}"
+                name="pet_type"
+                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500"
+                required
+              />
+              </div>
+            </div>
+            <!-- gender -->
+            <div>
+              <label for="breed" class="block text-sm font-medium text-gray-700">Gender</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa-solid fa-venus-mars text-gray-400"></i>
+                </div>
+                <select name="gender" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" required>
+                  <option value="male" {% if pet.gender == "male" %}selected{% endif %}>Male</option>
+                <option value="female" {% if pet.gender == "female" %}selected{% endif %}>Female</option>
+                </select>
+              </div>
+            </div>
+    
+            <!-- Age -->
+            <div>
+              <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fas fa-calendar-alt text-gray-400"></i>
+                </div>
+                <input value="{{pet.age}}" type="text" id="age" name="age" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter age (e.g., 2 years)" />
+              </div>
+            </div>
+    
+            <!-- Location -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Division Dropdown -->
+              <div class="relative">
+                <label for="division" class="block text-sm font-medium text-gray-700">Division</label>
+                <div class="relative mt-1">
+                  <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <i class="fas fa-map-marker-alt text-gray-400"></i>
+                  </div>
+                  <select
+                    name="division"
+                    id="division"
+                    class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500"
+                    required
+                  >
+                    <option value="">Select Division</option>
+                    {% for item in divisions %}
+                      <option value="{{ item.division }}" {% if item.division == pet.division %}selected{% endif %}>
+                        {{ item.division }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    <i class="fas fa-chevron-down text-gray-400"></i>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- District Dropdown -->
+              <div class="relative">
+                <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                <div class="relative mt-1">
+                  <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <i class="fas fa-map-marker-alt text-gray-400"></i>
+                  </div>
+                  <select
+                    name="district"
+                    id="district"
+                    class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500"
+                    required
+                  >
+                    <option value="">Select District</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                    <i class="fas fa-chevron-down text-gray-400"></i>
+                  </div>
+                </div>
+              </div>
+            </div>           
+            <!-- Description -->
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+              <textarea id="description"  name="description" rows="4" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" placeholder="Enter pet description" required>{{ pet.description }}</textarea>
+            </div>
+            <div>
+              <label for="breed" class="block text-sm font-medium text-gray-700">Status</label>
+              <div class="mt-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <i class="fa-solid fa-paw  text-gray-400"></i>
+                </div>
+                <select name="status" class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-rose-500 focus:border-rose-500" required>
+                  <option value="Active" {% if pet.status == "Active" %}selected{% endif %}>Active</option>
+                  <option value="Adopted" {% if pet.status == "Adopted" %}selected{% endif %}>Adopted</option>    
+                </select>
+              </div>
+            </div>
+            <!-- Pet Images -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Pet Images</label>
+              <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                <div class="space-y-1 text-center">
+                  <i class="fas fa-camera text-gray-400 text-2xl"></i>
+                  <div class="flex text-sm text-gray-600">
+                    <label for="images" class="relative cursor-pointer bg-white rounded-md font-medium text-rose-600 hover:text-rose-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-rose-500">
+                      <span>Upload images</span>
+                      <input
+                      id="images"
+                      type="file"
+                      class="sr-only"
+                      name="image"
+                    />  
+                    </label>
+                    <p class="pl-1">or drag and drop</p>
+                  </div>
+                  <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                </div>
+              </div>
+            </div>
+    
+            <!-- Submit Button -->
+            <div>
+              <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">Update</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('division').addEventListener('change', function () {
+    const division = this.value;
+    const districtSelect = document.getElementById('district');
+
+    districtSelect.innerHTML = '<option value="">Select District</option>';
+
+    if (division) {
+
+      fetch(`/get-districts/?division=${division}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const districts = data.districts;
+
+          districts.forEach((district) => {
+            const option = document.createElement('option');
+            option.value = district.district;
+            option.textContent = district.district;
+
+            if (district.district === "{{ pet.district|escapejs }}") {
+              option.selected = true;
+            }
+
+            districtSelect.appendChild(option);
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching districts:', error);
+        });
     }
-  </script>
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const division = document.getElementById('division').value;
+    if (division) {
+      document.getElementById('division').dispatchEvent(new Event('change'));
+    }
+  });
+</script>
 {% endblock %}
