@@ -332,7 +332,7 @@ def user_logout(request):
 # ** Dashboard of user **
 @login_required
 def dashboard(request):
-  totalPost = len(fetchPost())
+  totalPost = len(PetPost.objects.filter(user=request.user))
   totalMessage = len(fetchMessage())
   totalAdopted = len(fetchAdoptedPost())
   
